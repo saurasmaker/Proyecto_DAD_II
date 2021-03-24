@@ -1,0 +1,22 @@
+<taglib>
+    <tlib-version>1.0</tlib-version>
+    <jsp-version>1.2</jsp-version>
+    <short-name>hola</short-name>
+    <uri>infodeotags</uri>
+    <description>Etiquetas de la empresa ficticia Infodeo.</description>
+	
+    <tag>
+	    <name>holamundo</name>
+        <tag-class>edu.ucam.tags.HolaMundoTag</tag-class>
+        <body-content>empty</body-content>
+        <info>Saludo</info>
+        <attribute>
+             <name>nombre</name>
+             <required>false</required>
+        </attribute>
+        <attribute>
+             <name>apellidos</name>
+             <required>false</required>
+        </attribute>
+    </tag>
+</taglib>
