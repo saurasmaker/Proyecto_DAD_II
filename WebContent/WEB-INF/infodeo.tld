@@ -7,7 +7,7 @@
 	
     <tag>
 	    <name>holamundo</name>
-        <tag-class>edu.ucam.tags.HolaMundoTag</tag-class>
+        <tag-class>tags.MyTag</tag-class>
         <body-content>empty</body-content>
         <info>Saludo</info>
         <attribute>
