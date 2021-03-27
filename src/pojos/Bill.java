@@ -1,6 +1,6 @@
 package pojos;
 
-public class Purchase {
+public class Bill {
 	/*
 	 * Static Attributes
 	 */
