@@ -1,9 +1,6 @@
 package edu.ucam.servlets;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.annotation.Resource;
@@ -14,9 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
-import com.mysql.cj.xdevapi.Result;
+import java.sql.*;
 
-import edu.uca.database.DatabaseConnection;
+import edu.ucam.database.DatabaseConnection;
 import jdk.nashorn.internal.runtime.regexp.JoniRegExp.Factory;
 
 /**
@@ -51,8 +48,17 @@ public class Controller extends HttpServlet {
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		ResultSet rs = null;
+		
 		try {
-			DatabaseConnection.connect();
+			Statement sql = DatabaseConnection.connect();
+			rs = sql.executeQuery("SELECT * FROM users");
+			
+			while(rs.next()) {
+				System.out.println(" - Id:" + rs.getInt("id"));
+				System.out.println(" - Username: " + rs.getString("username"));
+			}
+			
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
