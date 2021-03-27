@@ -1,4 +1,4 @@
-package servlets;
+package edu.ucam.servlets;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -16,6 +16,7 @@ import javax.sql.DataSource;
 
 import com.mysql.cj.xdevapi.Result;
 
+import edu.uca.database.DatabaseConnection;
 import jdk.nashorn.internal.runtime.regexp.JoniRegExp.Factory;
 
 /**
@@ -42,37 +43,22 @@ public class Controller extends HttpServlet {
     
     
     public void init() throws ServletException {
-    	System.out.println("Inicializando...");
-        
-    	PreparedStatement ps = null;
-    	ResultSet rs = null;
     	
     	
-    	try {
-    		Connection con = Controller.ds.getConnection();
-    		ps = con.prepareStatement("SELECT * FROM ACTIONS");
-    		rs = ps.executeQuery();
-    		
-    		while(rs.next()) {
-    			System.out.println(rs.getString("id"));
-    		}
-    		
-    		
-    	}catch(Exception t) {
-    		
-    	}
-    	finally {
-			try {
-				if(rs != null) rs.close();
-	    		if(ps != null) ps.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
+    	
     }
     
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		try {
+			DatabaseConnection.connect();
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 

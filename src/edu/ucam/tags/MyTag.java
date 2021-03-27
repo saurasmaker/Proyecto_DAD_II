@@ -1,4 +1,4 @@
-package tags;
+package edu.ucam.tags;
 
 import java.io.IOException;
 

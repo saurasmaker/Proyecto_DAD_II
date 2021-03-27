@@ -1,6 +1,6 @@
-package pojos;
+package edu.ucam.pojos;
 
-public class Assessment {
+public class Bill {
 	/*
 	 * Static Attributes
 	 */

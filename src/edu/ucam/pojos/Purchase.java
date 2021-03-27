@@ -1,6 +1,6 @@
-package pojos;
+package edu.ucam.pojos;
 
-public class Bill {
+public class Purchase {
 	/*
 	 * Static Attributes
 	 */

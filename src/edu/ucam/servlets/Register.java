@@ -1,4 +1,4 @@
-package servlets;
+package edu.ucam.servlets;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -8,16 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class Login
+ * Servlet implementation class Register
  */
-@WebServlet({"/Login", "/login"})
-public class Login extends HttpServlet {
+@WebServlet({"/Register", "/register"})
+public class Register extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Login() {
+    public Register() {
         super();
         // TODO Auto-generated constructor stub
     }

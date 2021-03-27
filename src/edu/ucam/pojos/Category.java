@@ -1,4 +1,4 @@
-package pojos;
+package edu.ucam.pojos;
 
 public class Category {
 	
