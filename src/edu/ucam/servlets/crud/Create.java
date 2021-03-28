@@ -102,7 +102,19 @@ public class Create extends HttpServlet {
 	}
 	
 	private void createCategory(HttpServletRequest request) {
+		Category newCategory = new Category(request.getParameter(Category.ATR_CATEGORY_NAME), request.getParameter(Category.ATR_CATEGORY_DESCRIPTION));
 		
+		if(newCategory.getName() != null && newCategory.getDescription() != null) {
+			try {
+				
+				DatabaseController.connect();
+				DatabaseController.executeQuery("INSERT INTO Categories (name, description) VALUES (" 
+						+ newCategory.getName() + ", " + newCategory.getDescription() + ");");
+				
+			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	private void createPurchase(HttpServletRequest request) {
@@ -133,8 +145,7 @@ public class Create extends HttpServlet {
 	
 	private void createVideogame(HttpServletRequest request) {
 		
-		Videogame newVideogame = new Videogame(request.getParameter(Videogame.ATR_VIDEOGAME_NAME), request.getParameter(Videogame.ATR_VIDEOGAME_DESCRIPTION),
-								Date.valueOf(request.getParameter(Videogame.ATR_VIDEOGAME_RELEASEDATE)), Integer.parseInt(Videogame.ATR_VIDEOGAME_STOCK));
+		Videogame newVideogame = new Videogame(request.getParameter(Videogame.ATR_VIDEOGAME_NAME), request.getParameter(Videogame.ATR_VIDEOGAME_DESCRIPTION),								Date.valueOf(request.getParameter(Videogame.ATR_VIDEOGAME_RELEASEDATE)), Integer.parseInt(Videogame.ATR_VIDEOGAME_STOCK));
 		
 		if(newVideogame.getName() != null && newVideogame.getDescription() != null && newVideogame.getReleaseDate() != null) {
 			try {
