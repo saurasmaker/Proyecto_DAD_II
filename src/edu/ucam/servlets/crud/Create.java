@@ -94,12 +94,57 @@ public class Create extends HttpServlet {
 	 * "Create" Methods
 	 */
 	private void createAssessment(HttpServletRequest request) {
-		//request.getParameter()
+		
+		Assessment newAssessment = new Assessment();
+		newAssessment.setValue(Integer.parseInt(request.getParameter(Assessment.ATR_ASSESSMENT_VALUE)));
+		newAssessment.setSubject(request.getParameter(Assessment.ATR_ASSESSMENT_SUBJECT));
+		newAssessment.setComment(request.getParameter(Assessment.ATR_ASSESSMENT_COMMENT));
+		newAssessment.setPublicationDate(Date.valueOf(request.getParameter(Assessment.ATR_ASSESSMENT_PUBLICATIONDATE)));
+		newAssessment.setEditDate(Date.valueOf(request.getParameter(Assessment.ATR_ASSESSMENT_EDITDATE)));
+		newAssessment.setVideogameId(request.getParameter(Assessment.ATR_ASSESSMENT_VIDEOGAMEID));
+		newAssessment.setUserId(request.getParameter(Assessment.ATR_ASSESSMENT_USERID));
+		
+		if(newAssessment.getSubject() != null && newAssessment.getComment() != null && newAssessment.getPublicationDate() != null && 
+				newAssessment.getEditDate() != null && newAssessment.getVideogameId() != null && newAssessment.getUserId() != null) {
+			try {
+				
+				DatabaseController.connect();
+				DatabaseController.executeQuery("INSERT INTO Assessments (value, subject, comment, publication_date, edit_date, videogame_id, user_id) "
+						+ "VALUES (" + newAssessment.getValue() + ", " + newAssessment.getSubject() + ", " + newAssessment.getComment() + ", " 
+						+ newAssessment.getPublicationDate() + ", " + newAssessment.getEditDate() + ", " + newAssessment.getVideogameId() + ", "
+						+ newAssessment.getUserId() + ");");
+				
+			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
+	
+	
 	
 	private void createBill(HttpServletRequest request) {
 		
+		Bill newBill = new Bill();
+		newBill.setUserId(request.getParameter(Bill.ATR_BILL_USERID));
+		newBill.setPurchaseDate(Date.valueOf(request.getParameter(Bill.ATR_BILL_PURCHASEDATE)));
+		if(request.getParameter(Bill.ATR_BILL_PURCHASEDATE).contentEquals("on")) newBill.setPaid(true);
+		else newBill.setPaid(false);
+		
+		
+		if(newBill.getUserId() != null && newBill.getPurchaseDate() != null) {
+			try {
+				
+				DatabaseController.connect();
+				DatabaseController.executeQuery("INSERT INTO Bills (user_id, purchase_date, paid) VALUES (" 
+						+ newBill.getUserId() + ", " + newBill.getPurchaseDate() + ", " + newBill.isPaid() + ");");
+				
+			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
+	
+	
 	
 	private void createCategory(HttpServletRequest request) {
 		Category newCategory = new Category(request.getParameter(Category.ATR_CATEGORY_NAME), request.getParameter(Category.ATR_CATEGORY_DESCRIPTION));
@@ -117,13 +162,20 @@ public class Create extends HttpServlet {
 		}
 	}
 
+	
+	
 	private void createPurchase(HttpServletRequest request) {
+		Purchase newPurchase = new Purchase();
 		
 	}
+	
+	
 	
 	private void createRental(HttpServletRequest request) {
 		
 	}
+	
+	
 	
 	private void createUser(HttpServletRequest request) {
 		
@@ -143,6 +195,8 @@ public class Create extends HttpServlet {
 			
 	}
 	
+	
+	
 	private void createVideogame(HttpServletRequest request) {
 		
 		Videogame newVideogame = new Videogame(request.getParameter(Videogame.ATR_VIDEOGAME_NAME), request.getParameter(Videogame.ATR_VIDEOGAME_DESCRIPTION),								Date.valueOf(request.getParameter(Videogame.ATR_VIDEOGAME_RELEASEDATE)), Integer.parseInt(Videogame.ATR_VIDEOGAME_STOCK));
@@ -161,6 +215,8 @@ public class Create extends HttpServlet {
 		}
 		
 	}
+	
+	
 	
 	private void createVideogamesCategories(HttpServletRequest request) {
 		

@@ -1,22 +1,61 @@
 package edu.ucam.pojos;
 
+import java.sql.Date;
+
 public class Bill {
+	
 	/*
 	 * Static Attributes
 	 */
+	public static final String ATR_BILL = "ATR_BILL", ATR_BILL_ID = "ATR_BILL_ID", ATR_BILL_USERID = "ATR_BILL_USERID",
+			ATR_BILL_PURCHASEDATE = "ATR_BILL_PURCHASEDATE", ATR_BILL_PAID = "ATR_BILL_PAID", ATR_BILLS_LIST = "ATR_BILLS_LIST";
+	
 	
 	
 	/*
 	 * Attributes
 	 */
+	private String id, userId;
+	private Date purchaseDate;
+	private boolean paid;
+	
+	
 	
 	
 	/*
 	 * Getters & Setters
 	 */
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	public Date getPurchaseDate() {
+		return purchaseDate;
+	}
+	public void setPurchaseDate(Date purchaseDate) {
+		this.purchaseDate = purchaseDate;
+	}
+	public boolean isPaid() {
+		return paid;
+	}
+	public void setPaid(boolean paid) {
+		this.paid = paid;
+	}
+	
 	
 	
 	/*
 	 * Constructors
 	 */
+	public Bill() {
+		
+	}
 }
