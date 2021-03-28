@@ -13,7 +13,7 @@ import javax.sql.DataSource;
 
 import java.sql.*;
 
-import edu.ucam.database.DatabaseConnection;
+import edu.ucam.database.DatabaseController;
 import jdk.nashorn.internal.runtime.regexp.JoniRegExp.Factory;
 
 /**
@@ -23,7 +23,8 @@ import jdk.nashorn.internal.runtime.regexp.JoniRegExp.Factory;
 public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-	private static Factory factory = null;
+	
+	public static final String OBJECT_CLASS = "OBJECT_CLASS";
 	
 	@Resource (name = "jdbc/infodeo2")
 	private static DataSource ds;
@@ -48,21 +49,27 @@ public class Controller extends HttpServlet {
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		/*
+		 * Testing functionality of JDBC
+		 */
+		
 		ResultSet rs = null;
 		
 		try {
-			Statement sql = DatabaseConnection.connect();
-			rs = sql.executeQuery("SELECT * FROM users");
+			DatabaseController.connect();
+			rs = DatabaseController.DATABASE_STATEMENT.executeQuery("SELECT * FROM users");
 			
 			while(rs.next()) {
-				System.out.println(" - Id:" + rs.getInt("id"));
+				System.out.println(" - Id: " + rs.getInt("id"));
 				System.out.println(" - Username: " + rs.getString("username"));
 			}
 			
+			rs.close();
+			
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		
 		
 		response.getWriter().append("Served at: ").append(request.getContextPath());

@@ -6,8 +6,8 @@ public class User {
 	/*
 	 * Static Attributes
 	 */
-	public String ATR_USER = "ATR_USER", ATR_USER_ID = "ATR_USER_ID", ATR_USER_USERNAME = "ATR_USER_USERNAME",
-			ATR_USER_PASSWORD = "ATR_USER_PASSWORD", ATR_USER_EMAIL = "ATR_USER_EMAIL";
+	public static final String ATR_USER = "ATR_USER", ATR_USER_ID = "ATR_USER_ID", ATR_USER_USERNAME = "ATR_USER_USERNAME",
+			ATR_USER_EMAIL = "ATR_USER_EMAIL", ATR_USER_PASSWORD = "ATR_USER_PASSWORD",  ATR_USERS_LIST = "ATR_USERS_LIST";
 	
 	
 	
@@ -15,7 +15,7 @@ public class User {
 	/*
 	 * Attributes
 	 */
-	private String id, username, password, email;
+	private String id, username, email, password;
 
 
 	
