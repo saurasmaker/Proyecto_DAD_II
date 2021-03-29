@@ -18,9 +18,13 @@ import edu.ucam.pojos.User;
  */
 @WebServlet({"/Signup", "/signup"})
 public class Signup extends HttpServlet {
+	
+	
 	private static final long serialVersionUID = 1L;
        
 	private static String url = "/index.jsp";
+	
+	
 	
     /**
      * @see HttpServlet#HttpServlet()
@@ -30,6 +34,8 @@ public class Signup extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
+    
+    
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -37,6 +43,8 @@ public class Signup extends HttpServlet {
 		request.getRequestDispatcher(url).forward(request, response);
 	}
 
+	
+	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */

@@ -14,7 +14,6 @@ public class UserDAO{
 		try {
 			DatabaseController.connect();
 			if(read(user.getUsername(), SearchUserBy.USERNAME)!=null) {
-				System.out.println(" --- This user exists already ---");	
 				return ErrorType.USER_EXISTS;
 			}
 					
@@ -25,39 +24,20 @@ public class UserDAO{
 			
 		} catch (NullPointerException | InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
-			System.out.println(" --- Error when signing up user ---");
 			return ErrorType.JDBC_ERROR_CONNECTION;
 		}
 	}
 
 
-	public static  User read(String search, SearchUserBy searchBy) {
+	public static User read(String search, SearchUserBy searchBy) {
 		User user = null;
 		ResultSet rs = null;
 		
+		String updateQuery = "SELECT * FROM users WHERE "; 
 		try {
 			DatabaseController.connect();
-			switch(searchBy) {
-			
-			case ID:
-				rs = DatabaseController.DATABASE_STATEMENT.executeQuery("SELECT * FROM users WHERE id = '" + search + "'");			
-				break;
-				
-			case USERNAME:
-				rs = DatabaseController.DATABASE_STATEMENT.executeQuery("SELECT * FROM users WHERE username = '" + search + "'");			
-				break;
-				
-			case EMAIL:
-				rs = DatabaseController.DATABASE_STATEMENT.executeQuery("SELECT * FROM users WHERE email = '" + search + "'");			
-				break;
-				
-			}
-		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e)  {
-			e.printStackTrace();
-		}	
-
-		
-		try {
+			appendSearchBy(updateQuery, searchBy);
+			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(updateQuery + search + "'");	
 			if(rs.next()) { //se valida si hay resultados
 				if(rs.getRow() == 1) {
 					user = new User();
@@ -67,9 +47,9 @@ public class UserDAO{
 					user.setPassword(rs.getString("password"));
 				}
 			}
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e)  {
+			e.printStackTrace();
+		}	
 			
 		return user;
 	}
@@ -78,7 +58,19 @@ public class UserDAO{
 
 	public static ErrorType update(String search, SearchUserBy searchBy, User user) {
 		
-		System.out.println("NOT IMPLEMENTED");
+		String updateQuery = "UPDATE users SET " + 
+				"username = '" + user.getUsername()  + "', " + 
+				"email = '" +  user.getEmail() + "', " + 
+				"password = '" + user.getPassword() + "' " + 
+				"WHERE ";
+		
+		try {
+			DatabaseController.connect();
+			appendSearchBy(updateQuery, searchBy);
+			DatabaseController.DATABASE_STATEMENT.executeUpdate(updateQuery + search + "'");	
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e)  {
+			e.printStackTrace();
+		}	
 		
 		return null;
 	}
@@ -87,11 +79,43 @@ public class UserDAO{
 
 	public static ErrorType delete(String search, SearchUserBy searchBy) {
 		
-		System.out.println("NOT IMPLEMENTED");
+		String updateQuery = "DELETE FROM users WHERE ";
+		try {
+			DatabaseController.connect();
+			appendSearchBy(updateQuery, searchBy);
+			DatabaseController.DATABASE_STATEMENT.executeUpdate(updateQuery + search + "'");	
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e)  {
+			e.printStackTrace();
+		}	
 		
 		return null;
 	}
 	
 	
 	
+	
+	/*
+	 * Private methods
+	 */
+	private static String appendSearchBy(String s, SearchUserBy searchBy) {
+		
+		switch(searchBy) {
+		
+		case ID:
+			s += "id = '";
+			break;
+			
+		case USERNAME:
+			s += "username = '";	
+			break;
+			
+		case EMAIL:
+			s += "email = '";	
+			break;
+			
+		}
+		
+		return s;
+	}
+
 }

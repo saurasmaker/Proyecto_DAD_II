@@ -20,25 +20,32 @@ import edu.ucam.pojos.User;
  */
 @WebServlet({"/Login", "/login"})
 public class Login extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
        
 	private static String url = "/index.jsp";
 	private static String emailPattern = "^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)*(\\.[a-z]{2,4})$";
-    /**
+    
+	
+	
+	/**
      * @see HttpServlet#HttpServlet()
      */
     public Login() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
+	
+    
+    /**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.getRequestDispatcher(url).forward(request, response);
 	}
 
+	
+	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
