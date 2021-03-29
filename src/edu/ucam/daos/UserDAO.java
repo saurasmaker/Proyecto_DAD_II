@@ -6,14 +6,20 @@ import java.sql.SQLException;
 import edu.ucam.database.DatabaseController;
 import edu.ucam.pojos.User;
 import edu.ucam.enums.ErrorType;
-import edu.ucam.enums.SearchUserBy;
+import edu.ucam.enums.SearchBy;
+import edu.ucam.interfaces.IDao;
 
-public class UserDAO{
-
-	public static ErrorType create(User user) {
+public class UserDAO implements IDao<User>{
+	
+	
+	/*
+	 * CRUD Methods
+	 */
+	@Override
+	public ErrorType create(User user) {
 		try {
 			DatabaseController.connect();
-			if(read(user.getUsername(), SearchUserBy.USERNAME)!=null) {
+			if(read(user.getUsername(), SearchBy.USERNAME)!=null) {
 				return ErrorType.USER_EXISTS;
 			}
 					
@@ -28,8 +34,9 @@ public class UserDAO{
 		}
 	}
 
-
-	public static User read(String search, SearchUserBy searchBy) {
+	
+	@Override
+	public User read(String search, SearchBy searchBy) {
 		User user = null;
 		ResultSet rs = null;
 		
@@ -55,8 +62,8 @@ public class UserDAO{
 	}
 
 
-
-	public static ErrorType update(String search, SearchUserBy searchBy, User user) {
+	@Override
+	public ErrorType update(String search, SearchBy searchBy, User user) {
 		
 		String updateQuery = "UPDATE users SET " + 
 				"username = '" + user.getUsername()  + "', " + 
@@ -76,8 +83,8 @@ public class UserDAO{
 	}
 
 
-
-	public static ErrorType delete(String search, SearchUserBy searchBy) {
+	@Override
+	public ErrorType delete(String search, SearchBy searchBy) {
 		
 		String updateQuery = "DELETE FROM users WHERE ";
 		try {
@@ -97,7 +104,7 @@ public class UserDAO{
 	/*
 	 * Private methods
 	 */
-	private static String appendSearchBy(String s, SearchUserBy searchBy) {
+	private static String appendSearchBy(String s, SearchBy searchBy) {
 		
 		switch(searchBy) {
 		

@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import edu.ucam.daos.UserDAO;
 import edu.ucam.enums.ErrorType;
-import edu.ucam.enums.SearchUserBy;
+import edu.ucam.enums.SearchBy;
 import edu.ucam.pojos.User;
 
 /**
@@ -49,18 +49,20 @@ public class Signup extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		
+		UserDAO dao = new UserDAO();
+		
 		User user = new User();
 		user.setUsername(request.getParameter(User.ATR_USER_USERNAME));
 		user.setEmail(request.getParameter(User.ATR_USER_EMAIL));
 		user.setPassword(request.getParameter(User.ATR_USER_PASSWORD));
 		
-		ErrorType errorType = UserDAO.create(user);
+		ErrorType errorType = dao.create(user);
 		if(errorType != ErrorType.NO_ERROR) {		
 			url = "/mod/error.jsp?ERROR_TYPE=" + errorType;
 		}
 		else {
-			user = UserDAO.read(user.getUsername(), SearchUserBy.USERNAME);
+			user = dao.read(user.getUsername(), SearchBy.USERNAME);
 			request.getSession().setAttribute(User.ATR_USER, user);
 			url = "/index.jsp";
 		}

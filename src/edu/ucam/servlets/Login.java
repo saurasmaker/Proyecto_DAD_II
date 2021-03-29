@@ -12,7 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import edu.ucam.daos.UserDAO;
 import edu.ucam.enums.ErrorType;
-import edu.ucam.enums.SearchUserBy;
+import edu.ucam.enums.SearchBy;
+import edu.ucam.interfaces.IDao;
 import edu.ucam.pojos.User;
 
 /**
@@ -58,11 +59,12 @@ public class Login extends HttpServlet {
 		User userFinded = null; 		
 		Pattern pattern = Pattern.compile(emailPattern);
 		if (userToCheck.getUsername() != null) {
-		     Matcher matcher = pattern.matcher(userToCheck.getUsername());
-		     if (matcher.matches()) 
-		    	 userFinded = UserDAO.read(userToCheck.getUsername(), SearchUserBy.EMAIL);
-		     else
-		    	 userFinded = UserDAO.read(userToCheck.getUsername(), SearchUserBy.USERNAME);
+			UserDAO dao = new UserDAO();
+		    Matcher matcher = pattern.matcher(userToCheck.getUsername());
+		    if (matcher.matches()) 
+		    	userFinded = dao.read(userToCheck.getUsername(), SearchBy.EMAIL);
+		    else
+		    	userFinded = dao.read(userToCheck.getUsername(), SearchBy.USERNAME);
 		}
 		else {
 			url = "/mod/error.jsp?ERROR_TYPE="+ErrorType.LOGIN_ERROR;

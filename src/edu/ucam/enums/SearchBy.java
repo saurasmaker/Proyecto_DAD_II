@@ -1,7 +1,8 @@
 package edu.ucam.enums;
 
-public enum SearchUserBy{
+public enum SearchBy{
 	ID,
+	NAME,
 	USERNAME,
 	EMAIL;
 }
