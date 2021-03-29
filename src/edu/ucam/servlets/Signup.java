@@ -1,7 +1,6 @@
 package edu.ucam.servlets;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,7 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import edu.ucam.database.DatabaseController;
+import edu.ucam.daos.UserDAO;
+import edu.ucam.enums.ErrorType;
+import edu.ucam.enums.SearchUserBy;
 import edu.ucam.pojos.User;
 
 /**
@@ -19,6 +20,8 @@ import edu.ucam.pojos.User;
 public class Signup extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
+	private static String url = "/index.jsp";
+	
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -31,8 +34,7 @@ public class Signup extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		request.getRequestDispatcher(url).forward(request, response);
 	}
 
 	/**
@@ -45,21 +47,19 @@ public class Signup extends HttpServlet {
 		user.setEmail(request.getParameter(User.ATR_USER_EMAIL));
 		user.setPassword(request.getParameter(User.ATR_USER_PASSWORD));
 		
-		
-		try {
-			
-			DatabaseController.connect();
-			DatabaseController.executeQuery("INSERT INTO users (username, email, password)" + 
-						"VALUES (" + user.getUsername() + ", " + user.getEmail() + ", " + user.getPassword() + ");");
-			
-		} catch (NullPointerException | InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-			
-			e.printStackTrace();
-			System.out.println(" --- Error when registering user ---");
-			
+		ErrorType errorType = UserDAO.create(user);
+		if(errorType != ErrorType.NO_ERROR) {		
+			url = "/mod/error.jsp?ERROR_TYPE=" + errorType;
 		}
-
+		else {
+			user = UserDAO.read(user.getUsername(), SearchUserBy.USERNAME);
+			request.getSession().setAttribute(User.ATR_USER, user);
+			url = "/index.jsp";
+		}
+		
 		doGet(request, response);
 	}
+	
+	
 
 }
