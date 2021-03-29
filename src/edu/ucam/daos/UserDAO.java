@@ -43,7 +43,7 @@ public class UserDAO implements IDao<User>{
 		String updateQuery = "SELECT * FROM users WHERE "; 
 		try {
 			DatabaseController.connect();
-			appendSearchBy(updateQuery, searchBy);
+			updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy);
 			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(updateQuery + search + "'");	
 			if(rs.next()) { //se valida si hay resultados
 				if(rs.getRow() == 1) {
@@ -73,7 +73,7 @@ public class UserDAO implements IDao<User>{
 		
 		try {
 			DatabaseController.connect();
-			appendSearchBy(updateQuery, searchBy);
+			updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy);
 			DatabaseController.DATABASE_STATEMENT.executeUpdate(updateQuery + search + "'");	
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e)  {
 			e.printStackTrace();
@@ -89,7 +89,7 @@ public class UserDAO implements IDao<User>{
 		String updateQuery = "DELETE FROM users WHERE ";
 		try {
 			DatabaseController.connect();
-			appendSearchBy(updateQuery, searchBy);
+			updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy);
 			DatabaseController.DATABASE_STATEMENT.executeUpdate(updateQuery + search + "'");	
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e)  {
 			e.printStackTrace();
@@ -98,31 +98,5 @@ public class UserDAO implements IDao<User>{
 		return null;
 	}
 	
-	
-	
-	
-	/*
-	 * Private methods
-	 */
-	private static String appendSearchBy(String s, SearchBy searchBy) {
-		
-		switch(searchBy) {
-		
-		case ID:
-			s += "id = '";
-			break;
-			
-		case USERNAME:
-			s += "username = '";	
-			break;
-			
-		case EMAIL:
-			s += "email = '";	
-			break;
-			
-		}
-		
-		return s;
-	}
 
 }

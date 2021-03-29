@@ -7,6 +7,9 @@ import edu.ucam.pojos.Rental;
 
 public class RentalDAO implements IDao<Rental>{
 
+	/*
+	 * CRUD Methods
+	 */
 	@Override
 	public ErrorType create(Rental pojo) {
 		// TODO Auto-generated method stub

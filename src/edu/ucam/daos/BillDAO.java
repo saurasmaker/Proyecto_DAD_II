@@ -7,6 +7,9 @@ import edu.ucam.pojos.Bill;
 
 public class BillDAO implements IDao<Bill>{
 
+	/*
+	 * CRUD Methods
+	 */
 	@Override
 	public ErrorType create(Bill pojo) {
 		// TODO Auto-generated method stub

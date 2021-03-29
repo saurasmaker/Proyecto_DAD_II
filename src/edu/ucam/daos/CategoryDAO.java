@@ -7,6 +7,9 @@ import edu.ucam.pojos.Category;
 
 public class CategoryDAO implements IDao<Category>{
 
+	/*
+	 * CRUD Methods
+	 */
 	@Override
 	public ErrorType create(Category pojo) {
 		// TODO Auto-generated method stub

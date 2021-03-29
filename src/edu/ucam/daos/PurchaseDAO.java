@@ -7,6 +7,9 @@ import edu.ucam.pojos.Purchase;
 
 public class PurchaseDAO implements IDao<Purchase>{
 
+	/*
+	 * CRUD Methods
+	 */
 	@Override
 	public ErrorType create(Purchase pojo) {
 		// TODO Auto-generated method stub

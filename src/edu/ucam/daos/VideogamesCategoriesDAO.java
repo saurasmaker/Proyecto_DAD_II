@@ -7,6 +7,9 @@ import edu.ucam.pojos.VideogamesCategories;
 
 public class VideogamesCategoriesDAO implements IDao<VideogamesCategories>{
 
+	/*
+	 * CRUD Methods
+	 */
 	@Override
 	public ErrorType create(VideogamesCategories pojo) {
 		// TODO Auto-generated method stub

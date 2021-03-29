@@ -7,6 +7,9 @@ import edu.ucam.pojos.Assessment;
 
 public class AssessmentDAO implements IDao<Assessment>{
 
+	/*
+	 * CRUD Methods
+	 */
 	@Override
 	public ErrorType create(Assessment pojo) {
 		// TODO Auto-generated method stub
