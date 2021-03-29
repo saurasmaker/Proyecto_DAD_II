@@ -1,5 +1,7 @@
 package edu.ucam.daos;
 
+import java.util.ArrayList;
+
 import edu.ucam.enums.ErrorType;
 import edu.ucam.enums.SearchBy;
 import edu.ucam.interfaces.IDao;
@@ -30,6 +32,12 @@ public class VideogameDAO implements IDao<Videogame>{
 
 	@Override
 	public ErrorType delete(String search, SearchBy searchBy) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<Videogame> list() {
 		// TODO Auto-generated method stub
 		return null;
 	}

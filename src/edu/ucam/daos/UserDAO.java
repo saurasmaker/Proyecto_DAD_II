@@ -2,6 +2,7 @@ package edu.ucam.daos;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import edu.ucam.database.DatabaseController;
 import edu.ucam.pojos.User;
@@ -18,7 +19,6 @@ public class UserDAO implements IDao<User>{
 	@Override
 	public ErrorType create(User user) {
 		try {
-			DatabaseController.connect();
 			if(read(user.getUsername(), SearchBy.USERNAME)!=null) {
 				return ErrorType.USER_EXISTS;
 			}
@@ -28,7 +28,7 @@ public class UserDAO implements IDao<User>{
 			
 			return ErrorType.NO_ERROR;
 			
-		} catch (NullPointerException | InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
+		} catch (NullPointerException | SQLException e) {
 			e.printStackTrace();
 			return ErrorType.JDBC_ERROR_CONNECTION;
 		}
@@ -42,7 +42,6 @@ public class UserDAO implements IDao<User>{
 		
 		String updateQuery = "SELECT * FROM users WHERE "; 
 		try {
-			DatabaseController.connect();
 			updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy);
 			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(updateQuery + search + "'");	
 			if(rs.next()) { //se valida si hay resultados
@@ -54,7 +53,7 @@ public class UserDAO implements IDao<User>{
 					user.setPassword(rs.getString("password"));
 				}
 			}
-		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e)  {
+		} catch (SQLException e)  {
 			e.printStackTrace();
 		}	
 			
@@ -72,10 +71,9 @@ public class UserDAO implements IDao<User>{
 				"WHERE ";
 		
 		try {
-			DatabaseController.connect();
 			updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy);
 			DatabaseController.DATABASE_STATEMENT.executeUpdate(updateQuery + search + "'");	
-		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e)  {
+		} catch (SQLException e)  {
 			e.printStackTrace();
 		}	
 		
@@ -88,14 +86,39 @@ public class UserDAO implements IDao<User>{
 		
 		String updateQuery = "DELETE FROM users WHERE ";
 		try {
-			DatabaseController.connect();
 			updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy);
 			DatabaseController.DATABASE_STATEMENT.executeUpdate(updateQuery + search + "'");	
-		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e)  {
+		} catch (SQLException e)  {
 			e.printStackTrace();
 		}	
 		
 		return null;
+	}
+
+
+	@Override
+	public ArrayList<User> list() {
+
+		String updateQuery = "SELECT * FROM users"; 		
+		ResultSet rs = null;
+		ArrayList<User> usersList = new ArrayList<User>();
+		
+		try {
+			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(updateQuery);					
+			while(rs.next()) {
+				User user = new User();
+				user.setId(rs.getString("id"));
+				user.setUsername(rs.getString("username"));
+				user.setEmail(rs.getString("email"));
+				user.setPassword(rs.getString("password"));
+				
+				usersList.add(user);
+			}			
+		} catch (SQLException e)  {
+			e.printStackTrace();
+		}	
+		
+		return usersList;
 	}
 	
 

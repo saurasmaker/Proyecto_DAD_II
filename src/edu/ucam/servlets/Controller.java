@@ -49,29 +49,6 @@ public class Controller extends HttpServlet {
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		/*
-		 * Testing functionality of JDBC
-		 */
-		
-		ResultSet rs = null;
-		
-		try {
-			DatabaseController.connect();
-			rs = DatabaseController.DATABASE_STATEMENT.executeQuery("SELECT * FROM users");
-			
-			while(rs.next()) {
-				System.out.println(" - Id: " + rs.getInt("id"));
-				System.out.println(" - Username: " + rs.getString("username"));
-			}
-			
-			rs.close();
-			
-		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-		}
-		
-		
-		
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 

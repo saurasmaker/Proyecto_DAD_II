@@ -24,8 +24,8 @@
 	
 	
 
-	<p><a href = "<%= request.getContextPath() %>/Controller">Test database</a></p>
 	<p><a href = "mod/login.jsp"> Login </a></p>
+	<p><a href = "secured/admin_page.jsp"> Admin Page </a></p>
 	
 	<jsp:include page="/mod/header.jsp" />
 </body>
