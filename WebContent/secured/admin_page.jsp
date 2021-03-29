@@ -56,7 +56,7 @@
 		VideogameDAO videogameDao = new VideogameDAO();
 		ArrayList<Videogame> videogamesList = videogameDao.list();
 	
-		for (int i = 0; i < usersList.size(); ++i){ %>		
+		for (int i = 0; i < videogamesList.size(); ++i){ %>		
 			<tr>
 				<td><%= videogamesList.get(i).getId() %></td>	
 			    <td><%= videogamesList.get(i).getName() %></td>
