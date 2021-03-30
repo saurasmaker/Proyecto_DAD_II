@@ -7,6 +7,7 @@
 
 	<head>
 		<meta charset="ISO-8859-1">
+		<jsp:include page="/mod/head.jsp" />
 		<title>Mis prácticas DAD II</title>
 	</head>
 

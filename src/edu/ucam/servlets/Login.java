@@ -42,7 +42,8 @@ public class Login extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher(url).forward(request, response);
+		//request.getRequestDispatcher(url).forward(request, response);
+		response.sendRedirect(request.getContextPath() + "/index.jsp");
 	}
 
 	
@@ -70,9 +71,11 @@ public class Login extends HttpServlet {
 			url = "/mod/error.jsp?ERROR_TYPE="+ErrorType.LOGIN_ERROR;
 		}
 		
+		System.out.println(userToCheck.getPassword());
+		
 		if(userFinded != null) {
-			if(userToCheck.getPassword().contentEquals(userFinded.getPassword())) {
-				request.getSession().setAttribute(User.ATR_USER, userFinded);
+			if(userToCheck.getPassword().equals(userFinded.getPassword())) {
+				request.getSession().setAttribute(User.ATR_USER_LOGGED, userFinded);
 				url = "/index.jsp";
 			}
 			else

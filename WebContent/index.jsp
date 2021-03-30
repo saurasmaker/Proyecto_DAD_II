@@ -4,29 +4,22 @@
 <%@ page import = "edu.ucam.pojos.*" %>    
 
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="ISO-8859-1">
-<title>Infodeo 2</title>
-</head>
-<body>
-	<jsp:include page="/mod/footer.jsp" />
+<html lang = "es">
+	<head>
+		<jsp:include page="mod/head.jsp" />
+		<title>Infodeo 2</title>
+	</head>
 	
 	
-	<% User thisUser = (User) session.getAttribute(User.ATR_USER); %>
-	<% if(thisUser != null){ %>
+	<body>
+	
+		<div class = "general container">
+			<jsp:include page="mod/header.jsp" />
+			<jsp:include page="mod/catalogue.jsp" />
+			<jsp:include page="mod/footer.jsp" />
+		</div>
 		
-		<p>User: <%= thisUser.getUsername() %></p>
-		<p>Email: <%= thisUser.getEmail() %></p>
-		<p>Id: <%= thisUser.getId() %></p>
-	
-	<% } %>
+	</body>
 	
 	
-
-	<p><a href = "mod/login.jsp"> Login </a></p>
-	<p><a href = "secured/admin_page.jsp"> Admin Page </a></p>
-	
-	<jsp:include page="/mod/header.jsp" />
-</body>
 </html>

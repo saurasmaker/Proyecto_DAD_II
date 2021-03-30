@@ -1,0 +1,3 @@
+function compruebaQueFunciona(){
+	alert("FUNCIONA");
+}

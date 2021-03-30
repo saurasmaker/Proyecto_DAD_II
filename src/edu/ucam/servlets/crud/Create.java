@@ -40,8 +40,6 @@ public class Create extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		System.out.println(Assessment.class.getName());
 		
 		String objectClass = request.getParameter(Controller.OBJECT_CLASS);		
 		
@@ -150,7 +148,7 @@ public class Create extends HttpServlet {
 	
 	
 	private void createPurchase(HttpServletRequest request) {
-		Purchase newPurchase = new Purchase();
+		//Purchase newPurchase = new Purchase();
 		
 	}
 	
@@ -165,7 +163,6 @@ public class Create extends HttpServlet {
 	private void createUser(HttpServletRequest request) {
 		
 		User newUser = new User(request.getParameter(User.ATR_USER_USERNAME), request.getParameter(User.ATR_USER_EMAIL), request.getParameter(User.ATR_USER_PASSWORD));
-		System.out.println("Creando...");
 		if(newUser.getUsername() != null && newUser.getEmail() != null && newUser.getPassword() != null) {
 			UserDAO userDao = new UserDAO();
 			userDao.create(newUser);

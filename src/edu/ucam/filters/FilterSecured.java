@@ -45,7 +45,7 @@ public class FilterSecured implements Filter {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpSession httpSession = httpRequest.getSession();
 		
-		User user = (User) httpSession.getAttribute(User.ATR_USER);
+		User user = (User) httpSession.getAttribute(User.ATR_USER_LOGGED);
 		
 		if(user != null && user.getUsername().equals("admin")) {
 			url = "/secured/admin_page.jsp";

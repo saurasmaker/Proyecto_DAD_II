@@ -1,5 +1,6 @@
 package edu.ucam.daos;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import edu.ucam.database.DatabaseController;
 import edu.ucam.enums.ErrorType;
 import edu.ucam.enums.SearchBy;
 import edu.ucam.interfaces.IDao;
+import edu.ucam.pojos.User;
 import edu.ucam.pojos.Videogame;
 
 public class VideogameDAO implements IDao<Videogame>{
@@ -78,8 +80,30 @@ public class VideogameDAO implements IDao<Videogame>{
 
 	@Override
 	public ArrayList<Videogame> list() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		String updateQuery = "SELECT * FROM videogames"; 		
+		ResultSet rs = null;
+		ArrayList<Videogame> videogamesList = new ArrayList<Videogame>();
+		
+		try {
+			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(updateQuery);					
+			while(rs.next()) {
+				Videogame videogame = new Videogame();
+				videogame.setId(rs.getString("id"));
+				videogame.setName(rs.getString("name"));
+				videogame.setDescription(rs.getString("description"));
+				videogame.setReleaseDate(rs.getDate("release_date"));
+				videogame.setStock(rs.getInt("stock"));
+				videogame.setPurchasePrice(rs.getFloat("purchase_price"));
+				videogame.setPurchasePrice(rs.getFloat("rental_price"));
+				
+				videogamesList.add(videogame);
+			}			
+		} catch (SQLException e)  {
+			e.printStackTrace();
+		}	
+		
+		return videogamesList;
 	}
 
 }
