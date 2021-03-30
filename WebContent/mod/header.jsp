@@ -7,7 +7,7 @@
 	<jsp:include page="/mod/login.jsp" />
 	<% } %>
 	<header>
-		<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark sticky-top">
+		<nav class="container navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
 		    <a href = "index.jsp"> <img src = "img\INFO(2).png" height = "45px" style = "margin-right: 10px;" /></a>
 		    <a class="navbar-brand" href="index.jsp">INFODEO</a>
 		    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
