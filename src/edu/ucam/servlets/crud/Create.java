@@ -11,6 +11,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import edu.ucam.daos.AssessmentDAO;
+import edu.ucam.daos.BillDAO;
+import edu.ucam.daos.CategoryDAO;
+import edu.ucam.daos.UserDAO;
+import edu.ucam.daos.VideogameDAO;
 import edu.ucam.database.DatabaseController;
 import edu.ucam.pojos.*;
 import edu.ucam.servlets.Controller;
@@ -21,7 +26,9 @@ import edu.ucam.servlets.Controller;
 @WebServlet({"/Create", "/create"})
 public class Create extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       	
+     
+	private String url = "/index.jsp";
+	
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -34,39 +41,42 @@ public class Create extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		System.out.println(Assessment.class.getName());
+		
 		String objectClass = request.getParameter(Controller.OBJECT_CLASS);		
 		
+		if(objectClass != null)
 		switch(objectClass) {
 		
-		case "Assessment":
+		case "edu.ucam.pojos.Assessment":
 			createAssessment(request);
 			break;
 		
-		case "Bill":
+		case "edu.ucam.pojos.Bill":
 			createBill(request);
 			break;
 			
-		case "Category":
+		case "edu.ucam.pojos.Category":
 			createCategory(request);
 			break;
 			
-		case "Purchase":
+		case "edu.ucam.pojos.Purchase":
 			createPurchase(request);
 			break;
 			
-		case "Rental":
+		case "edu.ucam.pojos.Rental":
 			createRental(request);
 			break;
 			
-		case "User":
+		case "edu.ucam.pojos.User":
 			createUser(request);
 			break;
 					
-		case "Videogame":
+		case "edu.ucam.pojos.Videogame":
 			createVideogame(request);
 			break;
 			
-		case "VideogamesCategories":
+		case "edu.ucam.pojos.VideogamesCategories":
 			createVideogamesCategories(request);
 			break;
 		
@@ -75,7 +85,7 @@ public class Create extends HttpServlet {
 		
 		}
 		
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		request.getRequestDispatcher("/secured/admin_page.jsp").forward(request, response);
 	}
 
 	/**
@@ -83,8 +93,6 @@ public class Create extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		
-		
 		doGet(request, response);
 	}
 	
@@ -106,17 +114,8 @@ public class Create extends HttpServlet {
 		
 		if(newAssessment.getSubject() != null && newAssessment.getComment() != null && newAssessment.getPublicationDate() != null && 
 				newAssessment.getEditDate() != null && newAssessment.getVideogameId() != null && newAssessment.getUserId() != null) {
-			try {
-				
-				DatabaseController.connect();
-				DatabaseController.executeQuery("INSERT INTO Assessments (value, subject, comment, publication_date, edit_date, videogame_id, user_id) "
-						+ "VALUES (" + newAssessment.getValue() + ", " + newAssessment.getSubject() + ", " + newAssessment.getComment() + ", " 
-						+ newAssessment.getPublicationDate() + ", " + newAssessment.getEditDate() + ", " + newAssessment.getVideogameId() + ", "
-						+ newAssessment.getUserId() + ");");
-				
-			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-				e.printStackTrace();
-			}
+			AssessmentDAO assessmentDao = new AssessmentDAO();
+			assessmentDao.create(newAssessment);
 		}
 	}
 	
@@ -132,15 +131,8 @@ public class Create extends HttpServlet {
 		
 		
 		if(newBill.getUserId() != null && newBill.getPurchaseDate() != null) {
-			try {
-				
-				DatabaseController.connect();
-				DatabaseController.executeQuery("INSERT INTO Bills (user_id, purchase_date, paid) VALUES (" 
-						+ newBill.getUserId() + ", " + newBill.getPurchaseDate() + ", " + newBill.isPaid() + ");");
-				
-			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-				e.printStackTrace();
-			}
+			BillDAO billDao = new BillDAO();
+			billDao.create(newBill);
 		}
 	}
 	
@@ -150,15 +142,8 @@ public class Create extends HttpServlet {
 		Category newCategory = new Category(request.getParameter(Category.ATR_CATEGORY_NAME), request.getParameter(Category.ATR_CATEGORY_DESCRIPTION));
 		
 		if(newCategory.getName() != null && newCategory.getDescription() != null) {
-			try {
-				
-				DatabaseController.connect();
-				DatabaseController.executeQuery("INSERT INTO Categories (name, description) VALUES (" 
-						+ newCategory.getName() + ", " + newCategory.getDescription() + ");");
-				
-			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-				e.printStackTrace();
-			}
+			CategoryDAO categoryDao = new CategoryDAO();
+			categoryDao.create(newCategory);
 		}
 	}
 
@@ -180,17 +165,10 @@ public class Create extends HttpServlet {
 	private void createUser(HttpServletRequest request) {
 		
 		User newUser = new User(request.getParameter(User.ATR_USER_USERNAME), request.getParameter(User.ATR_USER_EMAIL), request.getParameter(User.ATR_USER_PASSWORD));
-		
+		System.out.println("Creando...");
 		if(newUser.getUsername() != null && newUser.getEmail() != null && newUser.getPassword() != null) {
-			try {
-				
-				DatabaseController.connect();
-				DatabaseController.executeQuery("INSERT INTO Users (username, email, password) VALUES (" 
-						+ newUser.getUsername() + ", " + newUser.getEmail() + ", " + newUser.getPassword() + ");");
-				
-			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-				e.printStackTrace();
-			}
+			UserDAO userDao = new UserDAO();
+			userDao.create(newUser);
 		}
 			
 	}
@@ -199,19 +177,12 @@ public class Create extends HttpServlet {
 	
 	private void createVideogame(HttpServletRequest request) {
 		
-		Videogame newVideogame = new Videogame(request.getParameter(Videogame.ATR_VIDEOGAME_NAME), request.getParameter(Videogame.ATR_VIDEOGAME_DESCRIPTION),								Date.valueOf(request.getParameter(Videogame.ATR_VIDEOGAME_RELEASEDATE)), Integer.parseInt(Videogame.ATR_VIDEOGAME_STOCK));
+		Videogame newVideogame = new Videogame(request.getParameter(Videogame.ATR_VIDEOGAME_NAME), request.getParameter(Videogame.ATR_VIDEOGAME_DESCRIPTION),
+				Date.valueOf(request.getParameter(Videogame.ATR_VIDEOGAME_RELEASEDATE)), Integer.parseInt(request.getParameter(Videogame.ATR_VIDEOGAME_STOCK)));
 		
 		if(newVideogame.getName() != null && newVideogame.getDescription() != null && newVideogame.getReleaseDate() != null) {
-			try {
-				
-				DatabaseController.connect();
-				DatabaseController.executeQuery("INSERT INTO Videogames (name, description, release_date, stock, purchase_price, rental_price) VALUES (" 
-						+ newVideogame.getName() + ", " + newVideogame.getDescription() + ", " + newVideogame.getReleaseDate() + ", " 
-						+ newVideogame.getStock() + ", " + newVideogame.getPurchasePrice() + ", " + newVideogame.getRentalPrice() + ");");
-				
-			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-				e.printStackTrace();
-			}
+			VideogameDAO videogameDao = new VideogameDAO();
+			videogameDao.create(newVideogame);
 		}
 		
 	}

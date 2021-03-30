@@ -56,7 +56,7 @@ public class FilterSecured implements Filter {
 		
 		httpRequest.getRequestDispatcher(url).forward(httpRequest, response);
 
-		chain.doFilter(request, response);
+		//chain.doFilter(request, response);
 	}
 
 	/**
