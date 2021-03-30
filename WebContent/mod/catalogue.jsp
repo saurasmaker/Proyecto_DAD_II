@@ -6,7 +6,7 @@
 <%@ page import = "edu.ucam.pojos.*" %> 
 <%@ page import = "edu.ucam.daos.*" %> 
 
-<div class = "videogames-catalogue">
+<div class = "content videogames-catalogue">
 	
 	<%
 	VideogameDAO videogameDao = new VideogameDAO();
