@@ -1,6 +1,5 @@
 package edu.ucam.daos;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -9,7 +8,6 @@ import edu.ucam.database.DatabaseController;
 import edu.ucam.enums.ErrorType;
 import edu.ucam.enums.SearchBy;
 import edu.ucam.interfaces.IDao;
-import edu.ucam.pojos.User;
 import edu.ucam.pojos.Videogame;
 
 public class VideogameDAO implements IDao<Videogame>{
@@ -22,7 +20,7 @@ public class VideogameDAO implements IDao<Videogame>{
 
 		try {
 			if(read(videogame.getName(), SearchBy.NAME)!=null) {
-				return ErrorType.PRODUCT_EXISTS;
+				return ErrorType.VIDEOGAME_EXISTS;
 			}
 					
 			DatabaseController.DATABASE_STATEMENT.executeUpdate("INSERT INTO videogames (name, description, release_date, stock, purchase_price, rental_price) " + 
@@ -67,15 +65,39 @@ public class VideogameDAO implements IDao<Videogame>{
 	}
 
 	@Override
-	public ErrorType update(String search, SearchBy searchBy, Videogame pojo) {
-		// TODO Auto-generated method stub
-		return null;
+	public ErrorType update(String search, SearchBy searchBy, Videogame videogame) {
+		String updateQuery = "UPDATE videogames SET " +
+				"name = '" + videogame.getName()  + "', " +
+				"description = '" +  videogame.getDescription() + "', " +
+				"release_date = '" +  videogame.getReleaseDate() + "', " +
+				"stock = '" +  videogame.getStock() + "', " +
+				"purchase_price = '" +  videogame.getPurchasePrice() + "', " +
+				"rental_price = '" + videogame.getRentalPrice() + "' " +
+				"WHERE ";
+		
+		try {
+			updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy);
+			DatabaseController.DATABASE_STATEMENT.executeUpdate(updateQuery + search + "'");	
+		} catch (SQLException e)  {
+			e.printStackTrace();
+			return ErrorType.ERROR;
+		}	
+		
+		return ErrorType.NO_ERROR;
 	}
 
 	@Override
 	public ErrorType delete(String search, SearchBy searchBy) {
-		// TODO Auto-generated method stub
-		return null;
+		String updateQuery = "DELETE FROM videogames WHERE ";
+		try {
+			updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy);
+			DatabaseController.DATABASE_STATEMENT.executeUpdate(updateQuery + search + "'");	
+		} catch (SQLException e)  {
+			e.printStackTrace();
+			return ErrorType.ERROR;
+		}	
+		
+		return ErrorType.NO_ERROR;
 	}
 
 	@Override

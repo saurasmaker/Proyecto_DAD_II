@@ -14,7 +14,7 @@ public class Purchase {
 	 * Attributes
 	 */
 	private int amount;
-	private String id, videogame_id, bill_id;
+	private String id, videogameId, billId;
 	
 		
 	
@@ -33,17 +33,17 @@ public class Purchase {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getVideogame_id() {
-		return videogame_id;
+	public String getVideogameId() {
+		return videogameId;
 	}
-	public void setVideogame_id(String videogame_id) {
-		this.videogame_id = videogame_id;
+	public void setVideogameId(String videogameId) {
+		this.videogameId = videogameId;
 	}
-	public String getBill_id() {
-		return bill_id;
+	public String getBillId() {
+		return billId;
 	}
-	public void setBill_id(String bill_id) {
-		this.bill_id = bill_id;
+	public void setBillId(String billId) {
+		this.billId = billId;
 	}	
 	
 	

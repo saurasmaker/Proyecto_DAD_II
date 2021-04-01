@@ -75,9 +75,10 @@ public class UserDAO implements IDao<User>{
 			DatabaseController.DATABASE_STATEMENT.executeUpdate(updateQuery + search + "'");	
 		} catch (SQLException e)  {
 			e.printStackTrace();
+			return ErrorType.ERROR;
 		}	
 		
-		return null;
+		return ErrorType.NO_ERROR;
 	}
 
 
@@ -90,9 +91,10 @@ public class UserDAO implements IDao<User>{
 			DatabaseController.DATABASE_STATEMENT.executeUpdate(updateQuery + search + "'");	
 		} catch (SQLException e)  {
 			e.printStackTrace();
+			return ErrorType.ERROR;
 		}	
 		
-		return null;
+		return ErrorType.NO_ERROR;
 	}
 
 
