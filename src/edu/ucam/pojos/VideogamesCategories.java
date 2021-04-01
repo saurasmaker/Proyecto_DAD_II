@@ -12,19 +12,19 @@ public class VideogamesCategories {
 	/*
 	 * Attributes
 	 */
-	private String videogameId, categoryId;
+	private String id, videogameId, categoryId;
 	
 	
 	/*
 	 * Getters & Setters
 	 */
-	public String getVieogameId() {
+	public String getVideogameId() {
 		return videogameId;
 	}
 
 
-	public void setVieogameId(String vieogameId) {
-		this.videogameId = vieogameId;
+	public void setVideogameId(String videogameId) {
+		this.videogameId = videogameId;
 	}
 
 
@@ -37,6 +37,15 @@ public class VideogamesCategories {
 		this.categoryId = categoryId;
 	}
 
+
+	public String getId() {
+		return id;
+	}
+
+
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	
 	
@@ -51,6 +60,7 @@ public class VideogamesCategories {
 		this.videogameId = videogameId;
 		this.categoryId = categoryId;
 	}
+
 
 }
 	
