@@ -9,7 +9,6 @@ import edu.ucam.enums.ErrorType;
 import edu.ucam.enums.SearchBy;
 import edu.ucam.interfaces.IDao;
 import edu.ucam.pojos.Purchase;
-import edu.ucam.pojos.User;
 
 public class PurchaseDAO implements IDao<Purchase>{
 
