@@ -2,8 +2,6 @@ package edu.ucam.servlets.crud;
 
 import java.io.IOException;
 import java.sql.Date;
-import java.sql.SQLException;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,9 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 import edu.ucam.daos.AssessmentDAO;
 import edu.ucam.daos.BillDAO;
 import edu.ucam.daos.CategoryDAO;
+import edu.ucam.daos.PurchaseDAO;
+import edu.ucam.daos.RentalDAO;
 import edu.ucam.daos.UserDAO;
 import edu.ucam.daos.VideogameDAO;
-import edu.ucam.database.DatabaseController;
+import edu.ucam.daos.VideogamesCategoriesDAO;
 import edu.ucam.pojos.*;
 import edu.ucam.servlets.Controller;
 
@@ -27,7 +27,6 @@ import edu.ucam.servlets.Controller;
 public class Create extends HttpServlet {
 	private static final long serialVersionUID = 1L;
      
-	private String url = "/index.jsp";
 	
     /**
      * @see HttpServlet#HttpServlet()
@@ -41,6 +40,15 @@ public class Create extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		request.getRequestDispatcher(request.getHeader("referer")).forward(request, response);
+		
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		String objectClass = request.getParameter(Controller.OBJECT_CLASS);		
 		
 		if(objectClass != null)
@@ -83,14 +91,6 @@ public class Create extends HttpServlet {
 		
 		}
 		
-		request.getRequestDispatcher("/secured/admin_page.jsp").forward(request, response);
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 		doGet(request, response);
 	}
 	
@@ -148,14 +148,33 @@ public class Create extends HttpServlet {
 	
 	
 	private void createPurchase(HttpServletRequest request) {
-		//Purchase newPurchase = new Purchase();
+		Purchase newPurchase = new Purchase();
+		newPurchase.setAmount(Integer.parseInt(request.getParameter(Purchase.ATR_PURCHASE_AMOUNT)));
+		newPurchase.setBillId(request.getParameter(Purchase.ATR_PURCHASE_BILLID));
+		newPurchase.setVideogameId(request.getParameter(Purchase.ATR_PURCHASE_VIDEOGAMEID));
+
+		if(newPurchase.getBillId() != null && newPurchase.getVideogameId() != null) {
+			PurchaseDAO purchaseDao = new PurchaseDAO();
+			purchaseDao.create(newPurchase);
+		}
 		
 	}
 	
 	
 	
 	private void createRental(HttpServletRequest request) {
-		
+		Rental newRental = new Rental();
+		newRental.setUserId(request.getParameter(Rental.ATR_RENTAL_USERID));
+		newRental.setVideogameId(request.getParameter(Rental.ATR_RENTAL_VIDEOGAMEID));
+		newRental.setVideogameId(request.getParameter(Rental.ATR_RENTAL_VIDEOGAMEID));
+		newRental.setStartDate(Date.valueOf(request.getParameter(Rental.ATR_RENTAL_STARTDATE)));
+		newRental.setEndDate(Date.valueOf(request.getParameter(Rental.ATR_RENTAL_ENDDATE)));
+		newRental.setReturned(Boolean.valueOf(request.getParameter(Rental.ATR_RENTAL_RETURNED)));
+
+		if(newRental.getUserId() != null && newRental.getVideogameId() != null) {
+			RentalDAO rentalDao = new RentalDAO();
+			rentalDao.create(newRental);
+		}
 	}
 	
 	
@@ -187,6 +206,14 @@ public class Create extends HttpServlet {
 	
 	
 	private void createVideogamesCategories(HttpServletRequest request) {
+		
+		VideogamesCategories newVideogamesCategories = new VideogamesCategories(request.getParameter(VideogamesCategories.ATR_VIDEOGAMESCATEGORIES_VIDEOGAMEID),
+				request.getParameter(VideogamesCategories.ATR_VIDEOGAMESCATEGORIES_CATEGORYID));
+		
+		if(newVideogamesCategories.getCategoryId() != null && newVideogamesCategories.getVideogameId() != null) {
+			VideogamesCategoriesDAO videogamesCategoriesDao = new VideogamesCategoriesDAO();
+			videogamesCategoriesDao.create(newVideogamesCategories);
+		}
 		
 	}
 }
