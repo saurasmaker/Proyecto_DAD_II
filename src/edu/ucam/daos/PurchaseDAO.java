@@ -55,21 +55,61 @@ public class PurchaseDAO implements IDao<Purchase>{
 	}
 
 	@Override
-	public ErrorType update(String search, SearchBy searchBy, Purchase pojo) {
-		// TODO Auto-generated method stub
-		return null;
+	public ErrorType update(String search, SearchBy searchBy, Purchase purchase) {
+		String updateQuery = "UPDATE categories SET " + 
+				"amount = '" + purchase.getAmount()  + "', " + 
+				"videogame_id = '" +  purchase.getVideogameId() + "', " + 
+				"bill_id = '" +  purchase.getBillId() + "', " + 
+				"WHERE ";
+		
+		try {
+			updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy);
+			DatabaseController.DATABASE_STATEMENT.executeUpdate(updateQuery + search + "'");	
+		} catch (SQLException e)  {
+			e.printStackTrace();
+			return ErrorType.ERROR;
+		}	
+		
+		return ErrorType.NO_ERROR;
 	}
 
 	@Override
 	public ErrorType delete(String search, SearchBy searchBy) {
-		// TODO Auto-generated method stub
-		return null;
+		String deleteQuery = "DELETE FROM purchases WHERE ";
+		try {
+			deleteQuery = IDao.appendSqlSearchBy(deleteQuery, searchBy);
+			DatabaseController.DATABASE_STATEMENT.executeUpdate(deleteQuery + search + "'");	
+		} catch (SQLException e)  {
+			e.printStackTrace();
+			return ErrorType.ERROR;
+		}	
+		
+		return ErrorType.NO_ERROR;
 	}
 
 	@Override
 	public ArrayList<Purchase> list() {
-		// TODO Auto-generated method stub
-		return null;
+		String selectQuery = "SELECT * FROM purchases"; 		
+		ResultSet rs = null;
+		ArrayList<Purchase> purchasesList = new ArrayList<Purchase>();
+		
+		try {
+			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(selectQuery);					
+			while(rs.next()) {
+				Purchase purchae = new Purchase();
+				purchae.setId(rs.getString("id"));
+				purchae.setAmount(rs.getInt("amount"));
+				purchae.setVideogameId(rs.getString("videogame_id"));
+				purchae.setBillId(rs.getString("bill_id"));
+
+				
+				purchasesList.add(purchae);
+			}			
+		} catch (SQLException e)  {
+			e.printStackTrace();
+		}	
+		
+		return purchasesList;
 	}
 
 }

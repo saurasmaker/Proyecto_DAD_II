@@ -119,6 +119,8 @@ public class VideogameDAO implements IDao<Videogame>{
 				videogame.setPurchasePrice(rs.getFloat("purchase_price"));
 				videogame.setPurchasePrice(rs.getFloat("rental_price"));
 				
+				System.out.println(videogame.getId());
+				
 				videogamesList.add(videogame);
 			}			
 		} catch (SQLException e)  {

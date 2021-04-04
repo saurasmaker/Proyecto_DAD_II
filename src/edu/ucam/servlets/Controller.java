@@ -24,7 +24,7 @@ public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	
-	public static final String OBJECT_CLASS = "OBJECT_CLASS";
+	public static final String ATR_OBJECT_CLASS = "ATR_OBJECT_CLASS";
 	
 	@Resource (name = "jdbc/infodeo2")
 	private static DataSource ds;

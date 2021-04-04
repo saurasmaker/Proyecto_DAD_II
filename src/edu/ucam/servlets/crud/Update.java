@@ -57,7 +57,7 @@ public class Update extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String objectClass = request.getParameter(Controller.OBJECT_CLASS);		
+		String objectClass = request.getParameter(Controller.ATR_OBJECT_CLASS);		
 		
 		if(objectClass != null)
 		switch(objectClass) {

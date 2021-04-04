@@ -9,11 +9,8 @@
 <div class = "row content videogames-catalogue">
 	
 	<%
-	VideogameDAO videogameDao = new VideogameDAO();
-	ArrayList<Videogame> videogamesList = videogameDao.list();
-	
-	AssessmentDAO assessmentDao = new AssessmentDAO();
-	ArrayList<Assessment> assessmentsList = assessmentDao.list();
+	ArrayList<Videogame> videogamesList = (new VideogameDAO()).list();
+	ArrayList<Assessment> assessmentsList = (new AssessmentDAO()).list();
 	
 	User thisUser = (User) session.getAttribute(User.ATR_USER_LOGGED);
 	Basket basket = null;

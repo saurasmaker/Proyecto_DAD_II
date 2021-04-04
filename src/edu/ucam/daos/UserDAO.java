@@ -40,10 +40,10 @@ public class UserDAO implements IDao<User>{
 		User user = null;
 		ResultSet rs = null;
 		
-		String updateQuery = "SELECT * FROM users WHERE "; 
+		String selectQuery = "SELECT * FROM users WHERE "; 
 		try {
-			updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy);
-			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(updateQuery + search + "'");	
+			selectQuery = IDao.appendSqlSearchBy(selectQuery, searchBy);
+			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(selectQuery + search + "'");	
 			if(rs.next()) { //se valida si hay resultados
 				if(rs.getRow() == 1) {
 					user = new User();
@@ -85,10 +85,10 @@ public class UserDAO implements IDao<User>{
 	@Override
 	public ErrorType delete(String search, SearchBy searchBy) {
 		
-		String updateQuery = "DELETE FROM users WHERE ";
+		String deleteQuery = "DELETE FROM users WHERE ";
 		try {
-			updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy);
-			DatabaseController.DATABASE_STATEMENT.executeUpdate(updateQuery + search + "'");	
+			deleteQuery = IDao.appendSqlSearchBy(deleteQuery, searchBy);
+			DatabaseController.DATABASE_STATEMENT.executeUpdate(deleteQuery + search + "'");	
 		} catch (SQLException e)  {
 			e.printStackTrace();
 			return ErrorType.ERROR;
@@ -101,12 +101,12 @@ public class UserDAO implements IDao<User>{
 	@Override
 	public ArrayList<User> list() {
 
-		String updateQuery = "SELECT * FROM users"; 		
+		String selectQuery = "SELECT * FROM users"; 		
 		ResultSet rs = null;
 		ArrayList<User> usersList = new ArrayList<User>();
 		
 		try {
-			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(updateQuery);					
+			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(selectQuery);					
 			while(rs.next()) {
 				User user = new User();
 				user.setId(rs.getString("id"));

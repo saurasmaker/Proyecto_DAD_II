@@ -23,7 +23,7 @@ import edu.ucam.servlets.Controller;
 /**
  * Servlet implementation class DeleteVideogame
  */
-@WebServlet({"/Delete", "/delete"})
+@WebServlet({"/DELETE", "/Delete", "/delete"})
 public class Delete extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -48,7 +48,7 @@ public class Delete extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String objectClass = request.getParameter(Controller.OBJECT_CLASS);		
+		String objectClass = request.getParameter(Controller.ATR_OBJECT_CLASS);		
 		
 		if(objectClass != null)
 		switch(objectClass) {

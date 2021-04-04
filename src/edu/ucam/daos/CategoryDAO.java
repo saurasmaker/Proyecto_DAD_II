@@ -34,10 +34,10 @@ public class CategoryDAO implements IDao<Category>{
 		Category category = null;
 		ResultSet rs = null;
 		
-		String updateQuery = "SELECT * FROM categories WHERE "; 
+		String selectQuery = "SELECT * FROM categories WHERE "; 
 		try {
-			updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy);
-			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(updateQuery + search + "'");	
+			selectQuery = IDao.appendSqlSearchBy(selectQuery, searchBy);
+			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(selectQuery + search + "'");	
 			if(rs.next()) { //se valida si hay resultados
 				if(rs.getRow() == 1) {
 					category = new Category();
@@ -73,10 +73,10 @@ public class CategoryDAO implements IDao<Category>{
 
 	@Override
 	public ErrorType delete(String search, SearchBy searchBy) {
-		String updateQuery = "DELETE FROM categories WHERE ";
+		String deleteQuery = "DELETE FROM categories WHERE ";
 		try {
-			updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy);
-			DatabaseController.DATABASE_STATEMENT.executeUpdate(updateQuery + search + "'");	
+			deleteQuery = IDao.appendSqlSearchBy(deleteQuery, searchBy);
+			DatabaseController.DATABASE_STATEMENT.executeUpdate(deleteQuery + search + "'");	
 		} catch (SQLException e)  {
 			e.printStackTrace();
 			return ErrorType.ERROR;
@@ -87,12 +87,12 @@ public class CategoryDAO implements IDao<Category>{
 
 	@Override
 	public ArrayList<Category> list() {
-		String updateQuery = "SELECT * FROM users"; 		
+		String selectQuery = "SELECT * FROM categories"; 		
 		ResultSet rs = null;
 		ArrayList<Category> usersList = new ArrayList<Category>();
 		
 		try {
-			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(updateQuery);					
+			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(selectQuery);					
 			while(rs.next()) {
 				Category category = new Category();
 				category.setId(rs.getString("id"));

@@ -22,15 +22,6 @@
 	
 	
 	<!-- JQuery -->
-	<script type="text/javascript" src = "api/jquery/jquery.js"></script>
-
-	
-	
-	
-	<!-- Styles -->
-	<link rel = "stylesheet" href = "styles/mystyle.css"/>
-	
-	<!-- Scripts -->
-	<script type="text/javascript" src="js/test.js"></script>
+	<script type="text/javascript" src = "api/jquery/jquery.js"></script>	
 
 	
