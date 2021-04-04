@@ -51,6 +51,8 @@ public class UserDAO implements IDao<User>{
 					user.setUsername(rs.getString("username"));
 					user.setEmail(rs.getString("email"));
 					user.setPassword(rs.getString("password"));
+					user.setSignUpDate(rs.getDate("sign_up_date"));
+					user.setLastSignIn(rs.getDate("last_sign_in"));
 				}
 			}
 		} catch (SQLException e)  {
@@ -68,6 +70,8 @@ public class UserDAO implements IDao<User>{
 				"username = '" + user.getUsername()  + "', " + 
 				"email = '" +  user.getEmail() + "', " + 
 				"password = '" + user.getPassword() + "' " + 
+				"sign_up_date = '" + user.getSignUpDate() + "' " + 
+				"last_sign_in = '" + user.getLastSignIn() + "' " + 
 				"WHERE ";
 		
 		try {
@@ -113,6 +117,8 @@ public class UserDAO implements IDao<User>{
 				user.setUsername(rs.getString("username"));
 				user.setEmail(rs.getString("email"));
 				user.setPassword(rs.getString("password"));
+				user.setSignUpDate(rs.getDate("sign_up_date"));
+				user.setLastSignIn(rs.getDate("last_sign_in"));
 				
 				usersList.add(user);
 			}			

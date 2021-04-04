@@ -193,6 +193,8 @@ public class Update extends HttpServlet {
 		
 		User updateUser = new User(request.getParameter(User.ATR_USER_USERNAME), request.getParameter(User.ATR_USER_EMAIL), request.getParameter(User.ATR_USER_PASSWORD));
 		updateUser.setId(request.getParameter(User.ATR_USER_ID));
+		updateUser.setSignUpDate(Date.valueOf(request.getParameter(User.ATR_USER_SIGNUPDATE)));
+		updateUser.setLastSignIn(Date.valueOf(request.getParameter(User.ATR_USER_LASTSIGNIN)));
 		
 		if(updateUser.getUsername() != null && updateUser.getEmail() != null && updateUser.getPassword() != null) {
 			UserDAO userDao = new UserDAO();
@@ -207,6 +209,8 @@ public class Update extends HttpServlet {
 		Videogame newVideogame = new Videogame(request.getParameter(Videogame.ATR_VIDEOGAME_NAME), request.getParameter(Videogame.ATR_VIDEOGAME_DESCRIPTION),
 				Date.valueOf(request.getParameter(Videogame.ATR_VIDEOGAME_RELEASEDATE)), Integer.parseInt(request.getParameter(Videogame.ATR_VIDEOGAME_STOCK)));
 		newVideogame.setId(request.getParameter(Videogame.ATR_VIDEOGAME_ID));
+		newVideogame.setPurchasePrice(Float.parseFloat(request.getParameter(Videogame.ATR_VIDEOGAME_PURCHASEPRICE)));
+		newVideogame.setRentalPrice(Float.parseFloat(request.getParameter(Videogame.ATR_VIDEOGAME_RENTALPRICE)));
 	
 		if(newVideogame.getName() != null && newVideogame.getDescription() != null && newVideogame.getReleaseDate() != null) {
 			VideogameDAO videogameDao = new VideogameDAO();

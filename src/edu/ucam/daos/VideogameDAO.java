@@ -54,7 +54,7 @@ public class VideogameDAO implements IDao<Videogame>{
 					videogame.setReleaseDate(rs.getDate("releaseDate"));
 					videogame.setStock(rs.getInt("stock"));
 					videogame.setPurchasePrice(rs.getFloat("purchase_price"));
-					videogame.setPurchasePrice(rs.getFloat("rental_price"));
+					videogame.setRentalPrice(rs.getFloat("rental_price"));
 				}
 			}
 		} catch (SQLException e)  {
@@ -117,10 +117,8 @@ public class VideogameDAO implements IDao<Videogame>{
 				videogame.setReleaseDate(rs.getDate("release_date"));
 				videogame.setStock(rs.getInt("stock"));
 				videogame.setPurchasePrice(rs.getFloat("purchase_price"));
-				videogame.setPurchasePrice(rs.getFloat("rental_price"));
-				
-				System.out.println(videogame.getId());
-				
+				videogame.setRentalPrice(rs.getFloat("rental_price"));
+								
 				videogamesList.add(videogame);
 			}			
 		} catch (SQLException e)  {

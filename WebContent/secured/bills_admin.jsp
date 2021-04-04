@@ -47,7 +47,7 @@
 
 
 
-        <form id = "update-bill-form" enctype = "multipart/form-data" class = "form-group" action = "src/crud/products/update_product.php" method = "POST" style = "display: 'none';">
+        <form id = "update-bill-form" enctype = "multipart/form-data" class = "form-group" action = "<%= request.getContextPath() %>/UPDATE" method = "POST" style = "display: 'none';">
             <input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Bill.class.getName() %>" />
 			
 			<label for="bill-input-update-id">ID: </label>

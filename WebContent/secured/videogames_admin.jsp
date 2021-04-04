@@ -1,12 +1,129 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
-</head>
-<body>
 
-</body>
-</html>
+<%@ page import = "java.util.ArrayList" %>
+
+<%@ page import = "edu.ucam.pojos.Videogame" %>
+
+<%@ page import = "edu.ucam.daos.VideogameDAO" %>
+
+<%@ page import = "edu.ucam.servlets.Controller" %>
+
+
+	<div class = "col-12">
+        <h3 class = "display-3">Videojuegos</h3>
+        <hr width = "25%" align = "left"/>
+        <br/>
+    </div>
+	  
+	<div class = "col-lg-4 col-md-6 col-sm-12">
+      	<form id = "create-videogame-form" enctype = "multipart/form-data" class = "form-group" action = "<%= request.getContextPath() %>/CREATE" method = "POST">
+			
+			<input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Videogame.class.getName() %>" />
+			
+			<label for="videogame-input-id">ID: </label>
+			<p><input id = "videogame-input-id" type = "text" class="form-control" placeholder = "ID del Usuario" name = "<%=Videogame.ATR_VIDEOGAME_ID %>" disabled></p>
+				
+			<label for="videogame-input-username">Nombre: </label>
+			<p><input id = "videogame-input-username" type = "text" class="form-control" placeholder = "Introduce el Nombre del Videojuego..." name = "<%=Videogame.ATR_VIDEOGAME_NAME %>" required></p>
+
+		    <label for="videogame-input-email">Descripción: </label>
+			<p><textarea id = "videogame-input-email" type = "email" class="form-control" placeholder = "Introduce el Correo Electrónico del Usuario..." name = "<%=Videogame.ATR_VIDEOGAME_DESCRIPTION %>" required></textarea></p>
+
+			<label for="videogame-input-signupdate">Fecha de Lanzamiento: </label>
+			<p><input id = "videogame-input-signupdate" type = "datetime" class="form-control" name = "<%=Videogame.ATR_VIDEOGAME_RELEASEDATE %>" required></p>
+			
+			<label for="videogame-input-lastsignin">Stock: </label>
+			<p><input id = "videogame-input-lastsignin" type = "number" min = "0" step = "1" class="form-control" name = "<%=Videogame.ATR_VIDEOGAME_STOCK %>" required></p>
+			
+			<label for="videogame-input-purchaseprice">Precio de Compra: </label>
+			<p><input id = "videogame-input-purchaseprice" type = "number" min = "0" step = "0.01" class="form-control" name = "<%=Videogame.ATR_VIDEOGAME_PURCHASEPRICE %>" required></p>
+					
+			<label for="videogame-input-rentalprice">Precio de Alquiler: </label>
+			<p><input id = "videogame-input-rentalprice" type = "number" min = "0" step = "0.01" class="form-control" name = "<%=Videogame.ATR_VIDEOGAME_RENTALPRICE %>" required></p>												
+
+            <p><input id = "input-send" type = "submit" class="btn btn-primary" value = "Crear"></p>
+        </form>
+
+
+
+        <form id = "update-videogame-form" enctype = "multipart/form-data" class = "form-group" action = "<%= request.getContextPath() %>/UPDATE" method = "POST" style = "display: 'none';">
+            <input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Videogame.class.getName() %>" />
+			
+			<label for="videogame-input-update-id">ID: </label>
+			<p><input id = "videogame-input-id" type = "text" class="form-control" placeholder = "ID del Usuario" name = "<%=Videogame.ATR_VIDEOGAME_ID %>" disabled></p>
+				
+			<label for="videogame-input-update-username">Nombre: </label>
+			<p><input id = "videogame-input-update-username" type = "text" class="form-control" placeholder = "Introduce el Nombre del Videojuego..." name = "<%=Videogame.ATR_VIDEOGAME_NAME %>" required></p>
+
+		    <label for="videogame-input-update-email">Descripción: </label>
+			<p><textarea id = "videogame-update-input-email" type = "email" class="form-control" placeholder = "Introduce el Correo Electrónico del Usuario..." name = "<%=Videogame.ATR_VIDEOGAME_DESCRIPTION %>" required></textarea></p>
+
+			<label for="videogame-input-update-signupdate">Fecha de Lanzamiento: </label>
+			<p><input id = "videogame-input-update-signupdate" type = "datetime" class="form-control" name = "<%=Videogame.ATR_VIDEOGAME_RELEASEDATE %>" required></p>
+			
+			<label for="videogame-input-update-lastsignin">Stock: </label>
+			<p><input id = "videogame-input-update-lastsignin" type = "number" min = "0" step = "1" class="form-control" name = "<%=Videogame.ATR_VIDEOGAME_STOCK %>" required></p>
+			
+			<label for="videogame-input-update-purchaseprice">Precio de Compra: </label>
+			<p><input id = "videogame-input-update-purchaseprice" type = "number" min = "0" step = "0.01" class="form-control" name = "<%=Videogame.ATR_VIDEOGAME_PURCHASEPRICE %>" required></p>
+					
+			<label for="videogame-input-update-rentalprice">Precio de Alquiler: </label>
+			<p><input id = "videogame-input-update-rentalprice" type = "number" min = "0" step = "0.01" class="form-control" name = "<%=Videogame.ATR_VIDEOGAME_RENTALPRICE %>" required></p>												
+
+            <p>
+                <input id = "input-edit-send" type = "submit" class="btn btn-primary" value = "Editar">
+                <a id = "input-edit-send" class="btn btn-secondary" href = "#" role="button" onclick = "cancelEditVideogame()" style = "margin-left: 10px;">Cancelar</a>
+            </p>
+        </form>
+    </div>
+
+    
+	  
+	<div class = "col-lg-8 col-md-6 col-sm-12">
+        <div class = "table-responsive" style = " max-height: 600px !important; overflow: auto;">
+            <table class="table table-striped">
+               	<thead class = "thead-dark">
+                  	<tr>
+                     	<th scope="col">ID</th>
+                     	<th scope="col">Nombre</th>
+                     	<th scope="col">Descripción</th>
+						<th scope="col">Fecha de Lanzamiento</th>
+						<th scope="col">Stock</th>
+						<th scope="col">Precio de Compra</th>
+                        <th scope="col">Precio de Alquiler</th>
+                        <th scope="col">Editar</th>
+                        <th scope="col">Eliminar</th>
+                  	</tr>
+               	</thead>
+			   	<tbody>
+                <% ArrayList<Videogame> videogamesVideogameList = (new VideogameDAO()).list();
+			  	for(int i = 0; i < videogamesVideogameList.size(); ++i) {
+					Videogame showVideogame = videogamesVideogameList.get(i); %>
+					<tr>
+                     	<td><%=showVideogame.getId() %></td>
+                     	<td><%=showVideogame.getName() %></td>
+                        <td><%=showVideogame.getDescription() %></td>
+                        <td><%=showVideogame.getReleaseDate() %></td>
+                        <td><%=showVideogame.getStock() %></td>
+                        <td><%=showVideogame.getPurchasePrice() %></td>
+                        <td><%=showVideogame.getRentalPrice() %></td>
+                        
+                        <td>
+                            <button type = "submit" class="btn btn-warning" onclick = "editVideogame()">Editar</button>
+                        </td>
+                        <td>
+							<form action = "<%= request.getServletContext() %>/DELETE" method = "POST">
+                           		<input type = "hidden" name = "<%=Videogame.ATR_VIDEOGAME_ID %>" value = "<%=showVideogame.getId() %>">
+                           		<button type = "submit" class="btn btn-danger">Eliminar</button>
+                        	</form>
+                        </td>
+                	</tr>
+					  
+				<% } %>
+				</tbody>
+            </table>
+        </div>
+    </div>
+	
+	<br/>  

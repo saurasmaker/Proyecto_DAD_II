@@ -1,5 +1,7 @@
 package edu.ucam.pojos;
 
+import java.sql.Date;
+
 public class User {
 	
 	
@@ -7,17 +9,16 @@ public class User {
 	 * Static Attributes
 	 */
 	public static final String ATR_USER = "ATR_USER", ATR_USER_ID = "ATR_USER_ID", ATR_USER_USERNAME = "ATR_USER_USERNAME",
-			ATR_USER_EMAIL = "ATR_USER_EMAIL", ATR_USER_PASSWORD = "ATR_USER_PASSWORD",  ATR_USERS_LIST = "ATR_USERS_LIST",
-			ATR_USER_LOGGED = "ATR_USER_LOGGED";
-	
-	
+			ATR_USER_EMAIL = "ATR_USER_EMAIL", ATR_USER_PASSWORD = "ATR_USER_PASSWORD",  ATR_USER_SIGNUPDATE = "ATR_USER_SIGNUPDATE",
+			ATR_USER_LASTSIGNIN = "ATR_USER_LASTSIGNIN", ATR_USERS_LIST = "ATR_USERS_LIST", ATR_USER_LOGGED = "ATR_USER_LOGGED";
+		
 	
 	
 	/*
 	 * Attributes
 	 */
 	private String id, username, email, password;
-
+	private Date lastSignIn, signUpDate;
 
 	
 	
@@ -70,6 +71,28 @@ public class User {
 		this.email = email;
 	}
 	
+	
+	public Date getLastSignIn() {
+		return lastSignIn;
+	}
+
+
+
+	public void setLastSignIn(Date lastSignIn) {
+		this.lastSignIn = lastSignIn;
+	}
+
+
+
+	public Date getSignUpDate() {
+		return signUpDate;
+	}
+
+
+
+	public void setSignUpDate(Date signUpDate) {
+		this.signUpDate = signUpDate;
+	}
 	
 	
 	/*

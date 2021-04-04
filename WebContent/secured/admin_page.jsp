@@ -36,7 +36,6 @@
 				<jsp:include page="rentals_admin.jsp"/>
 				<jsp:include page="users_admin.jsp"/>
 				<jsp:include page="videogames_admin.jsp"/>
-				<jsp:include page="videogames_categories_admin.jsp"/>
 				
 			</div>
 			
