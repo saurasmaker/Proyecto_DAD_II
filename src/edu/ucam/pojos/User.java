@@ -2,7 +2,9 @@ package edu.ucam.pojos;
 
 import java.sql.Date;
 
-public class User {
+import edu.ucam.interfaces.IMyPojo;
+
+public class User implements IMyPojo{
 	
 	
 	/*
@@ -106,6 +108,14 @@ public class User {
 		this.username = username;
 		this.email = email;
 		this.password = password;
+	}
+
+
+
+	@Override
+	public String toJavaScriptFunction() {
+		return this.id + ", " + this.username + ", " + this.email + ", " + this.password + ", "  + 
+				this.signUpDate + ", " + this.lastSignIn;
 	}
 
 

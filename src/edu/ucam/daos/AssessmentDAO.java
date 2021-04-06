@@ -24,6 +24,8 @@ public class AssessmentDAO implements IDao<Assessment>{
 						"', '" + assessment.getEditDate() + "', '" + assessment.getVideogameId() + "', '" + assessment.getUserId() +
 					"')");		
 			
+			DatabaseController.DATABASE_STATEMENT.close();
+			
 			return ErrorType.NO_ERROR;
 			
 		} catch (NullPointerException | SQLException e) {
@@ -54,6 +56,7 @@ public class AssessmentDAO implements IDao<Assessment>{
 					assessment.setUserId(rs.getString("user_id"));
 				}
 			}
+			rs.close();
 		} catch (SQLException e)  {
 			e.printStackTrace();
 		}	
@@ -119,7 +122,8 @@ public class AssessmentDAO implements IDao<Assessment>{
 				
 				assessmentsList.add(assessment);
 			}			
-		} catch (SQLException e)  {
+			rs.close();
+		} catch (SQLException | NullPointerException e)  {
 			e.printStackTrace();
 		}	
 		

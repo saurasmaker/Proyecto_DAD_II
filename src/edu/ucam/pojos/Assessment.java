@@ -2,7 +2,9 @@ package edu.ucam.pojos;
 
 import java.sql.Date;
 
-public class Assessment {
+import edu.ucam.interfaces.IMyPojo;
+
+public class Assessment implements IMyPojo{
 	
 	/*
 	 * Static Attributes
@@ -22,6 +24,15 @@ public class Assessment {
 	private int value;
 	private Date publicationDate, editDate;
 	
+	
+	/*
+	 * Methods
+	 */
+	@Override
+	public String toJavaScriptFunction(){
+		return this.id + ", " + this.value + ", " + this.subject + ", " + this.comment + ", "  + 
+				this.publicationDate + ", " + this.editDate + ", " + this.videogameId + ", " + this.userId;
+	}
 	
 		
 	/*

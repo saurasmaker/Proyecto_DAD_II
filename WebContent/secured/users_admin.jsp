@@ -44,7 +44,7 @@
 
 
 
-        <form id = "update-bill-form" enctype = "multipart/form-data" class = "form-group" action = "<%= request.getContextPath() %>/UPDATE" method = "POST" style = "display: 'none';">
+        <form id = "update-user-form" enctype = "multipart/form-data" class = "form-group" action = "<%= request.getContextPath() %>/UPDATE" method = "POST" style = "display: 'none';">
             <input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=User.class.getName() %>" />
 			
 			<label for="user-input-update-id">ID: </label>
@@ -67,7 +67,7 @@
 			
             <p>
                 <input id = "input-edit-send" type = "submit" class="btn btn-primary" value = "Editar">
-                <a id = "input-edit-send" class="btn btn-secondary" href = "#" role="button" onclick = "cancelEditUser()" style = "margin-left: 10px;">Cancelar</a>
+                <a id = "input-edit-send" class="btn btn-secondary" href = "#" role="button" onclick = "cancelUpdateUser()" style = "margin-left: 10px;">Cancelar</a>
             </p>
         </form>
     </div>
@@ -102,7 +102,7 @@
                         <td><%=showUser.getLastSignIn() %></td>
                         
                         <td>
-                            <button type = "submit" class="btn btn-warning" onclick = "editBill()">Edit</button>
+                            <button type = "submit" class="btn btn-warning" onclick = "updateUser(<%=showUser.toJavaScriptFunction() %>)">Edit</button>
                         </td>
                         <td>
 							<form action = "<%= request.getServletContext() %>/DELETE" method = "POST">

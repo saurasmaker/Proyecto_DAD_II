@@ -1,6 +1,8 @@
 package edu.ucam.pojos;
 
-public class Category {
+import edu.ucam.interfaces.IMyPojo;
+
+public class Category implements IMyPojo{
 	
 	
 	/*
@@ -64,5 +66,14 @@ public class Category {
 		this.id = id;
 		this.name = name;
 		this.description = description;
+	}
+
+	
+	/*
+	 * Methods
+	 */
+	@Override
+	public String toJavaScriptFunction() {
+		return this.id + ", " + this.name + ", " + this.description;
 	}
 }

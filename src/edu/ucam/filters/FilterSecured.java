@@ -9,6 +9,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import edu.ucam.enums.ErrorType;
@@ -20,7 +21,6 @@ import edu.ucam.pojos.User;
 @WebFilter("/secured/*")
 public class FilterSecured implements Filter {
 
-	private String url = "/mod/error.jsp";
 	
 	
     /**
@@ -48,15 +48,11 @@ public class FilterSecured implements Filter {
 		User user = (User) httpSession.getAttribute(User.ATR_USER_LOGGED);
 		
 		if(user != null && user.getUsername().equals("admin")) {
-			url = "/secured/admin_page.jsp";
+			chain.doFilter(request, response);
 		}
 		else {
-			url = "/mod/error.jsp?ERROR_TYPE="+ErrorType.ACCESS_DENIED;
-		}		
-		
-		httpRequest.getRequestDispatcher(url).forward(httpRequest, response);
-
-		//chain.doFilter(request, response);
+			((HttpServletResponse)response).sendRedirect("mod/error.jsp?ERROR_TYPE="+ErrorType.ACCESS_DENIED); 
+		}				
 	}
 
 	/**

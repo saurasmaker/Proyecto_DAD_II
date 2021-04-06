@@ -46,6 +46,7 @@ public class VideogamesCategoriesDAO implements IDao<VideogamesCategories>{
 					videogamesCategories.setCategoryId(rs.getString("category_id"));
 				}
 			}
+			rs.close();
 		} catch (SQLException e)  {
 			e.printStackTrace();
 		}	
@@ -100,7 +101,8 @@ public class VideogamesCategoriesDAO implements IDao<VideogamesCategories>{
 				videogamesCategories.setCategoryId(rs.getString("category_id"));
 				
 				videogamesCategoriesList.add(videogamesCategories);
-			}			
+			}		
+			rs.close();
 		} catch (SQLException e)  {
 			e.printStackTrace();
 		}	

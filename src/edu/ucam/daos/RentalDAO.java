@@ -50,6 +50,7 @@ public class RentalDAO implements IDao<Rental>{
 					rental.setReturned(rs.getBoolean("returned"));
 				}
 			}
+			rs.close();
 		} catch (SQLException e)  {
 			e.printStackTrace();
 		}	
@@ -110,7 +111,8 @@ public class RentalDAO implements IDao<Rental>{
 				rental.setReturned(rs.getBoolean("returned"));
 				
 				usersList.add(rental);
-			}			
+			}	
+			rs.close();
 		} catch (SQLException e)  {
 			e.printStackTrace();
 		}	

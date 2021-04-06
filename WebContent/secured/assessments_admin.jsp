@@ -43,9 +43,10 @@
 			<p><input id = "assessment-input-editdate" type = "date" class="form-control" placeholder = "Introduce la cantidad de stock disponible" name = "<%=Assessment.ATR_ASSESSMENT_EDITDATE %>"></p>
 						
 			<label for="assessment-input-videogameid">ID Videojuego: </label>
-			<p><select id = "assessment-input-userid" class="form-control" name = "<%=Assessment.ATR_ASSESSMENT_VIDEOGAMEID %>">
+			<p><select id = "assessment-input-videogameid" class="form-control" name = "<%=Assessment.ATR_ASSESSMENT_VIDEOGAMEID %>">
 			  <option value="none" selected>Select a User...</option>
-			  <% ArrayList<Videogame> videogamesAssessmentList = (new VideogameDAO()).list();
+			  <% 
+			  ArrayList<Videogame> videogamesAssessmentList = (new VideogameDAO()).list();
 			  for(int i = 0; i < videogamesAssessmentList.size(); ++i) { %>
 				  <option value="<%=videogamesAssessmentList.get(i).getId() %>"><%=videogamesAssessmentList.get(i).getName() %></option>
 			  <% } %>
@@ -65,7 +66,7 @@
 
 
 
-        <form id = "update_product_form" enctype = "multipart/form-data" class = "form-group" action = "<%= request.getContextPath() %>/UPDATE" method = "POST" style = "display: 'none';">
+        <form id = "update-assessment-form" enctype = "multipart/form-data" class = "form-group" action = "<%= request.getContextPath() %>/UPDATE" method = "POST" style = "display: 'none';">
             
             <input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Assessment.class.getName() %>" />
             
@@ -88,14 +89,14 @@
 			<p><input id = "assessment-input-update-editdate" type = "date" class="form-control" placeholder = "Introduce la cantidad de stock disponible" name = "<%=Assessment.ATR_ASSESSMENT_EDITDATE %>"></p>
 						
 			<label for="assessment-input-update-videogameid">ID Videojuego: </label>
-			<p><select id = "assessment-input-update-userid" class="form-control" name = "<%=Assessment.ATR_ASSESSMENT_USERID %>">
+			<p><select id = "assessment-input-update-videogameid" class="form-control" name = "<%=Assessment.ATR_ASSESSMENT_USERID %>">
 			  <option value="none" selected>Elige un Videojuego...</option>
 			  <% for(int i = 0; i < videogamesAssessmentList.size(); ++i) { %>
 				  <option value="<%=videogamesAssessmentList.get(i).getId() %>"><%=videogamesAssessmentList.get(i).getName() %></option>
 			  <% } %>
 			</select></p>
 			
-			<label for="assessment-input-userid">ID Usuario: </label>
+			<label for="assessment-input-update-userid">ID Usuario: </label>
 			<p><select id = "assessment-input-update-userid" class="form-control" name = "<%=Assessment.ATR_ASSESSMENT_USERID %>">
 			  <option value="none" selected>Elige un Usuario...</option>
 			  <% for(int i = 0; i < usersAssessmentList.size(); ++i) { %>
@@ -104,7 +105,7 @@
 			</select></p>		
             <p>
                 <input id = "input-edit-send" type = "submit" class="btn btn-primary" value = "Editar">
-                <a id = "input-edit-send" class="btn btn-secondary" href = "#" role="button" onclick = "cancelEditAssessment()" style = "margin-left: 10px;">Cancelar</a>
+                <a id = "input-edit-send" class="btn btn-secondary" href = "#" role="button" onclick = "cancelUpdateAssessment()" style = "margin-left: 10px;">Cancelar</a>
             </p>
         </form>
     </div>
@@ -140,7 +141,9 @@
                         <td><%=showAssessment.getVideogameId() %></td>
                         <td><%=showAssessment.getUserId() %></td>
                         <td>
-                            <button type = "submit" class="btn btn-warning" onclick = "editAssessment()">Edit</button>
+                        	<button type = "submit" class="btn btn-warning" onclick = "updateAssessment(<%=showAssessment.toJavaScriptFunction() %>)">
+                        		Edit
+                        	</button>           
                         </td>
                         <td>
 							<form action = "<%= request.getServletContext() %>/DELETE" method = "POST">

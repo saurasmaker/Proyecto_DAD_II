@@ -60,7 +60,7 @@
 
 
 
-        <form id = "update-purchase-form" enctype = "multipart/form-data" class = "form-group" action = "<%= request.getContextPath() %>/UPDATE" method = "POST" style = "display: 'none';">
+        <form id = "update-rental-form" enctype = "multipart/form-data" class = "form-group" action = "<%= request.getContextPath() %>/UPDATE" method = "POST" style = "display: 'none';">
             <input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Rental.class.getName() %>" />
 			
 			<label for="rental-input-update-id">ID: </label>
@@ -93,7 +93,7 @@
 			
             <p>
                 <input id = "input-edit-send" type = "submit" class="btn btn-primary" value = "Editar">
-                <a id = "input-edit-send" class="btn btn-secondary" href = "#" role="button" onclick = "cancelEditRental()" style = "margin-left: 10px;">Cancelar</a>
+                <a id = "input-edit-send" class="btn btn-secondary" href = "#" role="button" onclick = "cancelUpdateRental()" style = "margin-left: 10px;">Cancelar</a>
             </p>
         </form>
     </div>
@@ -126,7 +126,7 @@
                      	<td><%=showRental.getEndDate() %></td>
                      	
                         <td>
-                            <button type = "submit" class="btn btn-warning" onclick = "editRental()">Edit</button>
+                            <button type = "submit" class="btn btn-warning" onclick = "updateRental(<%=showRental.toJavaScriptFunction() %>)">Edit</button>
                         </td>
                         <td>
 							<form action = "<%= request.getServletContext() %>/DELETE" method = "POST">

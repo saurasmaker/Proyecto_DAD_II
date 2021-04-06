@@ -57,6 +57,7 @@ public class VideogameDAO implements IDao<Videogame>{
 					videogame.setRentalPrice(rs.getFloat("rental_price"));
 				}
 			}
+			rs.close();
 		} catch (SQLException e)  {
 			e.printStackTrace();
 		}	
@@ -120,7 +121,8 @@ public class VideogameDAO implements IDao<Videogame>{
 				videogame.setRentalPrice(rs.getFloat("rental_price"));
 								
 				videogamesList.add(videogame);
-			}			
+			}	
+			rs.close();
 		} catch (SQLException e)  {
 			e.printStackTrace();
 		}	

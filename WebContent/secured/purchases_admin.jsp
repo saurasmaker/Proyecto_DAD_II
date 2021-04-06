@@ -81,7 +81,7 @@
 			
             <p>
                 <input id = "input-edit-send" type = "submit" class="btn btn-primary" value = "Editar">
-                <a id = "input-edit-send" class="btn btn-secondary" href = "#" role="button" onclick = "cancelEditPurchase()" style = "margin-left: 10px;">Cancelar</a>
+                <a id = "input-edit-send" class="btn btn-secondary" href = "#" role="button" onclick = "cancelUpdatePurchase()" style = "margin-left: 10px;">Cancelar</a>
             </p>
         </form>
     </div>
@@ -112,7 +112,7 @@
                      	<td><%=showPurchase.getBillId() %></td>
                      	
                         <td>
-                            <button type = "submit" class="btn btn-warning" onclick = "editPurchase()">Edit</button>
+                            <button type = "submit" class="btn btn-warning" onclick = "updatePurchase(<%= showPurchase.toJavaScriptFunction()%>)">Edit</button>
                         </td>
                         <td>
 							<form action = "<%= request.getServletContext() %>/DELETE" method = "POST">

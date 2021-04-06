@@ -9,8 +9,8 @@
 <div class = "row content videogames-catalogue">
 	
 	<%
-	ArrayList<Videogame> videogamesList = (new VideogameDAO()).list();
-	ArrayList<Assessment> assessmentsList = (new AssessmentDAO()).list();
+	ArrayList<Videogame> videogamesCatalogueList = (new VideogameDAO()).list();
+	ArrayList<Assessment> assessmentsCatalogueList = (new AssessmentDAO()).list();
 	
 	User thisUser = (User) session.getAttribute(User.ATR_USER_LOGGED);
 	Basket basket = null;
@@ -27,19 +27,19 @@
 		<br/>
 	</div>
 	
-	<% for(int i = 0; i < videogamesList.size(); ++i){ %>
+	<% for(int i = 0; i < videogamesCatalogueList.size(); ++i){ %>
 	
 		<div class="col-lg-4 col-md-6 col-sm-12" style = "padding-bottom: 10px;">
 	    
-	        <h2><%= videogamesList.get(i).getName() %></h2>
+	        <h2><%= videogamesCatalogueList.get(i).getName() %></h2>
 				
 			<div class = "row">
 				<div class = "col-6">
 					<ul>
-						<li><strong>Release date:</strong> <%= videogamesList.get(i).getReleaseDate() %></li>
-						<li><strong>Stock:</strong> <%= videogamesList.get(i).getReleaseDate() %></li>
-	                    <li><strong>Purchase price:</strong> <%= videogamesList.get(i).getPurchasePrice() %></li>
-	                    <li><strong>Rental price:</strong> <%= videogamesList.get(i).getRentalPrice() %></li>
+						<li><strong>Release date:</strong> <%= videogamesCatalogueList.get(i).getReleaseDate() %></li>
+						<li><strong>Stock:</strong> <%= videogamesCatalogueList.get(i).getReleaseDate() %></li>
+	                    <li><strong>Purchase price:</strong> <%= videogamesCatalogueList.get(i).getPurchasePrice() %></li>
+	                    <li><strong>Rental price:</strong> <%= videogamesCatalogueList.get(i).getRentalPrice() %></li>
 					</ul>
 				</div>
 					
@@ -72,13 +72,13 @@
 					
 				<div class = "col-12">
 					<div>
-						<p align = "justify"><%= videogamesList.get(i).getDescription() %></p>
+						<p align = "justify"><%= videogamesCatalogueList.get(i).getDescription() %></p>
 					</div>
 	            </div>
 	
 	            
 					
-               	<% if(session.getAttribute(User.ATR_USER_LOGGED) != null && videogamesList.get(i).getStock() > 0) { %>
+               	<% if(session.getAttribute(User.ATR_USER_LOGGED) != null && videogamesCatalogueList.get(i).getStock() > 0) { %>
                    <div class = "col-3">
                    <form method = "POST" action = "<%= request.getServletContext()%>/buy">
                        <input type = "hidden" name = "IDUSER" value = "<%= "asdf" %>"/>

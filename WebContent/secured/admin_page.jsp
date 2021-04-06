@@ -11,8 +11,12 @@
 	
 		<!-- Scripts -->
 		<script type="text/javascript" src="../js/test.js"></script>
+		<script type="text/javascript" src="../js/adminCRUD.js"></script>
 	
 		<title>Infodeo2 - Admin</title>
+		
+		<script type="text/javascript">alert("Entrar");</script>
+		
 	</head>
 	
 	
@@ -29,11 +33,12 @@
 					<br/>
 				</div>
 				
+				<% System.out.println("Nueva Pagina Admin"); %>
 				<jsp:include page="assessments_admin.jsp" />
-				<jsp:include page="bills_admin.jsp" />
-				<jsp:include page="categories_admin.jsp"/>
-				<jsp:include page="purchases_admin.jsp"/>
-				<jsp:include page="rentals_admin.jsp"/>
+				<jsp:include page="bills_admin.jsp" /> 
+				<jsp:include page="categories_admin.jsp"/> 
+				<jsp:include page="purchases_admin.jsp"/> 
+				<jsp:include page="rentals_admin.jsp"/> 
 				<jsp:include page="users_admin.jsp"/>
 				<jsp:include page="videogames_admin.jsp"/>
 				

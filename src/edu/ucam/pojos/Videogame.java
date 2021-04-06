@@ -2,7 +2,9 @@ package edu.ucam.pojos;
 
 import java.sql.Date;
 
-public class Videogame {
+import edu.ucam.interfaces.IMyPojo;
+
+public class Videogame implements IMyPojo{
 	/*
 	 * Static Attributes
 	 */
@@ -103,6 +105,12 @@ public class Videogame {
 		this.description = description;
 		this.releaseDate = releaseDate;
 		this.stock = stock;
+	}
+
+	@Override
+	public String toJavaScriptFunction() {
+		return this.id + ", " + this.name + ", " + this.description + ", " + this.releaseDate + ", "  + 
+				this.stock;
 	}
 	
 }

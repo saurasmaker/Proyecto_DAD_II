@@ -36,11 +36,11 @@
 			  <% } %>
 			</select></p>
 
-		    <label for="bill-input-publicationdate">Fecha de Compra: </label>
-			<p><input id = "bill-input-publicationdate" type = "date" class="form-control" placeholder = "Introduce la fecha de compra..." name = "<%=Bill.ATR_BILL_PURCHASEDATE %>" required></p>
+		    <label for="bill-input-purchasedate">Fecha de Compra: </label>
+			<p><input id = "bill-input-purchasedate" type = "date" class="form-control" placeholder = "Introduce la fecha de compra..." name = "<%=Bill.ATR_BILL_PURCHASEDATE %>" required></p>
 		
-			<label for="bill-input-publicationdate">Pagado: </label>
-			<p><input id = "bill-input-publicationdate" type = "checkbox" class="form-control" name = "<%=Bill.ATR_BILL_PAID %>" required></p>
+			<label for="bill-input-paid">Pagado: </label>
+			<p><input id = "bill-input-paid" type = "checkbox" class="form-control" name = "<%=Bill.ATR_BILL_PAID %>" required></p>
 						
             <p><input id = "input-send" type = "submit" class="btn btn-primary" value = "Crear"></p>
         </form>
@@ -69,7 +69,7 @@
             
             <p>
                 <input id = "input-edit-send" type = "submit" class="btn btn-primary" value = "Editar">
-                <a id = "input-edit-send" class="btn btn-secondary" href = "#" role="button" onclick = "cancelEditBill()" style = "margin-left: 10px;">Cancelar</a>
+                <a id = "input-edit-send" class="btn btn-secondary" href = "#" role="button" onclick = "cancelUpdateBill()" style = "margin-left: 10px;">Cancelar</a>
             </p>
         </form>
     </div>
@@ -99,7 +99,7 @@
                         <td><%=showBill.getPurchaseDate() %></td>
                         <td><%=showBill.isPaid() %></td>
                         <td>
-                            <button type = "submit" class="btn btn-warning" onclick = "editBill()">Edit</button>
+                            <button type = "submit" class="btn btn-warning" onclick = "updateBill(<%=showBill.toJavaScriptFunction() %>)">Edit</button>
                         </td>
                         <td>
 							<form action = "<%= request.getServletContext() %>/DELETE" method = "POST">

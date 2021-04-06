@@ -1,6 +1,8 @@
 package edu.ucam.pojos;
 
-public class VideogamesCategories {
+import edu.ucam.interfaces.IMyPojo;
+
+public class VideogamesCategories implements IMyPojo{
 	
 	/*
 	 * Static Attributes
@@ -59,6 +61,13 @@ public class VideogamesCategories {
 	public VideogamesCategories(String videogameId, String categoryId) {
 		this.videogameId = videogameId;
 		this.categoryId = categoryId;
+	}
+
+
+	@Override
+	public String toJavaScriptFunction() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

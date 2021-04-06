@@ -2,7 +2,9 @@ package edu.ucam.pojos;
 
 import java.sql.Date;
 
-public class Rental {
+import edu.ucam.interfaces.IMyPojo;
+
+public class Rental implements IMyPojo{
 	/*
 	 * Static Attributes
 	 */
@@ -67,6 +69,16 @@ public class Rental {
 	 */
 	public Rental() {
 		
+	}
+	
+	
+	/*
+	 * Methods
+	 */
+	@Override
+	public String toJavaScriptFunction() {
+		return this.id + ", " + this.userId + ", " + this.videogameId + ", " + this.startDate + ", "  + 
+				this.endDate + ", " + this.returned;
 	}
 	
 	

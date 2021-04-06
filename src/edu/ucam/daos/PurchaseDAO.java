@@ -47,6 +47,7 @@ public class PurchaseDAO implements IDao<Purchase>{
 					purchase.setBillId(rs.getString("bill_id"));
 				}
 			}
+			rs.close();
 		} catch (SQLException e)  {
 			e.printStackTrace();
 		}	
@@ -104,7 +105,8 @@ public class PurchaseDAO implements IDao<Purchase>{
 
 				
 				purchasesList.add(purchae);
-			}			
+			}	
+			rs.close();
 		} catch (SQLException e)  {
 			e.printStackTrace();
 		}	

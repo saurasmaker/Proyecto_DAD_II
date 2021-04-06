@@ -12,6 +12,7 @@ import edu.ucam.interfaces.IDao;
 
 public class UserDAO implements IDao<User>{
 	
+	public static int USER_COUNT = 0;
 	
 	/*
 	 * CRUD Methods
@@ -55,6 +56,7 @@ public class UserDAO implements IDao<User>{
 					user.setLastSignIn(rs.getDate("last_sign_in"));
 				}
 			}
+			rs.close();
 		} catch (SQLException e)  {
 			e.printStackTrace();
 		}	
@@ -104,7 +106,7 @@ public class UserDAO implements IDao<User>{
 
 	@Override
 	public ArrayList<User> list() {
-
+		USER_COUNT++;
 		String selectQuery = "SELECT * FROM users"; 		
 		ResultSet rs = null;
 		ArrayList<User> usersList = new ArrayList<User>();
@@ -112,6 +114,7 @@ public class UserDAO implements IDao<User>{
 		try {
 			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(selectQuery);					
 			while(rs.next()) {
+				System.out.println(rs.getString("id"));
 				User user = new User();
 				user.setId(rs.getString("id"));
 				user.setUsername(rs.getString("username"));
@@ -121,11 +124,14 @@ public class UserDAO implements IDao<User>{
 				user.setLastSignIn(rs.getDate("last_sign_in"));
 				
 				usersList.add(user);
-			}			
+			}	
+			rs.close();
 		} catch (SQLException e)  {
 			e.printStackTrace();
 		}	
 		
+		System.out.println("USER_COUNT = " + USER_COUNT);
+
 		return usersList;
 	}
 	

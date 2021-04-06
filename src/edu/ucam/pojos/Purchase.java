@@ -1,6 +1,8 @@
 package edu.ucam.pojos;
 
-public class Purchase {
+import edu.ucam.interfaces.IMyPojo;
+
+public class Purchase implements IMyPojo{
 	
 	/*
 	 * Static Attributes
@@ -21,17 +23,17 @@ public class Purchase {
 	/*
 	 * Getters & Setters
 	 */
-	public int getAmount() {
-		return amount;
-	}
-	public void setAmount(int amount) {
-		this.amount = amount;
-	}
 	public String getId() {
 		return id;
 	}
 	public void setId(String id) {
 		this.id = id;
+	}
+	public int getAmount() {
+		return amount;
+	}
+	public void setAmount(int amount) {
+		this.amount = amount;
 	}
 	public String getVideogameId() {
 		return videogameId;
@@ -53,6 +55,15 @@ public class Purchase {
 	 */
 	public Purchase() {
 		
+	}
+	
+	
+	/*
+	 * Methods
+	 */
+	@Override
+	public String toJavaScriptFunction() {
+		return this.id + ", " + this.amount + ", " + this.videogameId + ", " + this.billId;
 	}
 	
 }

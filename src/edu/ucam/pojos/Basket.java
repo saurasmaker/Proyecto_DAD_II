@@ -1,9 +1,11 @@
 package edu.ucam.pojos;
 
-import java.util.ArrayList; 
+import java.util.ArrayList;
+
+import edu.ucam.interfaces.IMyPojo; 
 
 
-public class Basket {
+public class Basket implements IMyPojo{
 
 	/*
 	 * Static Attributes
@@ -80,6 +82,13 @@ public class Basket {
 		}
 		
 		return -1;
+	}
+	
+	
+	@Override
+	public String toJavaScriptFunction() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

@@ -46,6 +46,7 @@ public class CategoryDAO implements IDao<Category>{
 					category.setDescription(rs.getString("description"));
 				}
 			}
+			rs.close();
 		} catch (SQLException e)  {
 			e.printStackTrace();
 		}	
@@ -100,7 +101,8 @@ public class CategoryDAO implements IDao<Category>{
 				category.setDescription(rs.getString("description"));
 				
 				usersList.add(category);
-			}			
+			}
+			rs.close();
 		} catch (SQLException e)  {
 			e.printStackTrace();
 		}	

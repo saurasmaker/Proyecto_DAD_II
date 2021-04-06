@@ -32,21 +32,21 @@
 
 
 
-        <form id = "update_product_form" enctype = "multipart/form-data" class = "form-group" action = "<%= request.getContextPath() %>/UPDATE" method = "POST" style = "display: 'none';">
+        <form id = "update-category-form" enctype = "multipart/form-data" class = "form-group" action = "<%= request.getContextPath() %>/UPDATE" method = "POST" style = "display: 'none';">
             <input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Category.class.getName() %>" />
 			
-			<label for="category-input-id">ID: </label>
-			<p><input id = "category-input-id" type = "text" class="form-control" placeholder = "Identificador de la categoría" name = "<%=Category.ATR_CATEGORY_ID %>" disabled></p>
+			<label for="category-input-update-id">ID: </label>
+			<p><input id = "category-input-update-id" type = "text" class="form-control" placeholder = "Identificador de la categoría" name = "<%=Category.ATR_CATEGORY_ID %>" disabled></p>
 
-		    <label for="category-input-name">Nombre: </label>
-			<p><input id = "category-input-name" type = "date" class="form-control" placeholder = "Introduce el nombre de la categoría..." name = "<%=Category.ATR_CATEGORY_NAME %>" required></p>
+		    <label for="category-input-update-name">Nombre: </label>
+			<p><input id = "category-input-update-name" type = "date" class="form-control" placeholder = "Introduce el nombre de la categoría..." name = "<%=Category.ATR_CATEGORY_NAME %>" required></p>
 		
-			<label for="category-input-description">Descripción: </label>
-			<p><textarea id = "category-input-description" class="form-control" placeholder = "Introduce la descripción de la categoría..." name = "<%=Category.ATR_CATEGORY_DESCRIPTION %>" required></textarea></p>
+			<label for="category-input-update-description">Descripción: </label>
+			<p><textarea id = "category-input-update-description" class="form-control" placeholder = "Introduce la descripción de la categoría..." name = "<%=Category.ATR_CATEGORY_DESCRIPTION %>" required></textarea></p>
             
             <p>
                 <input id = "input-edit-send" type = "submit" class="btn btn-primary" value = "Editar">
-                <a id = "input-edit-send" class="btn btn-secondary" href = "#" role="button" onclick = "cancelEditCategory()" style = "margin-left: 10px;">Cancelar</a>
+                <a id = "input-edit-send" class="btn btn-secondary" href = "#" role="button" onclick = "cancelUpdateCategory()" style = "margin-left: 10px;">Cancelar</a>
             </p>
         </form>
     </div>
@@ -74,7 +74,7 @@
                      	<td><%=showCategory.getName() %></td>
                         <td><%=showCategory.getDescription() %></td>
                         <td>
-                            <button type = "submit" class="btn btn-warning" onclick = "editCategory()">Edit</button>
+                            <button type = "submit" class="btn btn-warning" onclick = "updateCategory(<%=showCategory.toJavaScriptFunction() %>)">Edit</button>
                         </td>
                         <td>
 							<form action = "<%= request.getServletContext() %>/DELETE" method = "POST">

@@ -47,6 +47,7 @@ public class BillDAO implements IDao<Bill>{
 					bill.setPaid(rs.getBoolean("paid"));
 				}
 			}
+			rs.close();
 		} catch (SQLException e)  {
 			e.printStackTrace();
 		}	
@@ -104,7 +105,8 @@ public class BillDAO implements IDao<Bill>{
 				bill.setPaid(rs.getBoolean("paid"));
 				
 				usersList.add(bill);
-			}			
+			}
+			rs.close();
 		} catch (SQLException e)  {
 			e.printStackTrace();
 		}	

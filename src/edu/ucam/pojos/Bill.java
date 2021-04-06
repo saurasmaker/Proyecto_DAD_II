@@ -2,7 +2,9 @@ package edu.ucam.pojos;
 
 import java.sql.Date;
 
-public class Bill {
+import edu.ucam.interfaces.IMyPojo;
+
+public class Bill implements IMyPojo{
 	
 	/*
 	 * Static Attributes
@@ -57,5 +59,9 @@ public class Bill {
 	 */
 	public Bill() {
 		
+	}
+	@Override
+	public String toJavaScriptFunction() {
+		return this.id + ", " + this.userId + ", " + this.purchaseDate + ", " + this.paid;
 	}
 }

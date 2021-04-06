@@ -73,7 +73,7 @@
 
             <p>
                 <input id = "input-edit-send" type = "submit" class="btn btn-primary" value = "Editar">
-                <a id = "input-edit-send" class="btn btn-secondary" href = "#" role="button" onclick = "cancelEditVideogame()" style = "margin-left: 10px;">Cancelar</a>
+                <a id = "input-edit-send" class="btn btn-secondary" href = "#" role="button" onclick = "cancelUpdateVideogame()" style = "margin-left: 10px;">Cancelar</a>
             </p>
         </form>
     </div>
@@ -110,7 +110,7 @@
                         <td><%=showVideogame.getRentalPrice() %></td>
                         
                         <td>
-                            <button type = "submit" class="btn btn-warning" onclick = "editVideogame()">Editar</button>
+                            <a class="btn btn-warning" onclick = "updateVideogame(<%=showVideogame.toJavaScriptFunction() %>)">Editar</a>
                         </td>
                         <td>
 							<form action = "<%= request.getServletContext() %>/DELETE" method = "POST">
