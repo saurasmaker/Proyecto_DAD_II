@@ -105,7 +105,7 @@
 			</select></p>		
             <p>
                 <input id = "input-edit-send" type = "submit" class="btn btn-primary" value = "Editar">
-                <a id = "input-edit-send" class="btn btn-secondary" href = "#" role="button" onclick = "cancelUpdateAssessment()" style = "margin-left: 10px;">Cancelar</a>
+                <button id = "input-edit-send" class="btn btn-secondary" role="button" onclick = "cancelUpdateAssessment()" style = "margin-left: 10px;">Cancelar</button>
             </p>
         </form>
     </div>
@@ -141,14 +141,12 @@
                         <td><%=showAssessment.getVideogameId() %></td>
                         <td><%=showAssessment.getUserId() %></td>
                         <td>
-                        	<button type = "submit" class="btn btn-warning" onclick = "updateAssessment(<%=showAssessment.toJavaScriptFunction() %>)">
-                        		Edit
-                        	</button>           
+                        	<button type = "submit" class="btn btn-warning" onclick = "updateAssessment(<%=showAssessment.toJavaScriptFunction() %>)">Editar</button>           
                         </td>
                         <td>
 							<form action = "<%= request.getServletContext() %>/DELETE" method = "POST">
                            		<input type = "hidden" name = "<%=Assessment.ATR_ASSESSMENT_ID %>" value = "<%=showAssessment.getId() %>">
-                           		<button type = "submit" class="btn btn-danger">Remove</button>
+                           		<button type = "submit" class="btn btn-danger">Eliminar</button>
                         	</form>
                         </td>
                 	</tr>

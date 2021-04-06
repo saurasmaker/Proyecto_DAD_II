@@ -46,7 +46,7 @@
             
             <p>
                 <input id = "input-edit-send" type = "submit" class="btn btn-primary" value = "Editar">
-                <a id = "input-edit-send" class="btn btn-secondary" href = "#" role="button" onclick = "cancelUpdateCategory()" style = "margin-left: 10px;">Cancelar</a>
+                <button id = "input-edit-send" class="btn btn-secondary" role="button" onclick = "cancelUpdateCategory()" style = "margin-left: 10px;">Cancelar</button>
             </p>
         </form>
     </div>
@@ -74,12 +74,12 @@
                      	<td><%=showCategory.getName() %></td>
                         <td><%=showCategory.getDescription() %></td>
                         <td>
-                            <button type = "submit" class="btn btn-warning" onclick = "updateCategory(<%=showCategory.toJavaScriptFunction() %>)">Edit</button>
+                            <button type = "submit" class="btn btn-warning" onclick = "updateCategory(<%=showCategory.toJavaScriptFunction() %>)">Editar</button>
                         </td>
                         <td>
 							<form action = "<%= request.getServletContext() %>/DELETE" method = "POST">
                            		<input type = "hidden" name = "<%=Category.ATR_CATEGORY_ID %>" value = "<%=showCategory.getId() %>">
-                           		<button type = "submit" class="btn btn-danger">Remove</button>
+                           		<button type = "submit" class="btn btn-danger">Eliminar</button>
                         	</form>
                         </td>
                 	</tr>

@@ -74,6 +74,6 @@ public class Category implements IMyPojo{
 	 */
 	@Override
 	public String toJavaScriptFunction() {
-		return this.id + ", " + this.name + ", " + this.description;
+		return "'" + this.id + "', '" + this.name + "', '" + this.description + "'";
 	}
 }

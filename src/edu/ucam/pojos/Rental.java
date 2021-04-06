@@ -77,8 +77,8 @@ public class Rental implements IMyPojo{
 	 */
 	@Override
 	public String toJavaScriptFunction() {
-		return this.id + ", " + this.userId + ", " + this.videogameId + ", " + this.startDate + ", "  + 
-				this.endDate + ", " + this.returned;
+		return "'" + this.id + "', '" + this.userId + "', '" + this.videogameId + "', '" + this.startDate + "', '"  + 
+				this.endDate + "', '" + this.returned + "'";
 	}
 	
 	

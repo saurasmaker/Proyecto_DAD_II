@@ -28,7 +28,7 @@
 			<p><input id = "videogame-input-username" type = "text" class="form-control" placeholder = "Introduce el Nombre del Videojuego..." name = "<%=Videogame.ATR_VIDEOGAME_NAME %>" required></p>
 
 		    <label for="videogame-input-email">Descripción: </label>
-			<p><textarea id = "videogame-input-email" type = "email" class="form-control" placeholder = "Introduce el Correo Electrónico del Usuario..." name = "<%=Videogame.ATR_VIDEOGAME_DESCRIPTION %>" required></textarea></p>
+			<p><textarea id = "videogame-input-email" class="form-control" placeholder = "Introduce el Correo Electrónico del Usuario..." name = "<%=Videogame.ATR_VIDEOGAME_DESCRIPTION %>" required></textarea></p>
 
 			<label for="videogame-input-signupdate">Fecha de Lanzamiento: </label>
 			<p><input id = "videogame-input-signupdate" type = "datetime" class="form-control" name = "<%=Videogame.ATR_VIDEOGAME_RELEASEDATE %>" required></p>
@@ -51,13 +51,13 @@
             <input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Videogame.class.getName() %>" />
 			
 			<label for="videogame-input-update-id">ID: </label>
-			<p><input id = "videogame-input-id" type = "text" class="form-control" placeholder = "ID del Usuario" name = "<%=Videogame.ATR_VIDEOGAME_ID %>" disabled></p>
+			<p><input id = "videogame-input-update-id" type = "text" class="form-control" placeholder = "ID del Usuario" name = "<%=Videogame.ATR_VIDEOGAME_ID %>" disabled></p>
 				
 			<label for="videogame-input-update-username">Nombre: </label>
 			<p><input id = "videogame-input-update-username" type = "text" class="form-control" placeholder = "Introduce el Nombre del Videojuego..." name = "<%=Videogame.ATR_VIDEOGAME_NAME %>" required></p>
 
 		    <label for="videogame-input-update-email">Descripción: </label>
-			<p><textarea id = "videogame-update-input-email" type = "email" class="form-control" placeholder = "Introduce el Correo Electrónico del Usuario..." name = "<%=Videogame.ATR_VIDEOGAME_DESCRIPTION %>" required></textarea></p>
+			<p><textarea id = "videogame-input-update-email" type = "email" class="form-control" placeholder = "Introduce el Correo Electrónico del Usuario..." name = "<%=Videogame.ATR_VIDEOGAME_DESCRIPTION %>" required></textarea></p>
 
 			<label for="videogame-input-update-signupdate">Fecha de Lanzamiento: </label>
 			<p><input id = "videogame-input-update-signupdate" type = "datetime" class="form-control" name = "<%=Videogame.ATR_VIDEOGAME_RELEASEDATE %>" required></p>
@@ -73,7 +73,7 @@
 
             <p>
                 <input id = "input-edit-send" type = "submit" class="btn btn-primary" value = "Editar">
-                <a id = "input-edit-send" class="btn btn-secondary" href = "#" role="button" onclick = "cancelUpdateVideogame()" style = "margin-left: 10px;">Cancelar</a>
+                <button id = "input-edit-send" class="btn btn-secondary" role="button" onclick = "cancelUpdateVideogame()" style = "margin-left: 10px;">Cancelar</button>
             </p>
         </form>
     </div>
@@ -110,7 +110,7 @@
                         <td><%=showVideogame.getRentalPrice() %></td>
                         
                         <td>
-                            <a class="btn btn-warning" onclick = "updateVideogame(<%=showVideogame.toJavaScriptFunction() %>)">Editar</a>
+                            <button class="btn btn-warning" onclick = "updateVideogame(<%=showVideogame.toJavaScriptFunction() %>)">Editar</button>
                         </td>
                         <td>
 							<form action = "<%= request.getServletContext() %>/DELETE" method = "POST">

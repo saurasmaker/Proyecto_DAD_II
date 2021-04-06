@@ -69,7 +69,7 @@
             
             <p>
                 <input id = "input-edit-send" type = "submit" class="btn btn-primary" value = "Editar">
-                <a id = "input-edit-send" class="btn btn-secondary" href = "#" role="button" onclick = "cancelUpdateBill()" style = "margin-left: 10px;">Cancelar</a>
+                <button id = "input-edit-send" class="btn btn-secondary" role="button" onclick = "cancelUpdateBill()" style = "margin-left: 10px;">Cancelar</button>
             </p>
         </form>
     </div>
@@ -99,12 +99,12 @@
                         <td><%=showBill.getPurchaseDate() %></td>
                         <td><%=showBill.isPaid() %></td>
                         <td>
-                            <button type = "submit" class="btn btn-warning" onclick = "updateBill(<%=showBill.toJavaScriptFunction() %>)">Edit</button>
+                            <button type = "submit" class="btn btn-warning" onclick = "updateBill(<%=showBill.toJavaScriptFunction() %>)">Editar</button>
                         </td>
                         <td>
 							<form action = "<%= request.getServletContext() %>/DELETE" method = "POST">
                            		<input type = "hidden" name = "<%=Bill.ATR_BILL_ID %>" value = "<%=showBill.getId() %>">
-                           		<button type = "submit" class="btn btn-danger">Remove</button>
+                           		<button type = "submit" class="btn btn-danger">Eliminar</button>
                         	</form>
                         </td>
                 	</tr>

@@ -106,7 +106,6 @@ public class UserDAO implements IDao<User>{
 
 	@Override
 	public ArrayList<User> list() {
-		USER_COUNT++;
 		String selectQuery = "SELECT * FROM users"; 		
 		ResultSet rs = null;
 		ArrayList<User> usersList = new ArrayList<User>();
@@ -130,8 +129,6 @@ public class UserDAO implements IDao<User>{
 			e.printStackTrace();
 		}	
 		
-		System.out.println("USER_COUNT = " + USER_COUNT);
-
 		return usersList;
 	}
 	

@@ -30,8 +30,8 @@ public class Assessment implements IMyPojo{
 	 */
 	@Override
 	public String toJavaScriptFunction(){
-		return this.id + ", " + this.value + ", " + this.subject + ", " + this.comment + ", "  + 
-				this.publicationDate + ", " + this.editDate + ", " + this.videogameId + ", " + this.userId;
+		return "'" + this.id + "', '" + this.value + "', '" + this.subject + "', '" + this.comment + "', '"  + 
+				this.publicationDate + "', '" + this.editDate + "', '" + this.videogameId + "', '" + this.userId + "'";
 	}
 	
 		

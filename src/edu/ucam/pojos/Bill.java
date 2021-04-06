@@ -62,6 +62,6 @@ public class Bill implements IMyPojo{
 	}
 	@Override
 	public String toJavaScriptFunction() {
-		return this.id + ", " + this.userId + ", " + this.purchaseDate + ", " + this.paid;
+		return "'" + this.id + "', '" + this.userId + "', '" + this.purchaseDate + "', '" + this.paid + "'";
 	}
 }

@@ -9,6 +9,10 @@ window.onload = function(){
 };
 
 
+function test(){
+	alert("TU PUTA MADRE");
+}
+
 function updateAssessment(id, value, subject, comment, publicationDate, editDate, videogameId, userId){
 	document.getElementById("create-assessment-form").style.display = "none";
     document.getElementById("update-assessment-form").style.display = "block";
@@ -88,7 +92,8 @@ function updateUser(id, username, email, password, signUpDate, lastSignIn){
     alert("Lets Update User");
 }
 
-function updateVideogame(id, name, description, releaseDate, stock, purchasePrice, rentalPrice){
+function updateVideogame(id, name, description, releaseDate, stock, purchasePrice, rentalPrice){	
+	
 	document.getElementById("create-videogame-form").style.display = "none";
     document.getElementById("update-videogame-form").style.display = "block";
     
@@ -98,8 +103,8 @@ function updateVideogame(id, name, description, releaseDate, stock, purchasePric
     document.getElementById("videogame-input-update-releasedate").value = releaseDate;
     document.getElementById("videogame-input-update-stock").value = stock;
     document.getElementById("videogame-input-update-purchaseprice").value = purchasePrice;
-    document.getElementById("videogame-input-update-rentalprice").value = rentalPrice;
-
+    document.getElementById("videogame-input-update-rentalprice").value = rentalPrice;  
+    
     alert("Lets Update Videogame");
 }
 

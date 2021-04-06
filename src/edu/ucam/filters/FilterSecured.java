@@ -51,7 +51,7 @@ public class FilterSecured implements Filter {
 			chain.doFilter(request, response);
 		}
 		else {
-			((HttpServletResponse)response).sendRedirect("mod/error.jsp?ERROR_TYPE="+ErrorType.ACCESS_DENIED); 
+			((HttpServletResponse)response).sendRedirect(httpRequest.getContextPath() + "/mod/error.jsp?ERROR_TYPE="+ErrorType.ACCESS_DENIED); 
 		}				
 	}
 

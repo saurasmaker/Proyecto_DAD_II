@@ -63,7 +63,7 @@ public class Purchase implements IMyPojo{
 	 */
 	@Override
 	public String toJavaScriptFunction() {
-		return this.id + ", " + this.amount + ", " + this.videogameId + ", " + this.billId;
+		return "'" + this.id + "', '" + this.amount + "', '" + this.videogameId + "', '" + this.billId + "'";
 	}
 	
 }

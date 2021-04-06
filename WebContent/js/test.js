@@ -1,3 +1,0 @@
-function compruebaQueFunciona(){
-	alert("FUNCIONA");
-}

@@ -15,8 +15,6 @@
 	
 		<title>Infodeo2 - Admin</title>
 		
-		<script type="text/javascript">alert("Entrar");</script>
-		
 	</head>
 	
 	
