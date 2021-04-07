@@ -37,8 +37,7 @@
 				<jsp:include page="assessments_admin.jsp" />
 				<jsp:include page="bills_admin.jsp" /> 
 				<jsp:include page="purchases_admin.jsp"/> 
-				<jsp:include page="rentals_admin.jsp"/> 
-				
+				<jsp:include page="rentals_admin.jsp"/> 				
 				
 			</div>
 			

@@ -70,9 +70,7 @@ public class Login extends HttpServlet {
 		else {
 			url = "/mod/error.jsp?ERROR_TYPE="+ErrorType.LOGIN_ERROR;
 		}
-		
-		System.out.println(userToCheck.getPassword());
-		
+				
 		if(userFinded != null) {
 			if(userToCheck.getPassword().equals(userFinded.getPassword())) {
 				request.getSession().setAttribute(User.ATR_USER_LOGGED, userFinded);

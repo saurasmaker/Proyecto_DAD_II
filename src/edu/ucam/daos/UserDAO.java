@@ -72,15 +72,14 @@ public class UserDAO implements IDao<User>{
 		
 		try {
 			updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy, search);			
+			
 			PreparedStatement preparedStatement = DatabaseController.DATABASE_CONNECTION.prepareStatement(updateQuery);
 			preparedStatement.setString(1, user.getUsername());
 			preparedStatement.setString(2, user.getEmail());
 			preparedStatement.setString(3, user.getPassword());
 			preparedStatement.setTimestamp(4, user.getSignUpDate());
 			preparedStatement.setTimestamp(5, user.getLastSignIn());
-			
-			System.out.println(preparedStatement.toString());
-			
+						
 			preparedStatement.execute();
 			preparedStatement.close();
 		} catch (SQLException e)  {

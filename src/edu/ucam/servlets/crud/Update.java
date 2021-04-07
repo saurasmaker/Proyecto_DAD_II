@@ -183,9 +183,7 @@ public class Update extends HttpServlet {
 		updateUser.setId(request.getParameter(User.ATR_USER_ID));
 		updateUser.setSignUpDate(Timestamp.valueOf(request.getParameter(User.ATR_USER_SIGNUPDATE).replace("T"," ")+":00.0"));
 		updateUser.setLastSignIn(Timestamp.valueOf(request.getParameter(User.ATR_USER_LASTSIGNIN).replace("T"," ")+":00.0"));
-		
-		System.out.println(updateUser.getId());
-		
+				
 		if(updateUser.getUsername() != null && updateUser.getEmail() != null && updateUser.getPassword() != null)
 			return (new UserDAO()).update(updateUser.getId(), SearchBy.ID, updateUser);
 		
