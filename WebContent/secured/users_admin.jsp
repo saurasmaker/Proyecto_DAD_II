@@ -105,8 +105,9 @@
                             <button type = "submit" class="btn btn-warning" onclick = "updateUser(<%=showUser.toJavaScriptFunction() %>)">Editar</button>
                         </td>
                         <td>
-							<form action = "<%= request.getServletContext() %>/DELETE" method = "POST">
+							<form action = "<%= request.getContextPath() %>/DELETE" method = "POST">
                            		<input type = "hidden" name = "<%=User.ATR_USER_ID %>" value = "<%=showUser.getId() %>">
+                           		<input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=User.class.getName() %>">
                            		<button type = "submit" class="btn btn-danger">Eliminar</button>
                         	</form>
                         </td>

@@ -131,6 +131,7 @@
                         <td>
 							<form action = "<%= request.getServletContext() %>/DELETE" method = "POST">
                            		<input type = "hidden" name = "<%=Rental.ATR_RENTAL_ID %>" value = "<%=showRental.getId() %>">
+                           		<input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Rental.class.getName() %>">                
                            		<button type = "submit" class="btn btn-danger">Eliminar</button>
                         	</form>
                         </td>

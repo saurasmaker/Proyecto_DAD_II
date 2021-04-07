@@ -38,6 +38,7 @@ public class Delete extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("hola");
 		response.sendRedirect(request.getHeader("referer"));	
 	}
 
@@ -47,7 +48,7 @@ public class Delete extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String objectClass = request.getParameter(Controller.ATR_OBJECT_CLASS);		
-		
+		System.out.println(objectClass);
 		if(objectClass != null)
 		switch(objectClass) {
 		
@@ -87,7 +88,7 @@ public class Delete extends HttpServlet {
 			break;
 		
 		}
-		
+		doGet(request, response);
 	}
 	
 	

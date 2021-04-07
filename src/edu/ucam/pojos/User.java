@@ -115,7 +115,7 @@ public class User implements IMyPojo{
 	@Override
 	public String toJavaScriptFunction() {
 		return "'" + this.id + "', '" + this.username + "', '" + this.email + "', '" + this.password + "', '"  + 
-				this.signUpDate + "', '" + this.lastSignIn + "'";
+				this.signUpDate.toString().replace(" ", "T") + "', '" + this.lastSignIn.toString().replace(" ", "T") + "'";
 	}
 
 
