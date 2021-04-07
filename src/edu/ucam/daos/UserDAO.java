@@ -1,5 +1,6 @@
 package edu.ucam.daos;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -43,8 +44,8 @@ public class UserDAO implements IDao<User>{
 		
 		String selectQuery = "SELECT * FROM users WHERE "; 
 		try {
-			selectQuery = IDao.appendSqlSearchBy(selectQuery, searchBy);
-			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(selectQuery + search + "'");	
+			selectQuery = IDao.appendSqlSearchBy(selectQuery, searchBy, search);
+			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(selectQuery);	
 			if(rs.next()) { //se valida si hay resultados
 				if(rs.getRow() == 1) {
 					user = new User();
@@ -52,8 +53,8 @@ public class UserDAO implements IDao<User>{
 					user.setUsername(rs.getString("username"));
 					user.setEmail(rs.getString("email"));
 					user.setPassword(rs.getString("password"));
-					user.setSignUpDate(rs.getDate("sign_up_date"));
-					user.setLastSignIn(rs.getDate("last_sign_in"));
+					user.setSignUpDate(rs.getTimestamp("sign_up_date"));
+					user.setLastSignIn(rs.getTimestamp("last_sign_in"));
 				}
 			}
 			rs.close();
@@ -67,18 +68,21 @@ public class UserDAO implements IDao<User>{
 
 	@Override
 	public ErrorType update(String search, SearchBy searchBy, User user) {
-		
-		String updateQuery = "UPDATE users SET " + 
-				"username = '" + user.getUsername()  + "', " + 
-				"email = '" +  user.getEmail() + "', " + 
-				"password = '" + user.getPassword() + "' " + 
-				"sign_up_date = '" + user.getSignUpDate() + "' " + 
-				"last_sign_in = '" + user.getLastSignIn() + "' " + 
-				"WHERE ";
+		String updateQuery = "UPDATE users SET username = ?, email = ?, password = ?, sign_up_date = ?, last_sign_in = ? WHERE ";
 		
 		try {
-			updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy);
-			DatabaseController.DATABASE_STATEMENT.executeUpdate(updateQuery + search + "'");	
+			updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy, search);			
+			PreparedStatement preparedStatement = DatabaseController.DATABASE_CONNECTION.prepareStatement(updateQuery);
+			preparedStatement.setString(1, user.getUsername());
+			preparedStatement.setString(2, user.getEmail());
+			preparedStatement.setString(3, user.getPassword());
+			preparedStatement.setTimestamp(4, user.getSignUpDate());
+			preparedStatement.setTimestamp(5, user.getLastSignIn());
+			
+			System.out.println(preparedStatement.toString());
+			
+			preparedStatement.execute();
+			preparedStatement.close();
 		} catch (SQLException e)  {
 			e.printStackTrace();
 			return ErrorType.ERROR;
@@ -93,8 +97,8 @@ public class UserDAO implements IDao<User>{
 		
 		String deleteQuery = "DELETE FROM users WHERE ";
 		try {
-			deleteQuery = IDao.appendSqlSearchBy(deleteQuery, searchBy);
-			DatabaseController.DATABASE_STATEMENT.executeUpdate(deleteQuery + search + "'");	
+			deleteQuery = IDao.appendSqlSearchBy(deleteQuery, searchBy, search);
+			DatabaseController.DATABASE_STATEMENT.executeUpdate(deleteQuery);	
 		} catch (SQLException e)  {
 			e.printStackTrace();
 			return ErrorType.ERROR;
@@ -113,14 +117,13 @@ public class UserDAO implements IDao<User>{
 		try {
 			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(selectQuery);					
 			while(rs.next()) {
-				System.out.println(rs.getString("id"));
 				User user = new User();
 				user.setId(rs.getString("id"));
 				user.setUsername(rs.getString("username"));
 				user.setEmail(rs.getString("email"));
 				user.setPassword(rs.getString("password"));
-				user.setSignUpDate(rs.getDate("sign_up_date"));
-				user.setLastSignIn(rs.getDate("last_sign_in"));
+				user.setSignUpDate(rs.getTimestamp("sign_up_date"));
+				user.setLastSignIn(rs.getTimestamp("last_sign_in"));
 				
 				usersList.add(user);
 			}	

@@ -31,14 +31,14 @@
 					<br/>
 				</div>
 				
-				<% System.out.println("Nueva Pagina Admin"); %>
-				<jsp:include page="assessments_admin.jsp" />
-				<jsp:include page="bills_admin.jsp" /> 
-				<jsp:include page="categories_admin.jsp"/> 
-				<jsp:include page="purchases_admin.jsp"/> 
-				<jsp:include page="rentals_admin.jsp"/> 
 				<jsp:include page="users_admin.jsp"/>
 				<jsp:include page="videogames_admin.jsp"/>
+				<jsp:include page="categories_admin.jsp"/>
+				<jsp:include page="assessments_admin.jsp" />
+				<jsp:include page="bills_admin.jsp" /> 
+				<jsp:include page="purchases_admin.jsp"/> 
+				<jsp:include page="rentals_admin.jsp"/> 
+				
 				
 			</div>
 			

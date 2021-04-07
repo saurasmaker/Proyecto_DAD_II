@@ -20,7 +20,7 @@ public interface IDao <Pojo> {
 	/*
 	 * Static methods
 	 */
-	public static String appendSqlSearchBy(String s, SearchBy searchBy) {
+	public static String appendSqlSearchBy(String s, SearchBy searchBy, String search) {
 		
 		switch(searchBy) {
 		
@@ -45,7 +45,7 @@ public interface IDao <Pojo> {
 			
 		}
 		
-		return s;
+		return s  + search + "'";
 	}
 	
 }

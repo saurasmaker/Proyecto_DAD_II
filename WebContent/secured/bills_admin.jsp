@@ -20,12 +20,12 @@
     </div>
 	  
 	<div class = "col-lg-4 col-md-6 col-sm-12">
-      	<form id = "create-bill-form" enctype = "multipart/form-data" class = "form-group" action = "<%= request.getContextPath() %>/CREATE" method = "POST">
+      	<form id = "create-bill-form" class = "form-group" action = "<%= request.getContextPath() %>/CREATE" method = "POST">
 			
 			<input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Bill.class.getName() %>" />
 			
 			<label for="bill-input-id">ID: </label>
-			<p><input id = "bill-input-id" type = "text" class="form-control" placeholder = "Introduce el id de la factura.." name = "<%=Bill.ATR_BILL_ID %>" disabled></p>
+			<p><input id = "bill-input-id" type = "text" class="form-control" placeholder = "Introduce el id de la factura.." name = "<%=Bill.ATR_BILL_ID %>" readonly></p>
 				
 			<label for="bill-input-userid">ID Usuario: </label>
 			<p><select id = "bill-input-userid" class="form-control" name = "<%=Bill.ATR_BILL_USERID %>">
@@ -47,11 +47,11 @@
 
 
 
-        <form id = "update-bill-form" enctype = "multipart/form-data" class = "form-group" action = "<%= request.getContextPath() %>/UPDATE" method = "POST" style = "display: 'none';">
+        <form id = "update-bill-form" class = "form-group" action = "<%= request.getContextPath() %>/UPDATE" method = "POST" style = "display: 'none';">
             <input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Bill.class.getName() %>" />
 			
 			<label for="bill-input-update-id">ID: </label>
-			<p><input id = "bill-input-update-id" type = "text" class="form-control" placeholder = "Introduce el id de la factura.." name = "<%=Bill.ATR_BILL_ID %>" disabled></p>
+			<p><input id = "bill-input-update-id" type = "text" class="form-control" placeholder = "Introduce el id de la factura.." name = "<%=Bill.ATR_BILL_ID %>" readonly></p>
 				
 			<label for="bill-input-update-userid">ID Usuario: </label>
 			<p><select id = "bill-input-update-userid" class="form-control" name = "<%=Bill.ATR_BILL_USERID %>">

@@ -43,8 +43,8 @@ public class VideogameDAO implements IDao<Videogame>{
 		
 		String updateQuery = "SELECT * FROM videogames WHERE "; 
 		try {
-			updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy);
-			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(updateQuery + search + "'");	
+			updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy, search);
+			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(updateQuery);	
 			if(rs.next()) { //se valida si hay resultados
 				if(rs.getRow() == 1) {
 					videogame = new Videogame();
@@ -77,8 +77,8 @@ public class VideogameDAO implements IDao<Videogame>{
 				"WHERE ";
 		
 		try {
-			updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy);
-			DatabaseController.DATABASE_STATEMENT.executeUpdate(updateQuery + search + "'");	
+			updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy, search);
+			DatabaseController.DATABASE_STATEMENT.executeUpdate(updateQuery);	
 		} catch (SQLException e)  {
 			e.printStackTrace();
 			return ErrorType.ERROR;
@@ -91,8 +91,8 @@ public class VideogameDAO implements IDao<Videogame>{
 	public ErrorType delete(String search, SearchBy searchBy) {
 		String updateQuery = "DELETE FROM videogames WHERE ";
 		try {
-			updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy);
-			DatabaseController.DATABASE_STATEMENT.executeUpdate(updateQuery + search + "'");	
+			updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy, search);
+			DatabaseController.DATABASE_STATEMENT.executeUpdate(updateQuery);	
 		} catch (SQLException e)  {
 			e.printStackTrace();
 			return ErrorType.ERROR;

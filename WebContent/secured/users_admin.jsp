@@ -17,12 +17,12 @@
     </div>
 	  
 	<div class = "col-lg-4 col-md-6 col-sm-12">
-      	<form id = "create-user-form" enctype = "multipart/form-data" class = "form-group" action = "<%= request.getContextPath() %>/CREATE" method = "POST">
+      	<form id = "create-user-form" class = "form-group" action = "<%= request.getContextPath() %>/create" method = "POST">
 			
 			<input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=User.class.getName() %>" />
 			
 			<label for="user-input-id">ID: </label>
-			<p><input id = "user-input-id" type = "text" class="form-control" placeholder = "ID del Usuario" name = "<%=User.ATR_USER_ID %>" disabled></p>
+			<p><input id = "user-input-id" type = "text" class="form-control" placeholder = "ID del Usuario" name = "<%=User.ATR_USER_ID %>" readonly></p>
 				
 			<label for="user-input-username">Nombre de Usuario: </label>
 			<p><input id = "user-input-username" type = "text" class="form-control" placeholder = "Introduce el Nombre del Usuario..." name = "<%=User.ATR_USER_USERNAME %>" required></p>
@@ -31,7 +31,7 @@
 			<p><input id = "user-input-email" type = "email" class="form-control" placeholder = "Introduce el Correo Electrónico del Usuario..." name = "<%=User.ATR_USER_EMAIL %>" required></p>
 
 			<label for="user-input-password">Contraseña: </label>
-			<p><input id = "user-input-password" type = "email" class="form-control" placeholder = "Introduce la Contraseña del Usuario..." name = "<%=User.ATR_USER_PASSWORD %>" required></p>
+			<p><input id = "user-input-password" type = "text" class="form-control" placeholder = "Introduce la Contraseña del Usuario..." name = "<%=User.ATR_USER_PASSWORD %>" required></p>
 
 			<label for="user-input-signupdate">Fecha de Registro: </label>
 			<p><input id = "user-input-signupdate" type = "datetime-local" class="form-control" name = "<%=User.ATR_USER_SIGNUPDATE %>" required></p>
@@ -44,11 +44,11 @@
 
 
 
-        <form id = "update-user-form" enctype = "multipart/form-data" class = "form-group" action = "<%= request.getContextPath() %>/UPDATE" method = "POST" style = "display: 'none';">
+        <form id = "update-user-form" class = "form-group" action = "<%= request.getContextPath() %>/UPDATE" method = "POST" style = "display: 'none';">
             <input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=User.class.getName() %>" />
 			
 			<label for="user-input-update-id">ID: </label>
-			<p><input id = "user-input-update-id" type = "text" class="form-control" placeholder = "ID del Usuario" name = "<%=User.ATR_USER_ID %>" disabled></p>
+			<p><input id = "user-input-update-id" type = "text" class="form-control" placeholder = "ID del Usuario" name = "<%=User.ATR_USER_ID %>" readonly></p>
 				
 			<label for="user-input-update-username">Nombre de Usuario: </label>
 			<p><input id = "user-input-update-username" type = "text" class="form-control" placeholder = "Introduce el Nombre del Usuario..." name = "<%=User.ATR_USER_USERNAME %>" required></p>
@@ -57,7 +57,7 @@
 			<p><input id = "user-input-update-email" type = "email" class="form-control" placeholder = "Introduce el Correo Electrónico del Usuario..." name = "<%=User.ATR_USER_EMAIL %>" required></p>
 
 			<label for="user-input-update-password">Contraseña: </label>
-			<p><input id = "user-input-update-password" type = "email" class="form-control" placeholder = "Introduce la Contraseña del Usuario..." name = "<%=User.ATR_USER_PASSWORD %>" required></p>
+			<p><input id = "user-input-update-password" type = "text" class="form-control" placeholder = "Introduce la Contraseña del Usuario..." name = "<%=User.ATR_USER_PASSWORD %>" required></p>
 
 			<label for="user-input-update-signupdate">Fecha de Registro: </label>
 			<p><input id = "user-input-update-signupdate" type = "datetime-local" class="form-control" name = "<%=User.ATR_USER_SIGNUPDATE %>"></p>

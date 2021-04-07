@@ -39,9 +39,7 @@ public class Create extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		request.getRequestDispatcher(request.getHeader("referer")).forward(request, response);
-		
+		response.sendRedirect(request.getHeader("referer"));
 	}
 
 	/**
@@ -50,7 +48,8 @@ public class Create extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		String objectClass = request.getParameter(Controller.ATR_OBJECT_CLASS);		
-		
+		System.out.println(objectClass);
+		System.out.println(request.getParameter(User.ATR_USER_EMAIL));
 		if(objectClass != null)
 		switch(objectClass) {
 		
@@ -111,10 +110,8 @@ public class Create extends HttpServlet {
 		newAssessment.setUserId(request.getParameter(Assessment.ATR_ASSESSMENT_USERID));
 		
 		if(newAssessment.getSubject() != null && newAssessment.getComment() != null && newAssessment.getPublicationDate() != null && 
-				newAssessment.getEditDate() != null && newAssessment.getVideogameId() != null && newAssessment.getUserId() != null) {
-			AssessmentDAO assessmentDao = new AssessmentDAO();
-			assessmentDao.create(newAssessment);
-		}
+				newAssessment.getEditDate() != null && newAssessment.getVideogameId() != null && newAssessment.getUserId() != null)
+			(new AssessmentDAO()).create(newAssessment);
 	}
 	
 	
@@ -128,10 +125,8 @@ public class Create extends HttpServlet {
 		else newBill.setPaid(false);
 		
 		
-		if(newBill.getUserId() != null && newBill.getPurchaseDate() != null) {
-			BillDAO billDao = new BillDAO();
-			billDao.create(newBill);
-		}
+		if(newBill.getUserId() != null && newBill.getPurchaseDate() != null) 
+			(new BillDAO()).create(newBill);		
 	}
 	
 	
@@ -139,10 +134,8 @@ public class Create extends HttpServlet {
 	private void createCategory(HttpServletRequest request) {
 		Category newCategory = new Category(request.getParameter(Category.ATR_CATEGORY_NAME), request.getParameter(Category.ATR_CATEGORY_DESCRIPTION));
 		
-		if(newCategory.getName() != null && newCategory.getDescription() != null) {
-			CategoryDAO categoryDao = new CategoryDAO();
-			categoryDao.create(newCategory);
-		}
+		if(newCategory.getName() != null && newCategory.getDescription() != null) 
+			(new CategoryDAO()).create(newCategory);		
 	}
 
 	
@@ -153,11 +146,8 @@ public class Create extends HttpServlet {
 		newPurchase.setBillId(request.getParameter(Purchase.ATR_PURCHASE_BILLID));
 		newPurchase.setVideogameId(request.getParameter(Purchase.ATR_PURCHASE_VIDEOGAMEID));
 
-		if(newPurchase.getBillId() != null && newPurchase.getVideogameId() != null) {
-			PurchaseDAO purchaseDao = new PurchaseDAO();
-			purchaseDao.create(newPurchase);
-		}
-		
+		if(newPurchase.getBillId() != null && newPurchase.getVideogameId() != null)
+			(new PurchaseDAO()).create(newPurchase);
 	}
 	
 	
@@ -172,20 +162,18 @@ public class Create extends HttpServlet {
 		newRental.setReturned(Boolean.valueOf(request.getParameter(Rental.ATR_RENTAL_RETURNED)));
 
 		if(newRental.getUserId() != null && newRental.getVideogameId() != null) {
-			RentalDAO rentalDao = new RentalDAO();
-			rentalDao.create(newRental);
+			(new RentalDAO()).create(newRental);
 		}
 	}
 	
 	
 	
 	private void createUser(HttpServletRequest request) {
-		
+		System.out.println("Creating User");
 		User newUser = new User(request.getParameter(User.ATR_USER_USERNAME), request.getParameter(User.ATR_USER_EMAIL), request.getParameter(User.ATR_USER_PASSWORD));
-		if(newUser.getUsername() != null && newUser.getEmail() != null && newUser.getPassword() != null) {
-			UserDAO userDao = new UserDAO();
-			userDao.create(newUser);
-		}
+		
+		if(newUser.getUsername() != null && newUser.getEmail() != null && newUser.getPassword() != null) 
+			(new UserDAO()).create(newUser);
 			
 	}
 	
@@ -198,11 +186,8 @@ public class Create extends HttpServlet {
 		newVideogame.setPurchasePrice(Float.parseFloat(request.getParameter(Videogame.ATR_VIDEOGAME_PURCHASEPRICE)));
 		newVideogame.setRentalPrice(Float.parseFloat(request.getParameter(Videogame.ATR_VIDEOGAME_PURCHASEPRICE)));
 		
-		if(newVideogame.getName() != null && newVideogame.getDescription() != null && newVideogame.getReleaseDate() != null) {
-			VideogameDAO videogameDao = new VideogameDAO();
-			videogameDao.create(newVideogame);
-		}
-		
+		if(newVideogame.getName() != null && newVideogame.getDescription() != null && newVideogame.getReleaseDate() != null)
+			(new VideogameDAO()).create(newVideogame);
 	}
 	
 	
@@ -212,10 +197,9 @@ public class Create extends HttpServlet {
 		VideogamesCategories newVideogamesCategories = new VideogamesCategories(request.getParameter(VideogamesCategories.ATR_VIDEOGAMESCATEGORIES_VIDEOGAMEID),
 				request.getParameter(VideogamesCategories.ATR_VIDEOGAMESCATEGORIES_CATEGORYID));
 		
-		if(newVideogamesCategories.getCategoryId() != null && newVideogamesCategories.getVideogameId() != null) {
-			VideogamesCategoriesDAO videogamesCategoriesDao = new VideogamesCategoriesDAO();
-			videogamesCategoriesDao.create(newVideogamesCategories);
-		}
+		if(newVideogamesCategories.getCategoryId() != null && newVideogamesCategories.getVideogameId() != null)
+			(new VideogamesCategoriesDAO()).create(newVideogamesCategories);
+		
 		
 	}
 }

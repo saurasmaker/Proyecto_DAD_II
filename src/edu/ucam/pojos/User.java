@@ -1,6 +1,6 @@
 package edu.ucam.pojos;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import edu.ucam.interfaces.IMyPojo;
 
@@ -20,7 +20,7 @@ public class User implements IMyPojo{
 	 * Attributes
 	 */
 	private String id, username, email, password;
-	private Date lastSignIn, signUpDate;
+	private Timestamp lastSignIn, signUpDate;
 
 	
 	
@@ -74,25 +74,25 @@ public class User implements IMyPojo{
 	}
 	
 	
-	public Date getLastSignIn() {
+	public Timestamp getLastSignIn() {
 		return lastSignIn;
 	}
 
 
 
-	public void setLastSignIn(Date lastSignIn) {
+	public void setLastSignIn(Timestamp lastSignIn) {
 		this.lastSignIn = lastSignIn;
 	}
 
 
 
-	public Date getSignUpDate() {
+	public Timestamp getSignUpDate() {
 		return signUpDate;
 	}
 
 
 
-	public void setSignUpDate(Date signUpDate) {
+	public void setSignUpDate(Timestamp signUpDate) {
 		this.signUpDate = signUpDate;
 	}
 	

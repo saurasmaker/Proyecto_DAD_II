@@ -41,8 +41,8 @@ public class AssessmentDAO implements IDao<Assessment>{
 		
 		String updateQuery = "SELECT * FROM assessments WHERE "; 
 		try {
-			updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy);
-			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(updateQuery + search + "'");	
+			updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy, search);
+			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(updateQuery);	
 			if(rs.next()) { //se valida si hay resultados
 				if(rs.getRow() == 1) {
 					assessment = new Assessment();
@@ -77,8 +77,8 @@ public class AssessmentDAO implements IDao<Assessment>{
 				"WHERE ";
 		
 		try {
-			updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy);
-			DatabaseController.DATABASE_STATEMENT.executeUpdate(updateQuery + search + "'");	
+			updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy, search);
+			DatabaseController.DATABASE_STATEMENT.executeUpdate(updateQuery);	
 		} catch (SQLException e)  {
 			e.printStackTrace();
 			return ErrorType.ERROR;
@@ -91,8 +91,8 @@ public class AssessmentDAO implements IDao<Assessment>{
 	public ErrorType delete(String search, SearchBy searchBy) {
 		String updateQuery = "DELETE FROM assessments WHERE ";
 		try {
-			updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy);
-			DatabaseController.DATABASE_STATEMENT.executeUpdate(updateQuery + search + "'");	
+			updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy, search);
+			DatabaseController.DATABASE_STATEMENT.executeUpdate(updateQuery);	
 		} catch (SQLException e)  {
 			e.printStackTrace();
 			return ErrorType.ERROR;

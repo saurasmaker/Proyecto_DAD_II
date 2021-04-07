@@ -38,9 +38,7 @@ public class Delete extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		request.getRequestDispatcher(request.getHeader("referer")).forward(request, response);
-		
+		response.sendRedirect(request.getHeader("referer"));	
 	}
 
 	/**
@@ -90,7 +88,6 @@ public class Delete extends HttpServlet {
 		
 		}
 		
-		request.getRequestDispatcher(request.getHeader("referer")).forward(request, response);
 	}
 	
 	

@@ -36,8 +36,8 @@ public class CategoryDAO implements IDao<Category>{
 		
 		String selectQuery = "SELECT * FROM categories WHERE "; 
 		try {
-			selectQuery = IDao.appendSqlSearchBy(selectQuery, searchBy);
-			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(selectQuery + search + "'");	
+			selectQuery = IDao.appendSqlSearchBy(selectQuery, searchBy, search);
+			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(selectQuery);	
 			if(rs.next()) { //se valida si hay resultados
 				if(rs.getRow() == 1) {
 					category = new Category();
@@ -62,8 +62,8 @@ public class CategoryDAO implements IDao<Category>{
 				"WHERE ";
 		
 		try {
-			updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy);
-			DatabaseController.DATABASE_STATEMENT.executeUpdate(updateQuery + search + "'");	
+			updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy, search);
+			DatabaseController.DATABASE_STATEMENT.executeUpdate(updateQuery);	
 		} catch (SQLException e)  {
 			e.printStackTrace();
 			return ErrorType.ERROR;
@@ -76,8 +76,8 @@ public class CategoryDAO implements IDao<Category>{
 	public ErrorType delete(String search, SearchBy searchBy) {
 		String deleteQuery = "DELETE FROM categories WHERE ";
 		try {
-			deleteQuery = IDao.appendSqlSearchBy(deleteQuery, searchBy);
-			DatabaseController.DATABASE_STATEMENT.executeUpdate(deleteQuery + search + "'");	
+			deleteQuery = IDao.appendSqlSearchBy(deleteQuery, searchBy, search);
+			DatabaseController.DATABASE_STATEMENT.executeUpdate(deleteQuery);	
 		} catch (SQLException e)  {
 			e.printStackTrace();
 			return ErrorType.ERROR;

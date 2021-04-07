@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class ReadVideogame
  */
-@WebServlet({"/Read", "/read"})
+@WebServlet({"/READ", "/Read", "/read"})
 public class Read extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -25,10 +25,7 @@ public class Read extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-
-		
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		response.sendRedirect(request.getHeader("referer"));	
 	}
 
 	/**

@@ -20,12 +20,12 @@
     </div>
 	  
 	<div class = "col-lg-4 col-md-6 col-sm-12">
-      	<form id = "create-assessment-form" enctype = "multipart/form-data" class = "form-group" action = "<%= request.getContextPath() %>/CREATE" method = "POST">
+      	<form id = "create-assessment-form" class = "form-group" action = "<%= request.getContextPath() %>/CREATE" method = "POST">
 			
 			<input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Assessment.class.getName() %>" />
 			
 			<label for="assessment-input-id">ID: </label>
-			<p><input id = "assessment-input-id" type = "text" class="form-control" placeholder = "Introduce el nombre del producto..." name = "<%=Assessment.ATR_ASSESSMENT_ID %>" disabled></p>
+			<p><input id = "assessment-input-id" type = "text" class="form-control" placeholder = "Introduce el nombre del producto..." name = "<%=Assessment.ATR_ASSESSMENT_ID %>" readonly></p>
 				
 			<label for="assessment-input-value">Valor: </label>
 			<p><input id = "assessment-input-value" type = "text" class="form-control" placeholder = "Introduce el valor de la reseña..." name = "<%=Assessment.ATR_ASSESSMENT_VALUE %>" required></p>
@@ -66,12 +66,12 @@
 
 
 
-        <form id = "update-assessment-form" enctype = "multipart/form-data" class = "form-group" action = "<%= request.getContextPath() %>/UPDATE" method = "POST" style = "display: 'none';">
+        <form id = "update-assessment-form" class = "form-group" action = "<%= request.getContextPath() %>/UPDATE" method = "POST" style = "display: 'none';">
             
             <input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Assessment.class.getName() %>" />
             
             <label for="assessment-input-update-id">ID: </label>
-			<p><input id = "assessment-input-update-id" type = "text" class="form-control" placeholder = "Introduce el nombre del producto..." name = "<%=Assessment.ATR_ASSESSMENT_ID %>" disabled></p>
+			<p><input id = "assessment-input-update-id" type = "text" class="form-control" placeholder = "Introduce el nombre del producto..." name = "<%=Assessment.ATR_ASSESSMENT_ID %>" readonly></p>
 				
 			<label for="assessment-input-update-value">Valor: </label>
 			<p><input id = "assessment-input-update-value" type = "text" class="form-control" placeholder = "Introduce el valor de la reseña..." name = "<%=Assessment.ATR_ASSESSMENT_VALUE %>" required></p>

@@ -36,8 +36,8 @@ public class PurchaseDAO implements IDao<Purchase>{
 		
 		String updateQuery = "SELECT * FROM purchases WHERE "; 
 		try {
-			updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy);
-			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(updateQuery + search + "'");	
+			updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy, search);
+			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(updateQuery);	
 			if(rs.next()) { //se valida si hay resultados
 				if(rs.getRow() == 1) {
 					purchase = new Purchase();
@@ -64,8 +64,8 @@ public class PurchaseDAO implements IDao<Purchase>{
 				"WHERE ";
 		
 		try {
-			updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy);
-			DatabaseController.DATABASE_STATEMENT.executeUpdate(updateQuery + search + "'");	
+			updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy, search);
+			DatabaseController.DATABASE_STATEMENT.executeUpdate(updateQuery);	
 		} catch (SQLException e)  {
 			e.printStackTrace();
 			return ErrorType.ERROR;
@@ -78,8 +78,8 @@ public class PurchaseDAO implements IDao<Purchase>{
 	public ErrorType delete(String search, SearchBy searchBy) {
 		String deleteQuery = "DELETE FROM purchases WHERE ";
 		try {
-			deleteQuery = IDao.appendSqlSearchBy(deleteQuery, searchBy);
-			DatabaseController.DATABASE_STATEMENT.executeUpdate(deleteQuery + search + "'");	
+			deleteQuery = IDao.appendSqlSearchBy(deleteQuery, searchBy, search);
+			DatabaseController.DATABASE_STATEMENT.executeUpdate(deleteQuery);	
 		} catch (SQLException e)  {
 			e.printStackTrace();
 			return ErrorType.ERROR;

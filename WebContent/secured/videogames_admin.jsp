@@ -17,12 +17,12 @@
     </div>
 	  
 	<div class = "col-lg-4 col-md-6 col-sm-12">
-      	<form id = "create-videogame-form" enctype = "multipart/form-data" class = "form-group" action = "<%= request.getContextPath() %>/CREATE" method = "POST">
+      	<form id = "create-videogame-form" class = "form-group" action = "<%= request.getContextPath() %>/CREATE" method = "POST">
 			
 			<input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Videogame.class.getName() %>" />
 			
 			<label for="videogame-input-id">ID: </label>
-			<p><input id = "videogame-input-id" type = "text" class="form-control" placeholder = "ID del Usuario" name = "<%=Videogame.ATR_VIDEOGAME_ID %>" disabled></p>
+			<p><input id = "videogame-input-id" type = "text" class="form-control" placeholder = "ID del Usuario" name = "<%=Videogame.ATR_VIDEOGAME_ID %>" readonly></p>
 				
 			<label for="videogame-input-username">Nombre: </label>
 			<p><input id = "videogame-input-username" type = "text" class="form-control" placeholder = "Introduce el Nombre del Videojuego..." name = "<%=Videogame.ATR_VIDEOGAME_NAME %>" required></p>
@@ -47,17 +47,17 @@
 
 
 
-        <form id = "update-videogame-form" enctype = "multipart/form-data" class = "form-group" action = "<%= request.getContextPath() %>/UPDATE" method = "POST" style = "display: 'none';">
+        <form id = "update-videogame-form" class = "form-group" action = "<%= request.getContextPath() %>/UPDATE" method = "POST" style = "display: 'none';">
             <input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Videogame.class.getName() %>" />
 			
 			<label for="videogame-input-update-id">ID: </label>
-			<p><input id = "videogame-input-update-id" type = "text" class="form-control" placeholder = "ID del Usuario" name = "<%=Videogame.ATR_VIDEOGAME_ID %>" disabled></p>
+			<p><input id = "videogame-input-update-id" type = "text" class="form-control" placeholder = "ID del Usuario" name = "<%=Videogame.ATR_VIDEOGAME_ID %>" readonly></p>
 				
 			<label for="videogame-input-update-username">Nombre: </label>
 			<p><input id = "videogame-input-update-username" type = "text" class="form-control" placeholder = "Introduce el Nombre del Videojuego..." name = "<%=Videogame.ATR_VIDEOGAME_NAME %>" required></p>
 
 		    <label for="videogame-input-update-email">Descripción: </label>
-			<p><textarea id = "videogame-input-update-email" type = "email" class="form-control" placeholder = "Introduce el Correo Electrónico del Usuario..." name = "<%=Videogame.ATR_VIDEOGAME_DESCRIPTION %>" required></textarea></p>
+			<p><textarea id = "videogame-input-update-email" class="form-control" placeholder = "Introduce el Correo Electrónico del Usuario..." name = "<%=Videogame.ATR_VIDEOGAME_DESCRIPTION %>" required></textarea></p>
 
 			<label for="videogame-input-update-signupdate">Fecha de Lanzamiento: </label>
 			<p><input id = "videogame-input-update-signupdate" type = "datetime" class="form-control" name = "<%=Videogame.ATR_VIDEOGAME_RELEASEDATE %>" required></p>

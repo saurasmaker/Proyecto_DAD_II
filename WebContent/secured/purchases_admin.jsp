@@ -21,12 +21,12 @@
     </div>
 	  
 	<div class = "col-lg-4 col-md-6 col-sm-12">
-      	<form id = "create-purchase-form" enctype = "multipart/form-data" class = "form-group" action = "<%= request.getContextPath() %>/CREATE" method = "POST">
+      	<form id = "create-purchase-form" class = "form-group" action = "<%= request.getContextPath() %>/CREATE" method = "POST">
 			
 			<input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Purchase.class.getName() %>" />
 			
 			<label for="purchase-input-id">ID: </label>
-			<p><input id = "purchase-input-id" type = "text" class="form-control" placeholder = "Identificador de la categoría" name = "<%=Purchase.ATR_PURCHASE_ID %>" disabled></p>
+			<p><input id = "purchase-input-id" type = "text" class="form-control" placeholder = "Identificador de la categoría" name = "<%=Purchase.ATR_PURCHASE_ID %>" readonly></p>
 
 		    <label for="purchase-input-amount">Cantidad: </label>
 			<p><input id = "purchase-input-name" type = "number" step = "1" min = "1"  class="form-control" placeholder = "Introduce el nombre de la categoría..." name = "<%=Purchase.ATR_PURCHASE_AMOUNT %>" required></p>
@@ -54,11 +54,11 @@
 
 
 
-        <form id = "update-purchase-form" enctype = "multipart/form-data" class = "form-group" action = "<%= request.getContextPath() %>/UPDATE" method = "POST" style = "display: 'none';">
+        <form id = "update-purchase-form" class = "form-group" action = "<%= request.getContextPath() %>/UPDATE" method = "POST" style = "display: 'none';">
             <input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Purchase.class.getName() %>" />
 			
 			<label for="purchase-input-update-id">ID: </label>
-			<p><input id = "purchase-input-update-id" type = "text" class="form-control" placeholder = "Identificador de la categoría" name = "<%=Purchase.ATR_PURCHASE_ID %>" disabled></p>
+			<p><input id = "purchase-input-update-id" type = "text" class="form-control" placeholder = "Identificador de la categoría" name = "<%=Purchase.ATR_PURCHASE_ID %>" readonly></p>
 
 		    <label for="purchase-input-update-amount">Cantidad: </label>
 			<p><input id = "purchase-input-update-name" type = "number" step = "1" min = "1" class="form-control" placeholder = "Introduce el nombre de la categoría..." name = "<%=Purchase.ATR_PURCHASE_AMOUNT %>" required></p>

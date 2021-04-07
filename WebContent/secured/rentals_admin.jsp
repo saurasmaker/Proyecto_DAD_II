@@ -20,12 +20,12 @@
     </div>
 	  
 	<div class = "col-lg-4 col-md-6 col-sm-12">
-      	<form id = "create-rental-form" enctype = "multipart/form-data" class = "form-group" action = "<%= request.getContextPath() %>/CREATE" method = "POST">
+      	<form id = "create-rental-form" class = "form-group" action = "<%= request.getContextPath() %>/CREATE" method = "POST">
 			
 			<input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Rental.class.getName() %>" />
 			
 			<label for="rental-input-id">ID: </label>
-			<p><input id = "rental-input-id" type = "text" class="form-control" placeholder = "Identificador de la categoría" name = "<%=Rental.ATR_RENTAL_ID %>" disabled></p>
+			<p><input id = "rental-input-id" type = "text" class="form-control" placeholder = "Identificador de la categoría" name = "<%=Rental.ATR_RENTAL_ID %>" readonly></p>
 
 		    <label for="rental-input-userid">ID Usuario: </label>
 			<p><select id = "rental-input-userid" class="form-control" name = "<%=Rental.ATR_RENTAL_USERID %>">
@@ -60,11 +60,11 @@
 
 
 
-        <form id = "update-rental-form" enctype = "multipart/form-data" class = "form-group" action = "<%= request.getContextPath() %>/UPDATE" method = "POST" style = "display: 'none';">
+        <form id = "update-rental-form" class = "form-group" action = "<%= request.getContextPath() %>/UPDATE" method = "POST" style = "display: 'none';">
             <input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Rental.class.getName() %>" />
 			
 			<label for="rental-input-update-id">ID: </label>
-			<p><input id = "rental-input-id" type = "text" class="form-control" placeholder = "Identificador de la categoría" name = "<%=Rental.ATR_RENTAL_ID %>" disabled></p>
+			<p><input id = "rental-input-id" type = "text" class="form-control" placeholder = "Identificador de la categoría" name = "<%=Rental.ATR_RENTAL_ID %>" readonly></p>
 
 		    <label for="rental-input-update-userid">ID Usuario: </label>
 			<p><select id = "rental-input-update-userid" class="form-control" name = "<%=Rental.ATR_RENTAL_USERID %>">

@@ -2,6 +2,8 @@ package edu.ucam.servlets.crud;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -32,7 +34,7 @@ import edu.ucam.servlets.Controller;
 /**
  * Servlet implementation class UpdateVideogame
  */
-@WebServlet({"/Update", "/update"})
+@WebServlet({"/UPDATE", "/Update", "/update"})
 public class Update extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -47,9 +49,7 @@ public class Update extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		request.getRequestDispatcher(request.getHeader("referer")).forward(request, response);
-		
+		response.sendRedirect(request.getHeader("referer"));
 	}
 
 	/**
@@ -98,9 +98,7 @@ public class Update extends HttpServlet {
 			break;
 		
 		}
-		
-		request.getRequestDispatcher(request.getHeader("referer")).forward(request, response);
-		
+				
 		doGet(request, response);
 	}
 	
@@ -116,10 +114,8 @@ public class Update extends HttpServlet {
 		updateAssessment.setUserId(request.getParameter(Assessment.ATR_ASSESSMENT_USERID));
 		
 		if(updateAssessment.getSubject() != null && updateAssessment.getComment() != null && updateAssessment.getPublicationDate() != null && 
-				updateAssessment.getEditDate() != null && updateAssessment.getVideogameId() != null && updateAssessment.getUserId() != null) {
-			AssessmentDAO assessmentDao = new AssessmentDAO();
-			return assessmentDao.update(updateAssessment.getId(), SearchBy.ID, updateAssessment);
-		}
+				updateAssessment.getEditDate() != null && updateAssessment.getVideogameId() != null && updateAssessment.getUserId() != null)
+			return (new AssessmentDAO()).update(updateAssessment.getId(), SearchBy.ID, updateAssessment);
 		
 		return ErrorType.PARAMETER_NULL;
 	}
@@ -134,8 +130,7 @@ public class Update extends HttpServlet {
 		
 		
 		if(updateBill.getUserId() != null && updateBill.getPurchaseDate() != null) {
-			BillDAO billDao = new BillDAO();
-			return billDao.update(updateBill.getId(), SearchBy.ID, updateBill);
+			return (new BillDAO()).update(updateBill.getId(), SearchBy.ID, updateBill);
 		}
 		
 		return ErrorType.PARAMETER_NULL;
@@ -146,11 +141,9 @@ public class Update extends HttpServlet {
 		Category updateCategory = new Category(request.getParameter(Category.ATR_CATEGORY_NAME), request.getParameter(Category.ATR_CATEGORY_DESCRIPTION));
 		updateCategory.setId(request.getParameter(Category.ATR_CATEGORY_ID));
 		
-		if(updateCategory.getName() != null && updateCategory.getDescription() != null) {
-			CategoryDAO categoryDao = new CategoryDAO();
-			return categoryDao.update(updateCategory.getId(), SearchBy.ID, updateCategory);
-		}
-		
+		if(updateCategory.getName() != null && updateCategory.getDescription() != null) 
+			return (new CategoryDAO()).update(updateCategory.getId(), SearchBy.ID, updateCategory);
+			
 		return ErrorType.PARAMETER_NULL;
 	}
 	
@@ -162,11 +155,9 @@ public class Update extends HttpServlet {
 		updatePurchase.setBillId(request.getParameter(Purchase.ATR_PURCHASE_BILLID));
 		updatePurchase.setVideogameId(request.getParameter(Purchase.ATR_PURCHASE_VIDEOGAMEID));
 
-		if(updatePurchase.getBillId() != null && updatePurchase.getVideogameId() != null) {
-			PurchaseDAO purchaseDao = new PurchaseDAO();
-			return purchaseDao.update(updatePurchase.getId(), SearchBy.ID, updatePurchase);
-		}
-		
+		if(updatePurchase.getBillId() != null && updatePurchase.getVideogameId() != null) 
+			return (new PurchaseDAO()).update(updatePurchase.getId(), SearchBy.ID, updatePurchase);
+			
 		return ErrorType.PARAMETER_NULL;
 	}
 	
@@ -181,25 +172,22 @@ public class Update extends HttpServlet {
 		updateRental.setEndDate(Date.valueOf(request.getParameter(Rental.ATR_RENTAL_ENDDATE)));
 		updateRental.setReturned(Boolean.valueOf(request.getParameter(Rental.ATR_RENTAL_RETURNED)));
 
-		if(updateRental.getUserId() != null && updateRental.getVideogameId() != null) {
-			RentalDAO rentalDao = new RentalDAO();
-			return rentalDao.update(updateRental.getId(), SearchBy.ID, updateRental);
-		}
+		if(updateRental.getUserId() != null && updateRental.getVideogameId() != null)
+			return (new RentalDAO()).update(updateRental.getId(), SearchBy.ID, updateRental);
 		
 		return ErrorType.PARAMETER_NULL;
 	}
 
 	private ErrorType updateUser(HttpServletRequest request) {
-		
 		User updateUser = new User(request.getParameter(User.ATR_USER_USERNAME), request.getParameter(User.ATR_USER_EMAIL), request.getParameter(User.ATR_USER_PASSWORD));
 		updateUser.setId(request.getParameter(User.ATR_USER_ID));
-		updateUser.setSignUpDate(Date.valueOf(request.getParameter(User.ATR_USER_SIGNUPDATE)));
-		updateUser.setLastSignIn(Date.valueOf(request.getParameter(User.ATR_USER_LASTSIGNIN)));
+		updateUser.setSignUpDate(Timestamp.valueOf(request.getParameter(User.ATR_USER_SIGNUPDATE).replace("T"," ")+":00.0"));
+		updateUser.setLastSignIn(Timestamp.valueOf(request.getParameter(User.ATR_USER_LASTSIGNIN).replace("T"," ")+":00.0"));
 		
-		if(updateUser.getUsername() != null && updateUser.getEmail() != null && updateUser.getPassword() != null) {
-			UserDAO userDao = new UserDAO();
-			return userDao.update(updateUser.getId(), SearchBy.ID, updateUser);
-		}
+		System.out.println(updateUser.getId());
+		
+		if(updateUser.getUsername() != null && updateUser.getEmail() != null && updateUser.getPassword() != null)
+			return (new UserDAO()).update(updateUser.getId(), SearchBy.ID, updateUser);
 		
 		return ErrorType.PARAMETER_NULL;
 	}
@@ -212,11 +200,9 @@ public class Update extends HttpServlet {
 		newVideogame.setPurchasePrice(Float.parseFloat(request.getParameter(Videogame.ATR_VIDEOGAME_PURCHASEPRICE)));
 		newVideogame.setRentalPrice(Float.parseFloat(request.getParameter(Videogame.ATR_VIDEOGAME_RENTALPRICE)));
 	
-		if(newVideogame.getName() != null && newVideogame.getDescription() != null && newVideogame.getReleaseDate() != null) {
-			VideogameDAO videogameDao = new VideogameDAO();
-			return videogameDao.update(newVideogame.getId(), SearchBy.ID, newVideogame);
-		}
-		
+		if(newVideogame.getName() != null && newVideogame.getDescription() != null && newVideogame.getReleaseDate() != null) 
+			return (new VideogameDAO()).update(newVideogame.getId(), SearchBy.ID, newVideogame);
+				
 		return ErrorType.PARAMETER_NULL;
 	}
 
@@ -226,10 +212,8 @@ public class Update extends HttpServlet {
 				request.getParameter(VideogamesCategories.ATR_VIDEOGAMESCATEGORIES_CATEGORYID));
 		newVideogamesCategories.setId(request.getParameter(VideogamesCategories.ATR_VIDEOGAMESCATEGORIES_ID));
 		
-		if(newVideogamesCategories.getCategoryId() != null && newVideogamesCategories.getVideogameId() != null) {
-			VideogamesCategoriesDAO videogamesCategoriesDao = new VideogamesCategoriesDAO();
-			videogamesCategoriesDao.create(newVideogamesCategories);
-		}
+		if(newVideogamesCategories.getCategoryId() != null && newVideogamesCategories.getVideogameId() != null) 
+			(new VideogamesCategoriesDAO()).create(newVideogamesCategories);		
 		
 		return ErrorType.PARAMETER_NULL;
 	}
