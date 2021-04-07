@@ -2,6 +2,7 @@ package edu.ucam.servlets.crud;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -169,8 +170,12 @@ public class Create extends HttpServlet {
 	
 	
 	private void createUser(HttpServletRequest request) {
-		System.out.println("Creating User");
 		User newUser = new User(request.getParameter(User.ATR_USER_USERNAME), request.getParameter(User.ATR_USER_EMAIL), request.getParameter(User.ATR_USER_PASSWORD));
+		
+		String buffer = request.getParameter(User.ATR_USER_SIGNUPDATE);
+		if(buffer!=null) newUser.setSignUpDate(Timestamp.valueOf(buffer.replace("T"," ")));
+		buffer = request.getParameter(User.ATR_USER_LASTSIGNIN);
+		if(buffer != null)newUser.setLastSignIn(Timestamp.valueOf(buffer.replace("T"," ")));
 		
 		if(newUser.getUsername() != null && newUser.getEmail() != null && newUser.getPassword() != null) 
 			(new UserDAO()).create(newUser);

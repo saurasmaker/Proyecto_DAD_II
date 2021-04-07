@@ -20,20 +20,7 @@ public class UserDAO implements IDao<User>{
 	 */
 	@Override
 	public ErrorType create(User user) {
-		try {
-			if(read(user.getUsername(), SearchBy.USERNAME)!=null) {
-				return ErrorType.USER_EXISTS;
-			}
-					
-			DatabaseController.DATABASE_STATEMENT.executeUpdate("INSERT INTO users (username, email, password) " + 
-						"VALUES ('" + user.getUsername() + "', '" + user.getEmail() + "', '" + user.getPassword() + "')");		
-			
-			return ErrorType.NO_ERROR;
-			
-		} catch (NullPointerException | SQLException e) {
-			e.printStackTrace();
-			return ErrorType.JDBC_ERROR_CONNECTION;
-		}
+		return prepareStatement("INSERT INTO users (username, email, password, sign_up_date, last_sign_in) VALUES (?, ?, ?, ?, ?)", user);	
 	}
 
 	
@@ -48,13 +35,7 @@ public class UserDAO implements IDao<User>{
 			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(selectQuery);	
 			if(rs.next()) { //se valida si hay resultados
 				if(rs.getRow() == 1) {
-					user = new User();
-					user.setId(rs.getString("id"));
-					user.setUsername(rs.getString("username"));
-					user.setEmail(rs.getString("email"));
-					user.setPassword(rs.getString("password"));
-					user.setSignUpDate(rs.getTimestamp("sign_up_date"));
-					user.setLastSignIn(rs.getTimestamp("last_sign_in"));
+					user = setUserAttributes(rs);
 				}
 			}
 			rs.close();
@@ -69,24 +50,8 @@ public class UserDAO implements IDao<User>{
 	@Override
 	public ErrorType update(String search, SearchBy searchBy, User user) {
 		String updateQuery = "UPDATE users SET username = ?, email = ?, password = ?, sign_up_date = ?, last_sign_in = ? WHERE ";
-		
-		try {
-			updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy, search);			
-			
-			PreparedStatement preparedStatement = DatabaseController.DATABASE_CONNECTION.prepareStatement(updateQuery);
-			preparedStatement.setString(1, user.getUsername());
-			preparedStatement.setString(2, user.getEmail());
-			preparedStatement.setString(3, user.getPassword());
-			preparedStatement.setTimestamp(4, user.getSignUpDate());
-			preparedStatement.setTimestamp(5, user.getLastSignIn());
-						
-			preparedStatement.execute();
-			preparedStatement.close();
-		} catch (SQLException e)  {
-			e.printStackTrace();
-			return ErrorType.ERROR;
-		}	
-		
+		updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy, search);			
+		prepareStatement(updateQuery, user);
 		return ErrorType.NO_ERROR;
 	}
 
@@ -116,14 +81,7 @@ public class UserDAO implements IDao<User>{
 		try {
 			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(selectQuery);					
 			while(rs.next()) {
-				User user = new User();
-				user.setId(rs.getString("id"));
-				user.setUsername(rs.getString("username"));
-				user.setEmail(rs.getString("email"));
-				user.setPassword(rs.getString("password"));
-				user.setSignUpDate(rs.getTimestamp("sign_up_date"));
-				user.setLastSignIn(rs.getTimestamp("last_sign_in"));
-				
+				User user = setUserAttributes(rs);
 				usersList.add(user);
 			}	
 			rs.close();
@@ -135,4 +93,43 @@ public class UserDAO implements IDao<User>{
 	}
 	
 
+	
+	/*
+	 * Tool Methods
+	 */
+	private ErrorType prepareStatement(String query, User user) {
+		PreparedStatement preparedStatement = null;
+		try {
+			preparedStatement = DatabaseController.DATABASE_CONNECTION.prepareStatement(query);
+			preparedStatement.setString(1, user.getUsername());
+			preparedStatement.setString(2, user.getEmail());
+			preparedStatement.setString(3, user.getPassword());
+			preparedStatement.setTimestamp(4, user.getSignUpDate());
+			preparedStatement.setTimestamp(5, user.getLastSignIn());
+			
+			preparedStatement.execute();
+			preparedStatement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return ErrorType.DATABASE_STATEMENT_ERROR;
+		}
+		return ErrorType.NO_ERROR;
+	}
+	
+	private User setUserAttributes(ResultSet rs) {
+		User user = null;
+		try {
+			user = new User();
+			user.setId(rs.getString("id"));
+			user.setUsername(rs.getString("username"));
+			user.setEmail(rs.getString("email"));
+			user.setPassword(rs.getString("password"));
+			user.setSignUpDate(rs.getTimestamp("sign_up_date"));
+			user.setLastSignIn(rs.getTimestamp("last_sign_in"));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return user;
+	}
 }

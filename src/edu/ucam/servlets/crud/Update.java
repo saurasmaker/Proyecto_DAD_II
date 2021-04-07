@@ -180,8 +180,12 @@ public class Update extends HttpServlet {
 	private ErrorType updateUser(HttpServletRequest request) {
 		User updateUser = new User(request.getParameter(User.ATR_USER_USERNAME), request.getParameter(User.ATR_USER_EMAIL), request.getParameter(User.ATR_USER_PASSWORD));
 		updateUser.setId(request.getParameter(User.ATR_USER_ID));
-		updateUser.setSignUpDate(Timestamp.valueOf(request.getParameter(User.ATR_USER_SIGNUPDATE).replace("T"," ")+":00.0"));
-		updateUser.setLastSignIn(Timestamp.valueOf(request.getParameter(User.ATR_USER_LASTSIGNIN).replace("T"," ")+":00.0"));
+		String buffer = request.getParameter(User.ATR_USER_SIGNUPDATE);
+		System.out.println(buffer.replace("T"," ")+":00.0");
+
+		if(buffer!=null) updateUser.setSignUpDate(Timestamp.valueOf(buffer.replace("T"," ")));
+		buffer = request.getParameter(User.ATR_USER_LASTSIGNIN);
+		if(buffer != null)updateUser.setLastSignIn(Timestamp.valueOf(buffer.replace("T"," ")));
 				
 		if(updateUser.getUsername() != null && updateUser.getEmail() != null && updateUser.getPassword() != null)
 			return (new UserDAO()).update(updateUser.getId(), SearchBy.ID, updateUser);
