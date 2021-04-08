@@ -1,8 +1,6 @@
 
 function displayAdminPage (){
-	
-	alert("displayed");
-	
+		
 	document.getElementById("update-assessment-form").style.display = "none";
 	document.getElementById("update-bill-form").style.display = "none";
 	document.getElementById("update-category-form").style.display = "none";
@@ -11,6 +9,11 @@ function displayAdminPage (){
 	document.getElementById("update-user-form").style.display = "none";
 	document.getElementById("update-videogame-form").style.display = "none";
 	  
+	document.getElementById("videogameimage-title").style.display = "none";
+    document.getElementById("videogamecategory-title").style.display = "none";
+    document.getElementById("table-videogameimage").style.display = "none";
+    document.getElementById("table-videogamescategories").style.display = "none";
+	
 	document.getElementById("add-videogameimage-form").style.display = "none";
 	document.getElementById("add-videogamecategory-form").style.display = "none";
 }
@@ -103,6 +106,11 @@ function updateVideogame(id, name, description, releaseDate, stock, purchasePric
     document.getElementById("add-videogameimage-form").style.display = "block";
     document.getElementById("add-videogamecategory-form").style.display = "block";
     
+    document.getElementById("videogameimage-title").style.display = "block";
+    document.getElementById("videogamecategory-title").style.display = "block";
+    document.getElementById("table-videogameimage").style.display = "block";
+    document.getElementById("table-videogamescategories").style.display = "block";
+    
     document.getElementById("input-send-videogameimage").value = "Anadir imagen a '" + name + "'";
     document.getElementById("input-send-videogamecategory").value = "Anadir categoria a '" + name + "'";
     
@@ -116,9 +124,6 @@ function updateVideogame(id, name, description, releaseDate, stock, purchasePric
     
     document.getElementById("videogameimage-input-idvideogame").value = id;
 }
-
-
-
 
 
 function cancelUpdateAssessment(){
@@ -155,6 +160,11 @@ function cancelUpdateUser(){
 function cancelUpdateVideogame(){
 	document.getElementById("create-videogame-form").style.display = "block";
     document.getElementById("update-videogame-form").style.display = "none";
+    
+    document.getElementById("videogameimage-title").style.display = "none";
+    document.getElementById("videogamecategory-title").style.display = "none";
+    document.getElementById("table-videogameimage").style.display = "none";
+    document.getElementById("table-videogamescategories").style.display = "none";
     
     document.getElementById("add-videogameimage-form").style.display = "none";
     document.getElementById("add-videogamecategory-form").style.display = "none";

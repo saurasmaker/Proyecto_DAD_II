@@ -13,6 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import org.apache.tomcat.util.http.fileupload.FileUpload;
+import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
+
 import edu.ucam.daos.AssessmentDAO;
 import edu.ucam.daos.BillDAO;
 import edu.ucam.daos.CategoryDAO;
@@ -219,7 +222,8 @@ public class Create extends HttpServlet {
 	
 	
 	private void createVideogamesImages(HttpServletRequest request) {
-		
+
+		if(ServletFileUpload.isMultipartContent(request)) System.out.println("Me cago en todo");;
 		VideogameImage newVideogameImage = new VideogameImage();
 		newVideogameImage.setName(request.getParameter(VideogameImage.ATR_VIDEOGAMEIMAGE_NAME));
 		newVideogameImage.setVideogameId(request.getParameter(VideogameImage.ATR_VIDEOGAMEIMAGE_VIDEOGAMEID));
@@ -232,6 +236,8 @@ public class Create extends HttpServlet {
 		} catch (IOException | ServletException e) {
 			e.printStackTrace();
 		}	
+		
+		System.out.println(filePart.getContentType());
 		
 		
 		if(newVideogameImage.getName() != null && newVideogameImage.getVideogameId() != null && newVideogameImage.getImage() != null)
