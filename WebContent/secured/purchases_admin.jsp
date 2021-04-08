@@ -115,7 +115,7 @@
                             <button type = "submit" class="btn btn-warning" onclick = "updatePurchase(<%= showPurchase.toJavaScriptFunction()%>)">Editar</button>
                         </td>
                         <td>
-							<form action = "<%= request.getServletContext() %>/DELETE" method = "POST">
+							<form action = "<%= request.getContextPath() %>/DELETE" method = "POST">
                            		<input type = "hidden" name = "<%=Purchase.ATR_PURCHASE_ID %>" value = "<%=showPurchase.getId() %>">
                            		<input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Purchase.class.getName() %>">   
                            		<button type = "submit" class="btn btn-danger">Eliminar</button>

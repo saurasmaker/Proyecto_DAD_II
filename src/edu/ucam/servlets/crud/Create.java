@@ -17,7 +17,7 @@ import edu.ucam.daos.PurchaseDAO;
 import edu.ucam.daos.RentalDAO;
 import edu.ucam.daos.UserDAO;
 import edu.ucam.daos.VideogameDAO;
-import edu.ucam.daos.VideogamesCategoriesDAO;
+import edu.ucam.daos.VideogameCategoryDAO;
 import edu.ucam.pojos.*;
 import edu.ucam.servlets.Controller;
 
@@ -198,11 +198,11 @@ public class Create extends HttpServlet {
 	
 	private void createVideogamesCategories(HttpServletRequest request) {
 		
-		VideogamesCategories newVideogamesCategories = new VideogamesCategories(request.getParameter(VideogamesCategories.ATR_VIDEOGAMESCATEGORIES_VIDEOGAMEID),
-				request.getParameter(VideogamesCategories.ATR_VIDEOGAMESCATEGORIES_CATEGORYID));
+		VideogameCategory newVideogamesCategories = new VideogameCategory(request.getParameter(VideogameCategory.ATR_VIDEOGAMESCATEGORIES_VIDEOGAMEID),
+				request.getParameter(VideogameCategory.ATR_VIDEOGAMESCATEGORIES_CATEGORYID));
 		
 		if(newVideogamesCategories.getCategoryId() != null && newVideogamesCategories.getVideogameId() != null)
-			(new VideogamesCategoriesDAO()).create(newVideogamesCategories);
+			(new VideogameCategoryDAO()).create(newVideogamesCategories);
 		
 		
 	}

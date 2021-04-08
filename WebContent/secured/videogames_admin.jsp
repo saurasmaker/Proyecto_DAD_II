@@ -4,13 +4,19 @@
 <%@ page import = "java.util.ArrayList" %>
 
 <%@ page import = "edu.ucam.pojos.Videogame" %>
+<%@ page import = "edu.ucam.pojos.Category" %>
+<%@ page import = "edu.ucam.pojos.VideogameImage" %>
+<%@ page import = "edu.ucam.pojos.VideogameCategory" %>
 
 <%@ page import = "edu.ucam.daos.VideogameDAO" %>
+<%@ page import = "edu.ucam.daos.CategoryDAO" %>
+<%@ page import = "edu.ucam.daos.VideogameImageDAO" %>
+<%@ page import = "edu.ucam.daos.VideogameCategoryDAO" %>
 
 <%@ page import = "edu.ucam.servlets.Controller" %>
 
 
-	<div class = "col-12">
+	<div id = "videogames-title" class = "col-12">
         <h3 class = "display-3">Videojuegos</h3>
         <hr width = "25%" align = "left"/>
         <br/>
@@ -47,7 +53,7 @@
 
 
 
-        <form id = "update-videogame-form" class = "form-group" action = "<%= request.getContextPath() %>/UPDATE" method = "POST" style = "display: 'none';">
+        <form id = "update-videogame-form" class = "form-group" action = "<%= request.getContextPath() %>/UPDATE" method = "POST">
             <input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Videogame.class.getName() %>" />
 			
 			<label for="videogame-input-update-id">ID: </label>
@@ -73,9 +79,10 @@
 
             <p>
                 <input id = "input-edit-send" type = "submit" class="btn btn-primary" value = "Editar">
-                <button id = "input-edit-send" class="btn btn-secondary" role="button" onclick = "cancelUpdateVideogame()" style = "margin-left: 10px;">Cancelar</button>
+                <button id = "input-edit-send" class="btn btn-secondary" type = "button" role="button" onclick = "cancelUpdateVideogame()" style = "margin-left: 10px;">Cancelar</button>
             </p>
         </form>
+          
     </div>
 
     
@@ -110,7 +117,10 @@
                         <td><%=showVideogame.getRentalPrice() %></td>
                         
                         <td>
-                            <button class="btn btn-warning" onclick = "updateVideogame(<%=showVideogame.toJavaScriptFunction() %>)">Editar</button>
+                            <a class="btn btn-warning" 
+                            	href = "<%=request.getContextPath() %>/secured/admin_page.jsp?UPDATE_VIDEOGAME_PARAMETERS=<%=showVideogame.toJavaScriptFunction() %>&<%=Videogame.ATR_VIDEOGAME_ID %>=<%=showVideogame.getId() %>#videogames-title" >
+                            	Editar
+                            </a>
                         </td>
                         <td>
 							<form action = "<%= request.getContextPath() %>/DELETE" method = "POST">
@@ -126,5 +136,113 @@
             </table>
         </div>
     </div>
+	
+	
+	<% 
+	String updateVideogameParameters = request.getParameter("UPDATE_VIDEOGAME_PARAMETERS");
+	String videogameId = request.getParameter(Videogame.ATR_VIDEOGAME_ID);
+	if(updateVideogameParameters != null && videogameId != null) { 
+	%>
+		
+	<!-- AÑADIR IMAGEN AL VIDEOJUEGO SELECCIONADO -->
+	<div class = "col-lg-4 col-md-6 col-sm-12">
+		<form id = "add-videogameimage-form" class = "form-group" enctype='multipart/form-data' action = "<%= request.getContextPath() %>/ADDIMAGE" method = "POST">
+        	
+        	<input id = "videogameimage-input-idvideogame" value = "<%=videogameId %>" type = "hidden" name = "<%=VideogameImage.ATR_VIDEOGAMEIMAGE_VIDEOGAMEID %>">
+        	
+        	<label for="videogameimage-input-image">Imagen: </label>
+			<p><input id = "videogameimage-input-image" type = "file" accept="image/*" class="form-control" name = "<%=VideogameImage.ATR_VIDEOGAMEIMAGE_IMAGE %>" required></p>												
+            <p><input id = "input-send-videogameimage" type = "submit" class="btn btn-primary" value = "Añadir imagen a "></p>
+        </form>
+	</div>
+	
+	<div class = "col-lg-8 col-md-6 col-sm-12">
+	 	<table class="table table-striped">
+	 		<tbody>
+	 			<tr>
+		 			<% ArrayList<VideogameImage> videogameImagesVideogameList = (new VideogameImageDAO()).listByVideogameId(videogameId);
+		 			for(int i = 0; i < videogameImagesVideogameList.size(); ++i) {
+		 				VideogameImage showVideogameImage = videogameImagesVideogameList.get(i); %>
+		 				
+		 				<td><img src = "<%=showVideogameImage.getImage() %>" name = "<%=showVideogameImage.getName() %>"/></td>
+		 				
+		 			<% } %>
+	 			</tr>
+	 			<tr>
+		 			<% for(int i = 0; i < videogameImagesVideogameList.size(); ++i) {
+		 				VideogameImage showVideogameImage = videogameImagesVideogameList.get(i); %>
+		 				
+		 				<td>
+							<form action = "<%= request.getContextPath() %>/DELETE" method = "POST">
+                           		<input type = "hidden" name = "<%=VideogameImage.ATR_VIDEOGAMEIMAGE_ID %>" value = "<%=showVideogameImage.getId() %>">
+                           		<input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=VideogameImage.class.getName() %>">
+                           		<button type = "submit" class="btn btn-danger">Eliminar</button>
+                        	</form>
+                        </td>
+		 				
+		 			<% } %>
+	 			</tr>
+	 		</tbody>
+	 	</table>
+	</div>
+	
+	
+	
+	
+	<!-- AÑADIR CATEGORÍA AL VIDEOJUEGO SELECCIONADO -->
+	<div class = "col-lg-4 col-md-6 col-sm-12">
+	
+		<form id = "add-videogamecategory-form" class = "form-group" action = "<%= request.getContextPath() %>/ADDCATEGORY" method = "POST">
+        	<label for="videogame-input-category">Category: </label>
+			<p><select id = "videogame-input-category" class="form-control" name = "<%=Videogame.ATR_VIDEOGAME_CATEGORY %>">
+			  <option value="none" selected>Select a User...</option>
+			  <% 
+			  ArrayList<Category> categoriesVideogameList = (new CategoryDAO()).list();
+			  for(int i = 0; i < categoriesVideogameList.size(); ++i) { %>
+				  <option value="<%=categoriesVideogameList.get(i).getId() %>"><%=categoriesVideogameList.get(i).getName() %></option>
+			  <% } %>
+			</select></p>												
+            <p><input id = "input-send-videogamecategory" type = "submit" class="btn btn-primary" value = "Añadir categoria a "></p>
+        </form>
+    </div>
+    
+    
+    <div class = "col-lg-8 col-md-6 col-sm-12">
+	 	<table class="table table-striped">
+	 		<tbody>
+	 			<tr>
+	 				<% 
+	 				ArrayList<Category> categoriesByVideogameIdList = 
+	 					(new CategoryDAO()).listByVideogameId(request.getParameter(videogameId));
+		 			for(int i = 0; i < categoriesByVideogameIdList.size(); ++i) {
+						Category showCategory =  categoriesByVideogameIdList.get(i); %>
+		 				
+		 				<td><%=showCategory.getName() %></td>
+		 				
+		 			<% } %>
+	 			</tr>
+	 			<tr>
+		 			<% for(int i = 0; i < videogameImagesVideogameList.size(); ++i) {
+		 				VideogameImage showVideogameImage = videogameImagesVideogameList.get(i); %>
+		 				
+		 				<td>
+							<form action = "<%= request.getContextPath() %>/DELETE" method = "POST">
+                           		<input type = "hidden" name = "<%=VideogameImage.ATR_VIDEOGAMEIMAGE_ID %>" value = "<%=showVideogameImage.getId() %>">
+                           		<input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=VideogameImage.class.getName() %>">
+                           		<button type = "submit" class="btn btn-danger">Eliminar</button>
+                        	</form>
+                        </td>
+		 				
+		 			<% } %>
+	 			</tr>
+	 		</tbody>
+	 	</table>
+	</div>
+	
+	
+	
+	<% } %>
+	
+	
 	
 	<br/>  

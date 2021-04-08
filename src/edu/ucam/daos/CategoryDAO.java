@@ -1,5 +1,6 @@
 package edu.ucam.daos;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -9,6 +10,8 @@ import edu.ucam.enums.ErrorType;
 import edu.ucam.enums.SearchBy;
 import edu.ucam.interfaces.IDao;
 import edu.ucam.pojos.Category;
+import edu.ucam.pojos.VideogameCategory;
+import edu.ucam.pojos.VideogameImage;
 
 public class CategoryDAO implements IDao<Category>{
 
@@ -17,16 +20,7 @@ public class CategoryDAO implements IDao<Category>{
 	 */
 	@Override
 	public ErrorType create(Category category) {
-		try {	
-			DatabaseController.DATABASE_STATEMENT.executeUpdate("INSERT INTO categories (name, description) " + 
-						"VALUES ('" + category.getName() + "', '" + category.getDescription() + "')");		
-			
-			return ErrorType.NO_ERROR;
-			
-		} catch (NullPointerException | SQLException e) {
-			e.printStackTrace();
-			return ErrorType.JDBC_ERROR_CONNECTION;
-		}
+		return executeQueryWithParameters("INSERT INTO categories (name, description) VALUES (?, ?)", category);
 	}
 
 	@Override
@@ -40,10 +34,7 @@ public class CategoryDAO implements IDao<Category>{
 			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(selectQuery);	
 			if(rs.next()) { //se valida si hay resultados
 				if(rs.getRow() == 1) {
-					category = new Category();
-					category.setId(rs.getString("id"));
-					category.setName(rs.getString("name"));
-					category.setDescription(rs.getString("description"));
+					category = setCategoryAttributes(rs);
 				}
 			}
 			rs.close();
@@ -56,20 +47,9 @@ public class CategoryDAO implements IDao<Category>{
 
 	@Override
 	public ErrorType update(String search, SearchBy searchBy, Category category) {
-		String updateQuery = "UPDATE categories SET " + 
-				"username = '" + category.getName()  + "', " + 
-				"email = '" +  category.getDescription() + "', " + 
-				"WHERE ";
-		
-		try {
-			updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy, search);
-			DatabaseController.DATABASE_STATEMENT.executeUpdate(updateQuery);	
-		} catch (SQLException e)  {
-			e.printStackTrace();
-			return ErrorType.ERROR;
-		}	
-		
-		return ErrorType.NO_ERROR;
+		String updateQuery = "UPDATE categories SET name = ?, description = ? WHERE ";
+		updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy, search);
+		return executeQueryWithParameters(updateQuery, category);
 	}
 
 	@Override
@@ -90,24 +70,88 @@ public class CategoryDAO implements IDao<Category>{
 	public ArrayList<Category> list() {
 		String selectQuery = "SELECT * FROM categories"; 		
 		ResultSet rs = null;
-		ArrayList<Category> usersList = new ArrayList<Category>();
+		ArrayList<Category> categoriesList = new ArrayList<Category>();
 		
 		try {
 			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(selectQuery);					
 			while(rs.next()) {
-				Category category = new Category();
-				category.setId(rs.getString("id"));
-				category.setName(rs.getString("name"));
-				category.setDescription(rs.getString("description"));
-				
-				usersList.add(category);
+				Category category = setCategoryAttributes(rs);
+				categoriesList.add(category);
 			}
 			rs.close();
 		} catch (SQLException e)  {
 			e.printStackTrace();
 		}	
 		
-		return usersList;
+		return categoriesList;
+	}
+	
+	/*
+	 * Tool Methods
+	 */
+	public ArrayList<Category> listByVideogameId(String videogameId) {
+		
+		ArrayList<Category> categoriesList = new ArrayList<Category>();
+			
+		ResultSet rs = null;
+		
+		String updateQuery = "SELECT * FROM videogames_categories WHERE videogame_id = '" + videogameId + "'"; 
+		try {
+			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(updateQuery);					
+			while(rs.next()) {
+				VideogameCategory videogameCategory = setVideogameCategoryAttributes(rs);
+				categoriesList.add(read(videogameCategory.getCategoryId(), SearchBy.ID));
+			}	
+			rs.close();
+		} catch (SQLException e)  {
+			e.printStackTrace();
+		}	
+			
+		return categoriesList;
+	}
+	
+	private ErrorType executeQueryWithParameters(String query, Category category) {
+		PreparedStatement preparedStatement = null;
+		try {
+			preparedStatement = DatabaseController.DATABASE_CONNECTION.prepareStatement(query);
+			preparedStatement.setString(1, category.getName());
+			preparedStatement.setString(2, category.getDescription());
+			
+			preparedStatement.execute();
+			preparedStatement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return ErrorType.DATABASE_STATEMENT_ERROR;
+		}
+		return ErrorType.NO_ERROR;
+	}
+	
+	private Category setCategoryAttributes(ResultSet rs) {
+		Category category = null;
+		try {
+			category = new Category();
+			category.setId(rs.getString("id"));
+			category.setName(rs.getString("name"));
+			category.setDescription(rs.getString("description"));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return category;
+	}
+	
+	private VideogameCategory setVideogameCategoryAttributes(ResultSet rs) {
+		VideogameCategory category = null;
+		try {
+			category = new VideogameCategory();
+			category.setId(rs.getString("id"));
+			category.setVideogameId(rs.getString("videogame_id"));
+			category.setCategoryId(rs.getString("category_id"));	
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return category;
 	}
 
 }

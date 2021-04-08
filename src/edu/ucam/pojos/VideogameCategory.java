@@ -2,7 +2,7 @@ package edu.ucam.pojos;
 
 import edu.ucam.interfaces.IMyPojo;
 
-public class VideogamesCategories implements IMyPojo{
+public class VideogameCategory implements IMyPojo{
 	
 	/*
 	 * Static Attributes
@@ -54,11 +54,11 @@ public class VideogamesCategories implements IMyPojo{
 	/*
 	 * Constructors
 	 */
-	public VideogamesCategories() {
+	public VideogameCategory() {
 		
 	}
 	
-	public VideogamesCategories(String videogameId, String categoryId) {
+	public VideogameCategory(String videogameId, String categoryId) {
 		this.videogameId = videogameId;
 		this.categoryId = categoryId;
 	}

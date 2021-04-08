@@ -17,7 +17,7 @@ import edu.ucam.daos.PurchaseDAO;
 import edu.ucam.daos.RentalDAO;
 import edu.ucam.daos.UserDAO;
 import edu.ucam.daos.VideogameDAO;
-import edu.ucam.daos.VideogamesCategoriesDAO;
+import edu.ucam.daos.VideogameCategoryDAO;
 import edu.ucam.enums.ErrorType;
 import edu.ucam.enums.SearchBy;
 import edu.ucam.pojos.Assessment;
@@ -27,7 +27,7 @@ import edu.ucam.pojos.Purchase;
 import edu.ucam.pojos.Rental;
 import edu.ucam.pojos.User;
 import edu.ucam.pojos.Videogame;
-import edu.ucam.pojos.VideogamesCategories;
+import edu.ucam.pojos.VideogameCategory;
 import edu.ucam.servlets.Controller;
 
 /**
@@ -209,12 +209,12 @@ public class Update extends HttpServlet {
 
 	private ErrorType updateVideogamesCategories(HttpServletRequest request){
 		
-		VideogamesCategories newVideogamesCategories = new VideogamesCategories(request.getParameter(VideogamesCategories.ATR_VIDEOGAMESCATEGORIES_VIDEOGAMEID),
-				request.getParameter(VideogamesCategories.ATR_VIDEOGAMESCATEGORIES_CATEGORYID));
-		newVideogamesCategories.setId(request.getParameter(VideogamesCategories.ATR_VIDEOGAMESCATEGORIES_ID));
+		VideogameCategory newVideogamesCategories = new VideogameCategory(request.getParameter(VideogameCategory.ATR_VIDEOGAMESCATEGORIES_VIDEOGAMEID),
+				request.getParameter(VideogameCategory.ATR_VIDEOGAMESCATEGORIES_CATEGORYID));
+		newVideogamesCategories.setId(request.getParameter(VideogameCategory.ATR_VIDEOGAMESCATEGORIES_ID));
 		
 		if(newVideogamesCategories.getCategoryId() != null && newVideogamesCategories.getVideogameId() != null) 
-			(new VideogamesCategoriesDAO()).create(newVideogamesCategories);		
+			(new VideogameCategoryDAO()).create(newVideogamesCategories);		
 		
 		return ErrorType.PARAMETER_NULL;
 	}

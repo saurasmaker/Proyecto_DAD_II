@@ -1,17 +1,20 @@
-window.onload = function(){
-	  document.getElementById("update-assessment-form").style.display = "none";
-	  document.getElementById("update-bill-form").style.display = "none";
-	  document.getElementById("update-category-form").style.display = "none";
-	  document.getElementById("update-purchase-form").style.display = "none";
-	  document.getElementById("update-rental-form").style.display = "none";
-	  document.getElementById("update-user-form").style.display = "none";
-	  document.getElementById("update-videogame-form").style.display = "none";
-};
 
-
-function test(){
-	alert("TU PUTA MADRE");
+function displayAdminPage (){
+	
+	alert("displayed");
+	
+	document.getElementById("update-assessment-form").style.display = "none";
+	document.getElementById("update-bill-form").style.display = "none";
+	document.getElementById("update-category-form").style.display = "none";
+	document.getElementById("update-purchase-form").style.display = "none";
+	document.getElementById("update-rental-form").style.display = "none";
+	document.getElementById("update-user-form").style.display = "none";
+	document.getElementById("update-videogame-form").style.display = "none";
+	  
+	document.getElementById("add-videogameimage-form").style.display = "none";
+	document.getElementById("add-videogamecategory-form").style.display = "none";
 }
+
 
 function updateAssessment(id, value, subject, comment, publicationDate, editDate, videogameId, userId){
 	document.getElementById("create-assessment-form").style.display = "none";
@@ -87,13 +90,21 @@ function updateUser(id, username, email, password, signUpDate, lastSignIn){
     document.getElementById("user-input-update-email").value = email;
     document.getElementById("user-input-update-password").value = password;
     document.getElementById("user-input-update-signupdate").value = signUpDate;
-    document.getElementById("user-input-update-lastsignin").value = lastSignIn;
+    document.getElementById("user-input-update-lastsignin").value = lastSignIn; 
 }
 
 function updateVideogame(id, name, description, releaseDate, stock, purchasePrice, rentalPrice){	
 	
+	displayAdminPage();
+	
 	document.getElementById("create-videogame-form").style.display = "none";
     document.getElementById("update-videogame-form").style.display = "block";
+    
+    document.getElementById("add-videogameimage-form").style.display = "block";
+    document.getElementById("add-videogamecategory-form").style.display = "block";
+    
+    document.getElementById("input-send-videogameimage").value = "Anadir imagen a '" + name + "'";
+    document.getElementById("input-send-videogamecategory").value = "Anadir categoria a '" + name + "'";
     
     document.getElementById("videogame-input-update-id").value = id;
     document.getElementById("videogame-input-update-name").value = name;
@@ -102,6 +113,8 @@ function updateVideogame(id, name, description, releaseDate, stock, purchasePric
     document.getElementById("videogame-input-update-stock").value = stock;    
     document.getElementById("videogame-input-update-purchaseprice").value = purchasePrice;
     document.getElementById("videogame-input-update-rentalprice").value = rentalPrice;  
+    
+    document.getElementById("videogameimage-input-idvideogame").value = id;
 }
 
 
@@ -142,4 +155,7 @@ function cancelUpdateUser(){
 function cancelUpdateVideogame(){
 	document.getElementById("create-videogame-form").style.display = "block";
     document.getElementById("update-videogame-form").style.display = "none";
+    
+    document.getElementById("add-videogameimage-form").style.display = "none";
+    document.getElementById("add-videogamecategory-form").style.display = "none";
 }

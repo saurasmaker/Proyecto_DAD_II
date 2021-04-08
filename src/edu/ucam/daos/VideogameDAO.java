@@ -1,5 +1,6 @@
 package edu.ucam.daos;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -17,22 +18,7 @@ public class VideogameDAO implements IDao<Videogame>{
 	 */
 	@Override
 	public ErrorType create(Videogame videogame) {
-
-		try {
-			if(read(videogame.getName(), SearchBy.NAME)!=null) {
-				return ErrorType.VIDEOGAME_EXISTS;
-			}
-					
-			DatabaseController.DATABASE_STATEMENT.executeUpdate("INSERT INTO videogames (name, description, release_date, stock, purchase_price, rental_price) " + 
-					"VALUES ('" + videogame.getName() + "', '" + videogame.getDescription()  + "', '" + videogame.getReleaseDate() + "', '" + videogame.getStock() + "', '"
-					+ videogame.getPurchasePrice() + "', '" + videogame.getRentalPrice() + "')");		
-			
-			return ErrorType.NO_ERROR;
-			
-		} catch (NullPointerException | SQLException e) {
-			e.printStackTrace();
-			return ErrorType.JDBC_ERROR_CONNECTION;
-		}		
+		return executeStatementWithParameters("INSERT INTO videogames (name, description, release_date, stock, purchase_price, rental_price) VALUES (?, ?, ?, ?, ?, ?)", videogame);
 	}
 
 	@Override
@@ -47,14 +33,7 @@ public class VideogameDAO implements IDao<Videogame>{
 			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(updateQuery);	
 			if(rs.next()) { //se valida si hay resultados
 				if(rs.getRow() == 1) {
-					videogame = new Videogame();
-					videogame.setId(rs.getString("id"));
-					videogame.setName(rs.getString("name"));
-					videogame.setDescription(rs.getString("description"));
-					videogame.setReleaseDate(rs.getDate("releaseDate"));
-					videogame.setStock(rs.getInt("stock"));
-					videogame.setPurchasePrice(rs.getFloat("purchase_price"));
-					videogame.setRentalPrice(rs.getFloat("rental_price"));
+					videogame = setUserAttributes(rs);
 				}
 			}
 			rs.close();
@@ -67,24 +46,9 @@ public class VideogameDAO implements IDao<Videogame>{
 
 	@Override
 	public ErrorType update(String search, SearchBy searchBy, Videogame videogame) {
-		String updateQuery = "UPDATE videogames SET " +
-				"name = '" + videogame.getName()  + "', " +
-				"description = '" +  videogame.getDescription() + "', " +
-				"release_date = '" +  videogame.getReleaseDate() + "', " +
-				"stock = '" +  videogame.getStock() + "', " +
-				"purchase_price = '" +  videogame.getPurchasePrice() + "', " +
-				"rental_price = '" + videogame.getRentalPrice() + "' " +
-				"WHERE ";
-		
-		try {
-			updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy, search);
-			DatabaseController.DATABASE_STATEMENT.executeUpdate(updateQuery);	
-		} catch (SQLException e)  {
-			e.printStackTrace();
-			return ErrorType.ERROR;
-		}	
-		
-		return ErrorType.NO_ERROR;
+		String updateQuery = "UPDATE videogames SET name = ?, description = ?, release_date = ?, stock = ?, purchase_price = ?, rental_price = ? WHERE ";
+		updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy, search);
+		return executeStatementWithParameters(updateQuery, videogame);	
 	}
 
 	@Override
@@ -111,15 +75,7 @@ public class VideogameDAO implements IDao<Videogame>{
 		try {
 			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(updateQuery);					
 			while(rs.next()) {
-				Videogame videogame = new Videogame();
-				videogame.setId(rs.getString("id"));
-				videogame.setName(rs.getString("name"));
-				videogame.setDescription(rs.getString("description"));
-				videogame.setReleaseDate(rs.getDate("release_date"));
-				videogame.setStock(rs.getInt("stock"));
-				videogame.setPurchasePrice(rs.getFloat("purchase_price"));
-				videogame.setRentalPrice(rs.getFloat("rental_price"));
-								
+				Videogame videogame = setUserAttributes(rs);
 				videogamesList.add(videogame);
 			}	
 			rs.close();
@@ -128,6 +84,44 @@ public class VideogameDAO implements IDao<Videogame>{
 		}	
 		
 		return videogamesList;
+	}
+	
+	private ErrorType executeStatementWithParameters(String query, Videogame videogame) {
+		PreparedStatement preparedStatement = null;
+		try {
+			preparedStatement = DatabaseController.DATABASE_CONNECTION.prepareStatement(query);
+			preparedStatement.setString(1, videogame.getName());
+			preparedStatement.setString(2, videogame.getDescription());
+			preparedStatement.setDate(3, videogame.getReleaseDate());
+			preparedStatement.setInt(4, videogame.getStock());
+			preparedStatement.setFloat(5, videogame.getPurchasePrice());
+			preparedStatement.setFloat(6, videogame.getRentalPrice());
+
+			preparedStatement.execute();
+			preparedStatement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return ErrorType.DATABASE_STATEMENT_ERROR;
+		}
+		return ErrorType.NO_ERROR;
+	}
+	
+	private Videogame setUserAttributes(ResultSet rs) {
+		Videogame videogame = null;
+		try {
+			videogame = new Videogame();
+			videogame.setId(rs.getString("id"));
+			videogame.setName(rs.getString("name"));
+			videogame.setDescription(rs.getString("description"));
+			videogame.setReleaseDate(rs.getDate("release_date"));
+			videogame.setStock(rs.getInt("stock"));
+			videogame.setPurchasePrice(rs.getFloat("purchase_price"));
+			videogame.setRentalPrice(rs.getFloat("rental_price"));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return videogame;
 	}
 
 }

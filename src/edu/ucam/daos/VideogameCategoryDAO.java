@@ -8,15 +8,15 @@ import edu.ucam.database.DatabaseController;
 import edu.ucam.enums.ErrorType;
 import edu.ucam.enums.SearchBy;
 import edu.ucam.interfaces.IDao;
-import edu.ucam.pojos.VideogamesCategories;
+import edu.ucam.pojos.VideogameCategory;
 
-public class VideogamesCategoriesDAO implements IDao<VideogamesCategories>{
+public class VideogameCategoryDAO implements IDao<VideogameCategory>{
 
 	/*
 	 * CRUD Methods
 	 */
 	@Override
-	public ErrorType create(VideogamesCategories videogamesCategories) {
+	public ErrorType create(VideogameCategory videogamesCategories) {
 		try {
 			DatabaseController.DATABASE_STATEMENT.executeUpdate("INSERT INTO videogames_categories (videogame_id, category_id) " + 
 						"VALUES ('" + videogamesCategories.getVideogameId() + "', '" + videogamesCategories.getCategoryId() + "')");		
@@ -30,8 +30,8 @@ public class VideogamesCategoriesDAO implements IDao<VideogamesCategories>{
 	}
 
 	@Override
-	public VideogamesCategories read(String search, SearchBy searchBy) {
-		VideogamesCategories videogamesCategories = null;
+	public VideogameCategory read(String search, SearchBy searchBy) {
+		VideogameCategory videogamesCategories = null;
 		ResultSet rs = null;
 		
 		String updateQuery = "SELECT * FROM videogames_categories WHERE "; 
@@ -40,7 +40,7 @@ public class VideogamesCategoriesDAO implements IDao<VideogamesCategories>{
 			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(updateQuery);	
 			if(rs.next()) { //se valida si hay resultados
 				if(rs.getRow() == 1) {
-					videogamesCategories = new VideogamesCategories();
+					videogamesCategories = new VideogameCategory();
 					videogamesCategories.setId(rs.getString("id"));
 					videogamesCategories.setVideogameId(rs.getString("videogame_id"));
 					videogamesCategories.setCategoryId(rs.getString("category_id"));
@@ -55,7 +55,7 @@ public class VideogamesCategoriesDAO implements IDao<VideogamesCategories>{
 	}
 
 	@Override
-	public ErrorType update(String search, SearchBy searchBy, VideogamesCategories videogamesCategories) {
+	public ErrorType update(String search, SearchBy searchBy, VideogameCategory videogamesCategories) {
 		String updateQuery = "UPDATE videogames_categories SET " + 
 				"videogame_id = '" + videogamesCategories.getVideogameId()  + "', " + 
 				"category_id = '" + videogamesCategories.getCategoryId() + "' " + 
@@ -87,15 +87,15 @@ public class VideogamesCategoriesDAO implements IDao<VideogamesCategories>{
 	}
 
 	@Override
-	public ArrayList<VideogamesCategories> list() {
+	public ArrayList<VideogameCategory> list() {
 		String updateQuery = "SELECT * FROM videogames_categories"; 		
 		ResultSet rs = null;
-		ArrayList<VideogamesCategories> videogamesCategoriesList = new ArrayList<VideogamesCategories>();
+		ArrayList<VideogameCategory> videogamesCategoriesList = new ArrayList<VideogameCategory>();
 		
 		try {
 			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(updateQuery);					
 			while(rs.next()) {
-				VideogamesCategories videogamesCategories = new VideogamesCategories();
+				VideogameCategory videogamesCategories = new VideogameCategory();
 				videogamesCategories.setId(rs.getString("id"));
 				videogamesCategories.setVideogameId(rs.getString("videogame_id"));
 				videogamesCategories.setCategoryId(rs.getString("category_id"));

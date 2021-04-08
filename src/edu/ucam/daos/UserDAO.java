@@ -20,7 +20,7 @@ public class UserDAO implements IDao<User>{
 	 */
 	@Override
 	public ErrorType create(User user) {
-		return prepareStatement("INSERT INTO users (username, email, password, sign_up_date, last_sign_in) VALUES (?, ?, ?, ?, ?)", user);	
+		return executeQueryWithParameters("INSERT INTO users (username, email, password, sign_up_date, last_sign_in) VALUES (?, ?, ?, ?, ?)", user);	
 	}
 
 	
@@ -51,7 +51,7 @@ public class UserDAO implements IDao<User>{
 	public ErrorType update(String search, SearchBy searchBy, User user) {
 		String updateQuery = "UPDATE users SET username = ?, email = ?, password = ?, sign_up_date = ?, last_sign_in = ? WHERE ";
 		updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy, search);			
-		prepareStatement(updateQuery, user);
+		executeQueryWithParameters(updateQuery, user);
 		return ErrorType.NO_ERROR;
 	}
 
@@ -97,7 +97,7 @@ public class UserDAO implements IDao<User>{
 	/*
 	 * Tool Methods
 	 */
-	private ErrorType prepareStatement(String query, User user) {
+	private ErrorType executeQueryWithParameters(String query, User user) {
 		PreparedStatement preparedStatement = null;
 		try {
 			preparedStatement = DatabaseController.DATABASE_CONNECTION.prepareStatement(query);

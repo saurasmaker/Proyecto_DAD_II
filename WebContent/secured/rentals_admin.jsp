@@ -13,7 +13,7 @@
 
 <%@ page import = "edu.ucam.servlets.Controller" %>
 
-<div class = "col-12">
+<div id = "rental-title" class = "col-12">
         <h3 class = "display-3">Alquileres</h3>
         <hr width = "25%" align = "left"/>
         <br/>
@@ -129,7 +129,7 @@
                             <button type = "submit" class="btn btn-warning" onclick = "updateRental(<%=showRental.toJavaScriptFunction() %>)">Editar</button>
                         </td>
                         <td>
-							<form action = "<%= request.getServletContext() %>/DELETE" method = "POST">
+							<form action = "<%= request.getContextPath() %>/DELETE" method = "POST">
                            		<input type = "hidden" name = "<%=Rental.ATR_RENTAL_ID %>" value = "<%=showRental.getId() %>">
                            		<input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Rental.class.getName() %>">                
                            		<button type = "submit" class="btn btn-danger">Eliminar</button>

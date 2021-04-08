@@ -144,7 +144,7 @@
                         	<button type = "submit" class="btn btn-warning" onclick = "updateAssessment(<%=showAssessment.toJavaScriptFunction() %>)">Editar</button>           
                         </td>
                         <td>
-							<form action = "<%= request.getServletContext() %>/DELETE" method = "POST">
+							<form action = "<%= request.getContextPath() %>/DELETE" method = "POST">
                            		<input type = "hidden" name = "<%=Assessment.ATR_ASSESSMENT_ID %>" value = "<%=showAssessment.getId() %>">
                            		<input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Assessment.class.getName() %>">   
                            		<button type = "submit" class="btn btn-danger">Eliminar</button>

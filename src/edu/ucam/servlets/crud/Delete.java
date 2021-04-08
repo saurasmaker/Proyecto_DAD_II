@@ -17,7 +17,7 @@ import edu.ucam.pojos.Purchase;
 import edu.ucam.pojos.Rental;
 import edu.ucam.pojos.User;
 import edu.ucam.pojos.Videogame;
-import edu.ucam.pojos.VideogamesCategories;
+import edu.ucam.pojos.VideogameCategory;
 import edu.ucam.servlets.Controller;
 
 /**
@@ -81,7 +81,7 @@ public class Delete extends HttpServlet {
 			break;
 			
 		case "edu.ucam.pojos.VideogamesCategories":
-			deleteVideogamesCategories(request.getParameter(VideogamesCategories.ATR_VIDEOGAMESCATEGORIES_ID));
+			deleteVideogamesCategories(request.getParameter(VideogameCategory.ATR_VIDEOGAMESCATEGORIES_ID));
 			break;
 		
 		default:
@@ -150,7 +150,7 @@ public class Delete extends HttpServlet {
 	
 	private ErrorType deleteVideogamesCategories(String idVideogamesCategories) {
 		if(idVideogamesCategories != null) {
-			VideogamesCategoriesDAO videogamesCategoriesDao = new VideogamesCategoriesDAO();
+			VideogameCategoryDAO videogamesCategoriesDao = new VideogameCategoryDAO();
 			return videogamesCategoriesDao.delete(idVideogamesCategories, SearchBy.ID);
 		}
 		return ErrorType.PARAMETER_NULL;

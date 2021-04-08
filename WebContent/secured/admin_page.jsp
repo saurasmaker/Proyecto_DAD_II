@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     
+<%@ page import = "edu.ucam.pojos.*" %>
+    
 <!DOCTYPE html>
 <html>
 	<head>
@@ -17,10 +19,16 @@
 		
 	</head>
 	
-	
-	
-	<body>
-	
+	<!-- Select JS Script OnLoad depends on parameters -->
+	<%  String a = request.getParameter("UPDATE_VIDEOGAME_PARAMETERS");
+		String s = request.getParameter(Videogame.ATR_VIDEOGAME_ID);
+		if(a != null && s != null) { %>
+			<body onload = "updateVideogame(<%=a %>)"> 
+	<% } else { %>
+		<body onload = "displayAdminPage()">
+	<% } %>
+
+
 		<div class = "general container">
 			<jsp:include page="../mod/header.jsp" />		
 			
