@@ -24,17 +24,17 @@
 			<label for="videogame-input-id">ID: </label>
 			<p><input id = "videogame-input-id" type = "text" class="form-control" placeholder = "ID del Usuario" name = "<%=Videogame.ATR_VIDEOGAME_ID %>" readonly></p>
 				
-			<label for="videogame-input-username">Nombre: </label>
-			<p><input id = "videogame-input-username" type = "text" class="form-control" placeholder = "Introduce el Nombre del Videojuego..." name = "<%=Videogame.ATR_VIDEOGAME_NAME %>" required></p>
+			<label for="videogame-input-name">Nombre: </label>
+			<p><input id = "videogame-update-name" type = "text" class="form-control" placeholder = "Introduce el Nombre del Videojuego..." name = "<%=Videogame.ATR_VIDEOGAME_NAME %>" required></p>
 
-		    <label for="videogame-input-email">Descripción: </label>
-			<p><textarea id = "videogame-input-email" class="form-control" placeholder = "Introduce el Correo Electrónico del Usuario..." name = "<%=Videogame.ATR_VIDEOGAME_DESCRIPTION %>" required></textarea></p>
+		    <label for="videogame-input-description">Descripción: </label>
+			<p><textarea id = "videogame-input-description" class="form-control" placeholder = "Introduce el Correo Electrónico del Usuario..." name = "<%=Videogame.ATR_VIDEOGAME_DESCRIPTION %>" required></textarea></p>
 
-			<label for="videogame-input-signupdate">Fecha de Lanzamiento: </label>
-			<p><input id = "videogame-input-signupdate" type = "datetime" class="form-control" name = "<%=Videogame.ATR_VIDEOGAME_RELEASEDATE %>" required></p>
+			<label for="videogame-input-releasedate">Fecha de Lanzamiento: </label>
+			<p><input id = "videogame-input-releasedate" type = "date" class="form-control" name = "<%=Videogame.ATR_VIDEOGAME_RELEASEDATE %>" required></p>
 			
-			<label for="videogame-input-lastsignin">Stock: </label>
-			<p><input id = "videogame-input-lastsignin" type = "number" min = "0" step = "1" class="form-control" name = "<%=Videogame.ATR_VIDEOGAME_STOCK %>" required></p>
+			<label for="videogame-input-stock">Stock: </label>
+			<p><input id = "videogame-input-stock" type = "number" min = "0" step = "1" class="form-control" name = "<%=Videogame.ATR_VIDEOGAME_STOCK %>" required></p>
 			
 			<label for="videogame-input-purchaseprice">Precio de Compra: </label>
 			<p><input id = "videogame-input-purchaseprice" type = "number" min = "0" step = "0.01" class="form-control" name = "<%=Videogame.ATR_VIDEOGAME_PURCHASEPRICE %>" required></p>
@@ -53,17 +53,17 @@
 			<label for="videogame-input-update-id">ID: </label>
 			<p><input id = "videogame-input-update-id" type = "text" class="form-control" placeholder = "ID del Usuario" name = "<%=Videogame.ATR_VIDEOGAME_ID %>" readonly></p>
 				
-			<label for="videogame-input-update-username">Nombre: </label>
-			<p><input id = "videogame-input-update-username" type = "text" class="form-control" placeholder = "Introduce el Nombre del Videojuego..." name = "<%=Videogame.ATR_VIDEOGAME_NAME %>" required></p>
+			<label for="videogame-input-update-name">Nombre: </label>
+			<p><input id = "videogame-input-update-name" type = "text" class="form-control" placeholder = "Introduce el Nombre del Videojuego..." name = "<%=Videogame.ATR_VIDEOGAME_NAME %>" required></p>
 
-		    <label for="videogame-input-update-email">Descripción: </label>
-			<p><textarea id = "videogame-input-update-email" class="form-control" placeholder = "Introduce el Correo Electrónico del Usuario..." name = "<%=Videogame.ATR_VIDEOGAME_DESCRIPTION %>" required></textarea></p>
+		    <label for="videogame-input-update-description">Descripción: </label>
+			<p><textarea id = "videogame-input-update-description" class="form-control" placeholder = "Introduce el Correo Electrónico del Usuario..." name = "<%=Videogame.ATR_VIDEOGAME_DESCRIPTION %>" required></textarea></p>
 
-			<label for="videogame-input-update-signupdate">Fecha de Lanzamiento: </label>
-			<p><input id = "videogame-input-update-signupdate" type = "datetime" class="form-control" name = "<%=Videogame.ATR_VIDEOGAME_RELEASEDATE %>" required></p>
+			<label for="videogame-input-update-releasedate">Fecha de Lanzamiento: </label>
+			<p><input id = "videogame-input-update-releasedate" type = "date" class="form-control" name = "<%=Videogame.ATR_VIDEOGAME_RELEASEDATE %>" required></p>
 			
-			<label for="videogame-input-update-lastsignin">Stock: </label>
-			<p><input id = "videogame-input-update-lastsignin" type = "number" min = "0" step = "1" class="form-control" name = "<%=Videogame.ATR_VIDEOGAME_STOCK %>" required></p>
+			<label for="videogame-input-update-stock">Stock: </label>
+			<p><input id = "videogame-input-update-stock" type = "number" min = "0" step = "1" class="form-control" name = "<%=Videogame.ATR_VIDEOGAME_STOCK %>" required></p>
 			
 			<label for="videogame-input-update-purchaseprice">Precio de Compra: </label>
 			<p><input id = "videogame-input-update-purchaseprice" type = "number" min = "0" step = "0.01" class="form-control" name = "<%=Videogame.ATR_VIDEOGAME_PURCHASEPRICE %>" required></p>
@@ -113,8 +113,9 @@
                             <button class="btn btn-warning" onclick = "updateVideogame(<%=showVideogame.toJavaScriptFunction() %>)">Editar</button>
                         </td>
                         <td>
-							<form action = "<%= request.getServletContext() %>/DELETE" method = "POST">
+							<form action = "<%= request.getContextPath() %>/DELETE" method = "POST">
                            		<input type = "hidden" name = "<%=Videogame.ATR_VIDEOGAME_ID %>" value = "<%=showVideogame.getId() %>">
+                           		<input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Videogame.class.getName() %>">
                            		<button type = "submit" class="btn btn-danger">Eliminar</button>
                         	</form>
                         </td>

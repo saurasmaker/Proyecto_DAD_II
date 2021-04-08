@@ -88,8 +88,6 @@ function updateUser(id, username, email, password, signUpDate, lastSignIn){
     document.getElementById("user-input-update-password").value = password;
     document.getElementById("user-input-update-signupdate").value = signUpDate;
     document.getElementById("user-input-update-lastsignin").value = lastSignIn;
-
-    alert("Lets Update User");
 }
 
 function updateVideogame(id, name, description, releaseDate, stock, purchasePrice, rentalPrice){	
@@ -101,11 +99,9 @@ function updateVideogame(id, name, description, releaseDate, stock, purchasePric
     document.getElementById("videogame-input-update-name").value = name;
     document.getElementById("videogame-input-update-description").value = description;
     document.getElementById("videogame-input-update-releasedate").value = releaseDate;
-    document.getElementById("videogame-input-update-stock").value = stock;
+    document.getElementById("videogame-input-update-stock").value = stock;    
     document.getElementById("videogame-input-update-purchaseprice").value = purchasePrice;
     document.getElementById("videogame-input-update-rentalprice").value = rentalPrice;  
-    
-    alert("Lets Update Videogame");
 }
 
 

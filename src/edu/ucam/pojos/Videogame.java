@@ -110,7 +110,7 @@ public class Videogame implements IMyPojo{
 	@Override
 	public String toJavaScriptFunction() {
 		return "'" + this.id + "', '" + this.name + "', '" + this.description + "', '" + this.releaseDate + "', '"  + 
-				this.stock + "'";
+				this.stock + "', '" + this.purchasePrice + "', '"  + this.rentalPrice + "'";
 	}
 	
 }

@@ -49,8 +49,7 @@ public class Create extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		String objectClass = request.getParameter(Controller.ATR_OBJECT_CLASS);		
-		System.out.println(objectClass);
-		System.out.println(request.getParameter(User.ATR_USER_EMAIL));
+
 		if(objectClass != null)
 		switch(objectClass) {
 		
@@ -189,7 +188,7 @@ public class Create extends HttpServlet {
 		Videogame newVideogame = new Videogame(request.getParameter(Videogame.ATR_VIDEOGAME_NAME), request.getParameter(Videogame.ATR_VIDEOGAME_DESCRIPTION),
 				Date.valueOf(request.getParameter(Videogame.ATR_VIDEOGAME_RELEASEDATE)), Integer.parseInt(request.getParameter(Videogame.ATR_VIDEOGAME_STOCK)));
 		newVideogame.setPurchasePrice(Float.parseFloat(request.getParameter(Videogame.ATR_VIDEOGAME_PURCHASEPRICE)));
-		newVideogame.setRentalPrice(Float.parseFloat(request.getParameter(Videogame.ATR_VIDEOGAME_PURCHASEPRICE)));
+		newVideogame.setRentalPrice(Float.parseFloat(request.getParameter(Videogame.ATR_VIDEOGAME_RENTALPRICE)));
 		
 		if(newVideogame.getName() != null && newVideogame.getDescription() != null && newVideogame.getReleaseDate() != null)
 			(new VideogameDAO()).create(newVideogame);
