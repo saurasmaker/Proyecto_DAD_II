@@ -85,7 +85,7 @@ public class VideogameCategoryDAO implements IDao<VideogameCategory>{
 		
 		return ErrorType.NO_ERROR;
 	}
-
+	
 	@Override
 	public ArrayList<VideogameCategory> list() {
 		String updateQuery = "SELECT * FROM videogames_categories"; 		
@@ -110,4 +110,27 @@ public class VideogameCategoryDAO implements IDao<VideogameCategory>{
 		return videogamesCategoriesList;
 	}
 
+	
+	public ArrayList<VideogameCategory> listByVideogameId(String videogameId) {
+		String updateQuery = "SELECT * FROM videogames_categories WHERE videogame_id = '" + videogameId + "'"; 		
+		ResultSet rs = null;
+		ArrayList<VideogameCategory> videogamesCategoriesList = new ArrayList<VideogameCategory>();
+		
+		try {
+			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(updateQuery);					
+			while(rs.next()) {
+				VideogameCategory videogamesCategories = new VideogameCategory();
+				videogamesCategories.setId(rs.getString("id"));
+				videogamesCategories.setVideogameId(rs.getString("videogame_id"));
+				videogamesCategories.setCategoryId(rs.getString("category_id"));
+				
+				videogamesCategoriesList.add(videogamesCategories);
+			}		
+			rs.close();
+		} catch (SQLException e)  {
+			e.printStackTrace();
+		}	
+		
+		return videogamesCategoriesList;
+	}
 }

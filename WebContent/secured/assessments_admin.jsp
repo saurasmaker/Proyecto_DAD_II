@@ -13,7 +13,7 @@
 <%@ page import = "edu.ucam.servlets.Controller" %>
 
 
-	<div class = "col-12">
+	<div id = "assessments-title" class = "col-12">
         <h3 class = "display-3">Reseñas</h3>
         <hr width = "25%" align = "left"/>
         <br/>

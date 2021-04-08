@@ -80,7 +80,7 @@ public class Delete extends HttpServlet {
 			deleteVideogame(request.getParameter(Videogame.ATR_VIDEOGAME_ID));
 			break;
 			
-		case "edu.ucam.pojos.VideogamesCategories":
+		case "edu.ucam.pojos.VideogameCategory":
 			deleteVideogamesCategories(request.getParameter(VideogameCategory.ATR_VIDEOGAMESCATEGORIES_ID));
 			break;
 		

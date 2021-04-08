@@ -95,9 +95,10 @@ public class CategoryDAO implements IDao<Category>{
 			
 		ResultSet rs = null;
 		
-		String updateQuery = "SELECT * FROM videogames_categories WHERE videogame_id = '" + videogameId + "'"; 
+		String selectQuery = "SELECT * FROM videogames_categories WHERE videogame_id = '" + videogameId + "'"; 
+		System.out.println(selectQuery);
 		try {
-			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(updateQuery);					
+			rs = DatabaseController.DATABASE_CONNECTION.createStatement().executeQuery(selectQuery);					
 			while(rs.next()) {
 				VideogameCategory videogameCategory = setVideogameCategoryAttributes(rs);
 				categoriesList.add(read(videogameCategory.getCategoryId(), SearchBy.ID));

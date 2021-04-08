@@ -7,7 +7,7 @@
 <%@ page import = "edu.ucam.daos.CategoryDAO" %>
 <%@ page import = "edu.ucam.servlets.Controller" %>
 
-<div class = "col-12">
+<div id = "categories-title" class = "col-12">
         <h3 class = "display-3">Categorías</h3>
         <hr width = "25%" align = "left"/>
         <br/>

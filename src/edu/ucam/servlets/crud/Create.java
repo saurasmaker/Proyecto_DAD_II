@@ -1,14 +1,17 @@
 package edu.ucam.servlets.crud;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.sql.Blob;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 import edu.ucam.daos.AssessmentDAO;
 import edu.ucam.daos.BillDAO;
@@ -17,6 +20,7 @@ import edu.ucam.daos.PurchaseDAO;
 import edu.ucam.daos.RentalDAO;
 import edu.ucam.daos.UserDAO;
 import edu.ucam.daos.VideogameDAO;
+import edu.ucam.daos.VideogameImageDAO;
 import edu.ucam.daos.VideogameCategoryDAO;
 import edu.ucam.pojos.*;
 import edu.ucam.servlets.Controller;
@@ -27,7 +31,8 @@ import edu.ucam.servlets.Controller;
 @WebServlet({"/CREATE", "/Create", "/create"})
 public class Create extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-     
+    
+	String url = "";
 	
     /**
      * @see HttpServlet#HttpServlet()
@@ -40,7 +45,7 @@ public class Create extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.sendRedirect(request.getHeader("referer"));
+		response.sendRedirect(url);
 	}
 
 	/**
@@ -48,41 +53,59 @@ public class Create extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		url = request.getHeader("referer");
+		
 		String objectClass = request.getParameter(Controller.ATR_OBJECT_CLASS);		
-
+		
+		System.out.println(objectClass);
+		
+		
 		if(objectClass != null)
 		switch(objectClass) {
 		
 		case "edu.ucam.pojos.Assessment":
 			createAssessment(request);
+			url += "#assessments-title";
 			break;
 		
 		case "edu.ucam.pojos.Bill":
 			createBill(request);
+			url += "#bills-title";
 			break;
 			
 		case "edu.ucam.pojos.Category":
 			createCategory(request);
+			url += "#categories-title";
 			break;
 			
 		case "edu.ucam.pojos.Purchase":
 			createPurchase(request);
+			url += "#purchases-title";
 			break;
 			
 		case "edu.ucam.pojos.Rental":
 			createRental(request);
+			url += "#rentals-title";
 			break;
 			
 		case "edu.ucam.pojos.User":
 			createUser(request);
+			url += "#users-title";
 			break;
 					
 		case "edu.ucam.pojos.Videogame":
 			createVideogame(request);
+			url += "#videogames-title";
 			break;
 			
-		case "edu.ucam.pojos.VideogamesCategories":
+		case "edu.ucam.pojos.VideogameImage":
+			createVideogamesImages(request);
+			url += "#videogames-title";
+			break;	
+		
+		case "edu.ucam.pojos.VideogameCategory":
 			createVideogamesCategories(request);
+			url += "#videogames-title";
 			break;
 		
 		default:
@@ -195,6 +218,27 @@ public class Create extends HttpServlet {
 	}
 	
 	
+	private void createVideogamesImages(HttpServletRequest request) {
+		
+		VideogameImage newVideogameImage = new VideogameImage();
+		newVideogameImage.setName(request.getParameter(VideogameImage.ATR_VIDEOGAMEIMAGE_NAME));
+		newVideogameImage.setVideogameId(request.getParameter(VideogameImage.ATR_VIDEOGAMEIMAGE_VIDEOGAMEID));
+		Part filePart = null;
+		InputStream inputStream = null;
+		try {
+			filePart = request.getPart(VideogameImage.ATR_VIDEOGAMEIMAGE_IMAGE);
+			inputStream = filePart.getInputStream();
+			newVideogameImage.setImage((Blob)inputStream);
+		} catch (IOException | ServletException e) {
+			e.printStackTrace();
+		}	
+		
+		
+		if(newVideogameImage.getName() != null && newVideogameImage.getVideogameId() != null && newVideogameImage.getImage() != null)
+			(new VideogameImageDAO()).create(newVideogameImage);
+		
+	}
+	
 	
 	private void createVideogamesCategories(HttpServletRequest request) {
 		
@@ -204,6 +248,8 @@ public class Create extends HttpServlet {
 		if(newVideogamesCategories.getCategoryId() != null && newVideogamesCategories.getVideogameId() != null)
 			(new VideogameCategoryDAO()).create(newVideogamesCategories);
 		
+		System.out.println(newVideogamesCategories.getCategoryId() + " " + newVideogamesCategories.getVideogameId());
 		
 	}
+	
 }
