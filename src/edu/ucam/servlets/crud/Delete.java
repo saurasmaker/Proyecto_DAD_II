@@ -25,6 +25,9 @@ import edu.ucam.servlets.Controller;
  */
 @WebServlet({"/DELETE", "/Delete", "/delete"})
 public class Delete extends HttpServlet {
+	
+	private String url = null;
+	
 	private static final long serialVersionUID = 1L;
        
     /**
@@ -38,8 +41,7 @@ public class Delete extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("hola");
-		response.sendRedirect(request.getHeader("referer"));	
+		response.sendRedirect(url);	
 	}
 
 	/**
@@ -47,112 +49,119 @@ public class Delete extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		url = request.getHeader("referer");
+		ErrorType et = ErrorType.NO_ERROR;
+		
 		String objectClass = request.getParameter(Controller.ATR_OBJECT_CLASS);		
 		System.out.println(objectClass);
 		if(objectClass != null)
 		switch(objectClass) {
 		
 		case "edu.ucam.pojos.Assessment":
-			deleteAssessment(request.getParameter(Assessment.ATR_ASSESSMENT_ID));
+			et = deleteAssessment(request.getParameter(Assessment.ATR_ASSESSMENT_ID));
 			break;
 		
 		case "edu.ucam.pojos.Bill":
-			deleteBill(request.getParameter(Bill.ATR_BILL_ID));
+			et = deleteBill(request.getParameter(Bill.ATR_BILL_ID));
 			break;
 			
 		case "edu.ucam.pojos.Category":
-			deleteCategory(request.getParameter(Category.ATR_CATEGORY_ID));
+			et = deleteCategory(request.getParameter(Category.ATR_CATEGORY_ID));
 			break;
 			
 		case "edu.ucam.pojos.Purchase":
-			deletePurchase(request.getParameter(Purchase.ATR_PURCHASE_ID));
+			et = deletePurchase(request.getParameter(Purchase.ATR_PURCHASE_ID));
 			break;
 			
 		case "edu.ucam.pojos.Rental":
-			deleteRental(request.getParameter(Rental.ATR_RENTAL_ID));
+			et = deleteRental(request.getParameter(Rental.ATR_RENTAL_ID));
 			break;
 			
 		case "edu.ucam.pojos.User":
-			deleteUser(request.getParameter(User.ATR_USER_ID));
+			et = deleteUser(request.getParameter(User.ATR_USER_ID));
 			break;
 					
 		case "edu.ucam.pojos.Videogame":
-			deleteVideogame(request.getParameter(Videogame.ATR_VIDEOGAME_ID));
+			et = deleteVideogame(request.getParameter(Videogame.ATR_VIDEOGAME_ID));
 			break;
 			
 		case "edu.ucam.pojos.VideogameCategory":
-			deleteVideogamesCategories(request.getParameter(VideogameCategory.ATR_VIDEOGAMESCATEGORIES_ID));
+			et = deleteVideogamesCategories(request.getParameter(VideogameCategory.ATR_VIDEOGAMESCATEGORIES_ID));
 			break;
 		
 		default:
 			break;
 		
 		}
+		
+		if(et != ErrorType.NO_ERROR)
+			url = request.getContextPath() + "/mod/error.jsp?ERROR_TYPE=" + et;
+		
 		doGet(request, response);
 	}
 	
 	
 	private ErrorType deleteAssessment(String idAssessment) {
-		if(idAssessment != null) {
-			AssessmentDAO assessmentDao = new AssessmentDAO();
-			return assessmentDao.delete(idAssessment, SearchBy.ID);
-		}
+		
+		if(idAssessment != null) 
+			return (new AssessmentDAO()).delete(idAssessment, SearchBy.ID);
+		
 		return ErrorType.PARAMETER_NULL;
 	}
 	
 	private ErrorType deleteBill(String idBill) {
-		if(idBill != null) {
-			BillDAO billDao = new BillDAO();
-			return billDao.delete(idBill, SearchBy.ID);
-		}
+		
+		if(idBill != null) 
+			return (new BillDAO()).delete(idBill, SearchBy.ID);
+		
 		return ErrorType.PARAMETER_NULL;
 	}
 	
 	private ErrorType deleteCategory(String idCategory) {
-		if(idCategory != null) {
-			CategoryDAO categoryDao = new CategoryDAO();
-			return categoryDao.delete(idCategory, SearchBy.ID);
-		}
+		
+		if(idCategory != null) 
+			return (new CategoryDAO()).delete(idCategory, SearchBy.ID);
+		
 		return ErrorType.PARAMETER_NULL;
 	}
 	
 	private ErrorType deletePurchase(String idPurchase) {
-		if(idPurchase != null) {
-			PurchaseDAO purchaseDao = new PurchaseDAO();
-			return purchaseDao.delete(idPurchase, SearchBy.ID);
-		}
+		
+		if(idPurchase != null) 
+			return (new PurchaseDAO()).delete(idPurchase, SearchBy.ID);
+		
 		return ErrorType.PARAMETER_NULL;
 	}
 	
 	private ErrorType deleteRental(String idRental) {
-		if(idRental != null) {
-			RentalDAO rentalDao = new RentalDAO();
-			return rentalDao.delete(idRental, SearchBy.ID);
-		}
+		
+		if(idRental != null) 
+			return (new RentalDAO()).delete(idRental, SearchBy.ID);
+		
 		return ErrorType.PARAMETER_NULL;
 	}
 	
 	private ErrorType deleteUser(String idUser) {
-		if(idUser != null) {
-			UserDAO userDao = new UserDAO();
-			return userDao.delete(idUser, SearchBy.ID);
-		}
+		
+		if(idUser != null) 
+			return (new UserDAO()).delete(idUser, SearchBy.ID);
+		
 		return ErrorType.PARAMETER_NULL;
 	}
 	
 	private ErrorType deleteVideogame(String idVideogame) {
-		if(idVideogame != null) {
-			VideogameDAO videogameDao = new VideogameDAO();
-			return videogameDao.delete(idVideogame, SearchBy.ID);
-		}
+		
+		if(idVideogame != null) 
+			return (new VideogameDAO()).delete(idVideogame, SearchBy.ID);
+		
 		return ErrorType.PARAMETER_NULL;
 	}
 	
 	private ErrorType deleteVideogamesCategories(String idVideogamesCategories) {
-		if(idVideogamesCategories != null) {
-			VideogameCategoryDAO videogamesCategoriesDao = new VideogameCategoryDAO();
-			return videogamesCategoriesDao.delete(idVideogamesCategories, SearchBy.ID);
-		}
+		
+		if(idVideogamesCategories != null) 
+			return (new VideogameCategoryDAO()).delete(idVideogamesCategories, SearchBy.ID);
+		
 		return ErrorType.PARAMETER_NULL;
 	}
 }

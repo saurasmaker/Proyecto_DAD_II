@@ -1,7 +1,5 @@
 package edu.ucam.listeners;
 
-import java.sql.SQLException;
-
 import javax.servlet.AsyncEvent;
 import javax.servlet.AsyncListener;
 import javax.servlet.ServletContextAttributeEvent;
@@ -22,6 +20,7 @@ import javax.servlet.http.HttpSessionIdListener;
 import javax.servlet.http.HttpSessionListener;
 
 import edu.ucam.database.DatabaseController;
+import edu.ucam.enums.ErrorType;
 
 /**
  * Application Lifecycle Listener implementation class Listener
@@ -97,11 +96,8 @@ public class Listener implements ServletContextAttributeListener, ServletContext
      * @see ServletContextListener#contextInitialized(ServletContextEvent)
      */
     public void contextInitialized(ServletContextEvent arg0)  {   	
-    	try {
-			DatabaseController.connect();
-		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-		}
+		ErrorType et = DatabaseController.connect();
+		if(et != ErrorType.NO_ERROR) System.out.println(et);
     }
 
 	/**
@@ -150,7 +146,11 @@ public class Listener implements ServletContextAttributeListener, ServletContext
      * @see ServletRequestListener#requestInitialized(ServletRequestEvent)
      */
     public void requestInitialized(ServletRequestEvent arg0)  { 
-         // TODO Auto-generated method stub
+    	ErrorType et;
+    	if(DatabaseController.DATABASE_CONNECTION == null) {
+    		et = DatabaseController.connect();
+    		System.out.println(et);
+    	}
     }
 
 	/**

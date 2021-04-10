@@ -37,7 +37,7 @@ public class VideogameDAO implements IDao<Videogame>{
 				}
 			}
 			rs.close();
-		} catch (SQLException e)  {
+		} catch (Exception e)  {
 			e.printStackTrace();
 		}	
 			
@@ -57,7 +57,7 @@ public class VideogameDAO implements IDao<Videogame>{
 		try {
 			updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy, search);
 			DatabaseController.DATABASE_STATEMENT.executeUpdate(updateQuery);	
-		} catch (SQLException e)  {
+		} catch (Exception e)  {
 			e.printStackTrace();
 			return ErrorType.ERROR;
 		}	
@@ -79,7 +79,7 @@ public class VideogameDAO implements IDao<Videogame>{
 				videogamesList.add(videogame);
 			}	
 			rs.close();
-		} catch (SQLException e)  {
+		} catch (Exception e)  {
 			e.printStackTrace();
 		}	
 		
@@ -117,7 +117,7 @@ public class VideogameDAO implements IDao<Videogame>{
 			videogame.setStock(rs.getInt("stock"));
 			videogame.setPurchasePrice(rs.getFloat("purchase_price"));
 			videogame.setRentalPrice(rs.getFloat("rental_price"));
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		

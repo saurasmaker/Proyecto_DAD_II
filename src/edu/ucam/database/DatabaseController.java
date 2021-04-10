@@ -2,6 +2,8 @@ package edu.ucam.database;
 
 import java.sql.*;
 
+import edu.ucam.enums.ErrorType;
+
 
 public class DatabaseController {
 	
@@ -17,24 +19,27 @@ public class DatabaseController {
 	/*
 	 * Static Methods 
 	 */
-	public static void connect() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
-				
-		if(DATABASE_STATEMENT != null) {
-			DATABASE_STATEMENT.close();
-			DATABASE_STATEMENT = null;
+	public static ErrorType connect(){
 			
-			if(DATABASE_CONNECTION != null) {
-				DATABASE_CONNECTION.close();
-				DATABASE_CONNECTION = null;
+		try {
+			if(DATABASE_STATEMENT != null) {
+				DATABASE_STATEMENT.close();
+				DATABASE_STATEMENT = null;
+				
+				if(DATABASE_CONNECTION != null) {
+					DATABASE_CONNECTION.close();
+					DATABASE_CONNECTION = null;
+				}
+					
+					
 			}
-				
-				
+			
+	        DATABASE_CONNECTION = DriverManager.getConnection(DATABASE_URL + DATABASE_NAME, DATABASE_USERNAME, DATABASE_PASS);
+	        DATABASE_STATEMENT = DATABASE_CONNECTION.createStatement();		
+		}catch(Exception e) {
+			return ErrorType.DATABASE_CONNECTION_ERROR;
 		}
-		
-        //Driver driver = (Driver) Class.forName(JDBC_DRIVER).newInstance();
-        //DriverManager.registerDriver(driver);
-        DATABASE_CONNECTION = DriverManager.getConnection(DATABASE_URL + DATABASE_NAME, DATABASE_USERNAME, DATABASE_PASS);
-        DATABASE_STATEMENT = DATABASE_CONNECTION.createStatement();		
+        return ErrorType.NO_ERROR;
 	}
 	
 }

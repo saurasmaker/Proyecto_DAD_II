@@ -28,7 +28,7 @@ public class AssessmentDAO implements IDao<Assessment>{
 			
 			return ErrorType.NO_ERROR;
 			
-		} catch (NullPointerException | SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return ErrorType.JDBC_ERROR_CONNECTION;
 		}
@@ -57,7 +57,7 @@ public class AssessmentDAO implements IDao<Assessment>{
 				}
 			}
 			rs.close();
-		} catch (SQLException e)  {
+		} catch (Exception e)  {
 			e.printStackTrace();
 		}	
 			
@@ -79,7 +79,7 @@ public class AssessmentDAO implements IDao<Assessment>{
 		try {
 			updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy, search);
 			DatabaseController.DATABASE_STATEMENT.executeUpdate(updateQuery);	
-		} catch (SQLException e)  {
+		} catch (Exception e)  {
 			e.printStackTrace();
 			return ErrorType.ERROR;
 		}	
@@ -93,7 +93,7 @@ public class AssessmentDAO implements IDao<Assessment>{
 		try {
 			updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy, search);
 			DatabaseController.DATABASE_STATEMENT.executeUpdate(updateQuery);	
-		} catch (SQLException e)  {
+		} catch (Exception e)  {
 			e.printStackTrace();
 			return ErrorType.ERROR;
 		}	
@@ -123,7 +123,7 @@ public class AssessmentDAO implements IDao<Assessment>{
 				assessmentsList.add(assessment);
 			}			
 			rs.close();
-		} catch (SQLException | NullPointerException e)  {
+		} catch (Exception e)  {
 			e.printStackTrace();
 		}	
 		
