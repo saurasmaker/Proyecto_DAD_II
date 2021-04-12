@@ -1,6 +1,6 @@
 package edu.ucam.pojos;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import edu.ucam.interfaces.IMyPojo;
 
@@ -22,7 +22,7 @@ public class Assessment implements IMyPojo{
 	 */
 	private String id, subject, comment, videogameId, userId;
 	private int value;
-	private Date publicationDate, editDate;
+	private Timestamp publicationDate, editDate;
 	
 	
 	/*
@@ -74,16 +74,16 @@ public class Assessment implements IMyPojo{
 	public void setValue(int value) {
 		this.value = value;
 	}
-	public Date getPublicationDate() {
+	public Timestamp getPublicationDate() {
 		return publicationDate;
 	}
-	public void setPublicationDate(Date publicationDate) {
+	public void setPublicationDate(Timestamp publicationDate) {
 		this.publicationDate = publicationDate;
 	}
-	public Date getEditDate() {
+	public Timestamp getEditDate() {
 		return editDate;
 	}
-	public void setEditDate(Date editDate) {
+	public void setEditDate(Timestamp editDate) {
 		this.editDate = editDate;
 	}
 	

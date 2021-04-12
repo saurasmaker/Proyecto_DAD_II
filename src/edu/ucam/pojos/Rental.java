@@ -1,6 +1,6 @@
 package edu.ucam.pojos;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import edu.ucam.interfaces.IMyPojo;
 
@@ -17,7 +17,7 @@ public class Rental implements IMyPojo{
 	 * Attributes
 	 */
 	private String id, userId, videogameId;
-	private Date startDate, endDate;
+	private Timestamp startDate, endDate;
 	private boolean returned;
 	
 	
@@ -43,16 +43,16 @@ public class Rental implements IMyPojo{
 	public void setVideogameId(String videogameId) {
 		this.videogameId = videogameId;
 	}
-	public Date getStartDate() {
+	public Timestamp getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(Date startDate) {
+	public void setStartDate(Timestamp startDate) {
 		this.startDate = startDate;
 	}
-	public Date getEndDate() {
+	public Timestamp getEndDate() {
 		return endDate;
 	}
-	public void setEndDate(Date endDate) {
+	public void setEndDate(Timestamp endDate) {
 		this.endDate = endDate;
 	}
 	public boolean isReturned() {

@@ -1,5 +1,6 @@
 package edu.ucam.daos;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -17,17 +18,8 @@ public class RentalDAO implements IDao<Rental>{
 	 */
 	@Override
 	public ErrorType create(Rental rental) {
-		try {	
-			DatabaseController.DATABASE_STATEMENT.executeUpdate("INSERT INTO rentals (user_id, videogame_id, start_date, end_date, returned) " + 
-						"VALUES ('" + rental.getUserId() + "', '" + rental.getVideogameId() + "', '" + rental.getStartDate() + "', '" + rental.getEndDate()
-						+ "', '" + rental.isReturned() + "')");		
-			
-			return ErrorType.NO_ERROR;
-			
-		} catch (NullPointerException | SQLException e) {
-			e.printStackTrace();
-			return ErrorType.JDBC_ERROR_CONNECTION;
-		}
+		return executeQueryWithParameters("INSERT INTO rentals (user_id, videogame_id, start_date, end_date, returned) VALUES (?, ?, ?, ?, ?)" , rental);		
+
 	}
 
 	@Override
@@ -41,13 +33,7 @@ public class RentalDAO implements IDao<Rental>{
 			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(updateQuery);	
 			if(rs.next()) { //se valida si hay resultados
 				if(rs.getRow() == 1) {
-					rental = new Rental();
-					rental.setId(rs.getString("id"));
-					rental.setUserId(rs.getString("user_id"));
-					rental.setVideogameId(rs.getString("videogame_id"));
-					rental.setStartDate(rs.getDate("start_date"));
-					rental.setEndDate(rs.getDate("end_date"));
-					rental.setReturned(rs.getBoolean("returned"));
+					rental = setRentalAttrubutes(rs);
 				}
 			}
 			rs.close();
@@ -60,23 +46,9 @@ public class RentalDAO implements IDao<Rental>{
 
 	@Override
 	public ErrorType update(String search, SearchBy searchBy, Rental rental) {
-		String updateQuery = "UPDATE rentals SET " + 
-				"user_id = '" + rental.getUserId()  + "', " + 
-				"videogame_id = '" +  rental.getVideogameId() + "', " + 
-				"start_date = '" +  rental.getStartDate() + "', " + 
-				"end_date = '" +  rental.getEndDate() + "', " + 
-				"returned = '" + rental.isReturned() + "' " + 
-				"WHERE ";
-		
-		try {
-			updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy, search);
-			DatabaseController.DATABASE_STATEMENT.executeUpdate(updateQuery);	
-		} catch (SQLException e)  {
-			e.printStackTrace();
-			return ErrorType.ERROR;
-		}	
-		
-		return ErrorType.NO_ERROR;
+		String updateQuery = "UPDATE rentals SET user_id = ?, videogame_id = ?, start_date = ?, end_date = ?, returned = ? WHERE "; 
+		updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy, search);
+		return executeQueryWithParameters(updateQuery, rental);
 	}
 
 	@Override
@@ -102,14 +74,7 @@ public class RentalDAO implements IDao<Rental>{
 		try {
 			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(updateQuery);					
 			while(rs.next()) {
-				Rental rental = new Rental();
-				rental.setId(rs.getString("id"));
-				rental.setUserId(rs.getString("user_id"));
-				rental.setVideogameId(rs.getString("videogame_id"));
-				rental.setStartDate(rs.getDate("start_date"));
-				rental.setEndDate(rs.getDate("end_date"));
-				rental.setReturned(rs.getBoolean("returned"));
-				
+				Rental rental = setRentalAttrubutes(rs);
 				usersList.add(rental);
 			}	
 			rs.close();
@@ -118,6 +83,93 @@ public class RentalDAO implements IDao<Rental>{
 		}	
 		
 		return usersList;
+	}
+	
+	
+	/*
+	 * Tool Methods
+	 */
+	public ArrayList<Rental> listByUserId(String userId) {
+		
+		ArrayList<Rental> rentalsList = new ArrayList<Rental>();
+			
+		ResultSet rs = null;
+		
+		String selectQuery = "SELECT * FROM rentals WHERE user_id = '" + userId + "'"; 
+		System.out.println(selectQuery);
+		try {
+			rs = DatabaseController.DATABASE_CONNECTION.createStatement().executeQuery(selectQuery);					
+			while(rs.next()) {
+				Rental rental = setRentalAttrubutes(rs);
+				rentalsList.add(read(rental.getUserId(), SearchBy.ID));
+			}	
+			rs.close();
+		} catch (SQLException e)  {
+			e.printStackTrace();
+		}	
+			
+		return rentalsList;
+	}
+	
+	
+	public ArrayList<Rental> listVideogameId(String videogameId) {
+		
+		ArrayList<Rental> rentalsList = new ArrayList<Rental>();
+			
+		ResultSet rs = null;
+		
+		String selectQuery = "SELECT * FROM rentals WHERE user_id = '" + videogameId + "'"; 
+		System.out.println(selectQuery);
+		try {
+			rs = DatabaseController.DATABASE_CONNECTION.createStatement().executeQuery(selectQuery);					
+			while(rs.next()) {
+				Rental rental = setRentalAttrubutes(rs);
+				rentalsList.add(read(rental.getUserId(), SearchBy.ID));
+			}	
+			rs.close();
+		} catch (SQLException e)  {
+			e.printStackTrace();
+		}	
+			
+		return rentalsList;
+	}
+	
+	
+	private ErrorType executeQueryWithParameters(String query, Rental rental) {
+		PreparedStatement preparedStatement = null;
+		try {
+			preparedStatement = DatabaseController.DATABASE_CONNECTION.prepareStatement(query);
+			preparedStatement.setString(1, rental.getUserId());
+			preparedStatement.setString(2, rental.getVideogameId());
+			preparedStatement.setTimestamp(3, rental.getStartDate());
+			preparedStatement.setTimestamp(4, rental.getEndDate());
+			preparedStatement.setBoolean(5, rental.isReturned());
+			
+			preparedStatement.execute();
+			preparedStatement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return ErrorType.DATABASE_STATEMENT_ERROR;
+		}
+		return ErrorType.NO_ERROR;
+	}
+	
+	
+	private Rental setRentalAttrubutes(ResultSet rs) {
+		Rental rental = null;
+		try {
+			rental = new Rental();
+			rental.setId(rs.getString("id"));
+			rental.setUserId(rs.getString("user_id"));
+			rental.setVideogameId(rs.getString("videogame_id"));
+			rental.setStartDate(rs.getTimestamp("start_date"));
+			rental.setEndDate(rs.getTimestamp("end_date"));
+			rental.setReturned(rs.getBoolean("returned"));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return rental;
 	}
 
 }

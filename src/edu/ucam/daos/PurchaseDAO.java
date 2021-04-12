@@ -1,5 +1,6 @@
 package edu.ucam.daos;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -17,16 +18,7 @@ public class PurchaseDAO implements IDao<Purchase>{
 	 */
 	@Override
 	public ErrorType create(Purchase purchase) {
-		try {
-			DatabaseController.DATABASE_STATEMENT.executeUpdate("INSERT INTO purchases (amount, videogame_id, bill_id) " + 
-						"VALUES ('" + purchase.getAmount() + "', '" + purchase.getVideogameId() + "', '" + purchase.getBillId() + "')");		
-			
-			return ErrorType.NO_ERROR;
-			
-		} catch (NullPointerException | SQLException e) {
-			e.printStackTrace();
-			return ErrorType.JDBC_ERROR_CONNECTION;
-		}
+		return executeQueryWithParameters("INSERT INTO purchases (amount, videogame_id, bill_id) VALUES (?, ?, ?)" , purchase);		
 	}
 
 	@Override
@@ -40,11 +32,7 @@ public class PurchaseDAO implements IDao<Purchase>{
 			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(updateQuery);	
 			if(rs.next()) { //se valida si hay resultados
 				if(rs.getRow() == 1) {
-					purchase = new Purchase();
-					purchase.setId(rs.getString("id"));
-					purchase.setAmount(rs.getInt("amount"));
-					purchase.setVideogameId(rs.getString("videogame_id"));
-					purchase.setBillId(rs.getString("bill_id"));
+					purchase = setPurchaseAttributes(rs);
 				}
 			}
 			rs.close();
@@ -57,21 +45,9 @@ public class PurchaseDAO implements IDao<Purchase>{
 
 	@Override
 	public ErrorType update(String search, SearchBy searchBy, Purchase purchase) {
-		String updateQuery = "UPDATE categories SET " + 
-				"amount = '" + purchase.getAmount()  + "', " + 
-				"videogame_id = '" +  purchase.getVideogameId() + "', " + 
-				"bill_id = '" +  purchase.getBillId() + "', " + 
-				"WHERE ";
-		
-		try {
-			updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy, search);
-			DatabaseController.DATABASE_STATEMENT.executeUpdate(updateQuery);	
-		} catch (SQLException e)  {
-			e.printStackTrace();
-			return ErrorType.ERROR;
-		}	
-		
-		return ErrorType.NO_ERROR;
+		String updateQuery = "UPDATE purchases SET amount = ?, videogame_id = ?, bill_id = ? WHERE ";
+		updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy, search);
+		return executeQueryWithParameters(updateQuery, purchase);
 	}
 
 	@Override
@@ -97,13 +73,7 @@ public class PurchaseDAO implements IDao<Purchase>{
 		try {
 			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(selectQuery);					
 			while(rs.next()) {
-				Purchase purchae = new Purchase();
-				purchae.setId(rs.getString("id"));
-				purchae.setAmount(rs.getInt("amount"));
-				purchae.setVideogameId(rs.getString("videogame_id"));
-				purchae.setBillId(rs.getString("bill_id"));
-
-				
+				Purchase purchae = setPurchaseAttributes(rs);	
 				purchasesList.add(purchae);
 			}	
 			rs.close();
@@ -114,4 +84,86 @@ public class PurchaseDAO implements IDao<Purchase>{
 		return purchasesList;
 	}
 
+	
+	
+	/*
+	 * Tool Methods
+	 */
+	public ArrayList<Purchase> listByVideogameId(String videogameId) {
+		
+		ArrayList<Purchase> purchasesList = new ArrayList<Purchase>();
+			
+		ResultSet rs = null;
+		
+		String selectQuery = "SELECT * FROM bills WHERE user_id = '" + videogameId + "'"; 
+
+		try {
+			rs = DatabaseController.DATABASE_CONNECTION.createStatement().executeQuery(selectQuery);					
+			while(rs.next()) {
+				Purchase purchase = setPurchaseAttributes(rs);
+				purchasesList.add(read(purchase.getBillId(), SearchBy.ID));
+			}	
+			rs.close();
+		} catch (SQLException e)  {
+			e.printStackTrace();
+		}	
+			
+		return purchasesList;
+	}
+	
+	public ArrayList<Purchase> listByBillId(String billId) {
+		
+		ArrayList<Purchase> purchasesList = new ArrayList<Purchase>();
+			
+		ResultSet rs = null;
+		
+		String selectQuery = "SELECT * FROM bills WHERE user_id = '" + billId + "'"; 
+
+		try {
+			rs = DatabaseController.DATABASE_CONNECTION.createStatement().executeQuery(selectQuery);					
+			while(rs.next()) {
+				Purchase purchase = setPurchaseAttributes(rs);
+				purchasesList.add(read(purchase.getBillId(), SearchBy.ID));
+			}	
+			rs.close();
+		} catch (SQLException e)  {
+			e.printStackTrace();
+		}	
+			
+		return purchasesList;
+	}
+	
+	
+	private ErrorType executeQueryWithParameters(String query, Purchase purchase) {
+		PreparedStatement preparedStatement = null;
+		try {
+			preparedStatement = DatabaseController.DATABASE_CONNECTION.prepareStatement(query);
+			preparedStatement.setInt(1, purchase.getAmount());
+			preparedStatement.setString(2, purchase.getVideogameId());
+			preparedStatement.setString(3, purchase.getBillId());
+			
+			preparedStatement.execute();
+			preparedStatement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return ErrorType.DATABASE_STATEMENT_ERROR;
+		}
+		return ErrorType.NO_ERROR;
+	}
+	
+	
+	private Purchase setPurchaseAttributes(ResultSet rs) {
+		Purchase purchase = null;
+		try {
+			purchase = new Purchase();
+			purchase.setId(rs.getString("id"));
+			purchase.setAmount(rs.getInt("amount"));
+			purchase.setVideogameId(rs.getString("videogame_id"));
+			purchase.setBillId(rs.getString("bill_id"));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return purchase;
+	}
 }

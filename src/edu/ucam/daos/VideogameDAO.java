@@ -86,6 +86,10 @@ public class VideogameDAO implements IDao<Videogame>{
 		return videogamesList;
 	}
 	
+	
+	/*
+	 * Tool Methods
+	 */
 	private ErrorType executeStatementWithParameters(String query, Videogame videogame) {
 		PreparedStatement preparedStatement = null;
 		try {

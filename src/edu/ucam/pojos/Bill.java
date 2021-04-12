@@ -1,6 +1,6 @@
 package edu.ucam.pojos;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import edu.ucam.interfaces.IMyPojo;
 
@@ -18,7 +18,7 @@ public class Bill implements IMyPojo{
 	 * Attributes
 	 */
 	private String id, userId;
-	private Date purchaseDate;
+	private Timestamp purchaseDate;
 	private boolean paid;
 	
 	
@@ -39,10 +39,10 @@ public class Bill implements IMyPojo{
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	public Date getPurchaseDate() {
+	public Timestamp getPurchaseDate() {
 		return purchaseDate;
 	}
-	public void setPurchaseDate(Date purchaseDate) {
+	public void setPurchaseDate(Timestamp purchaseDate) {
 		this.purchaseDate = purchaseDate;
 	}
 	public boolean isPaid() {

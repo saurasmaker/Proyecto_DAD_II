@@ -11,7 +11,6 @@ import edu.ucam.enums.SearchBy;
 import edu.ucam.interfaces.IDao;
 import edu.ucam.pojos.Category;
 import edu.ucam.pojos.VideogameCategory;
-import edu.ucam.pojos.VideogameImage;
 
 public class CategoryDAO implements IDao<Category>{
 

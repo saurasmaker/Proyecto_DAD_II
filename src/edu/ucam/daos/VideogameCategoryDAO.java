@@ -1,5 +1,6 @@
 package edu.ucam.daos;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -17,16 +18,8 @@ public class VideogameCategoryDAO implements IDao<VideogameCategory>{
 	 */
 	@Override
 	public ErrorType create(VideogameCategory videogamesCategories) {
-		try {
-			DatabaseController.DATABASE_STATEMENT.executeUpdate("INSERT INTO videogames_categories (videogame_id, category_id) " + 
-						"VALUES ('" + videogamesCategories.getVideogameId() + "', '" + videogamesCategories.getCategoryId() + "')");		
-			
-			return ErrorType.NO_ERROR;
-			
-		} catch (NullPointerException | SQLException e) {
-			e.printStackTrace();
-			return ErrorType.JDBC_ERROR_CONNECTION;
-		}
+		return executeStatementWithParameters("INSERT INTO videogames_categories (videogame_id, category_id) VALUES (?, ?)", videogamesCategories);	
+
 	}
 
 	@Override
@@ -40,10 +33,7 @@ public class VideogameCategoryDAO implements IDao<VideogameCategory>{
 			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(updateQuery);	
 			if(rs.next()) { //se valida si hay resultados
 				if(rs.getRow() == 1) {
-					videogamesCategories = new VideogameCategory();
-					videogamesCategories.setId(rs.getString("id"));
-					videogamesCategories.setVideogameId(rs.getString("videogame_id"));
-					videogamesCategories.setCategoryId(rs.getString("category_id"));
+					videogamesCategories = setVideogameCategoryAttributes(rs);
 				}
 			}
 			rs.close();
@@ -56,20 +46,9 @@ public class VideogameCategoryDAO implements IDao<VideogameCategory>{
 
 	@Override
 	public ErrorType update(String search, SearchBy searchBy, VideogameCategory videogamesCategories) {
-		String updateQuery = "UPDATE videogames_categories SET " + 
-				"videogame_id = '" + videogamesCategories.getVideogameId()  + "', " + 
-				"category_id = '" + videogamesCategories.getCategoryId() + "' " + 
-				"WHERE ";
-		
-		try {
-			updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy, search);
-			DatabaseController.DATABASE_STATEMENT.executeUpdate(updateQuery);	
-		} catch (SQLException e)  {
-			e.printStackTrace();
-			return ErrorType.ERROR;
-		}	
-		
-		return ErrorType.NO_ERROR;
+		String updateQuery = "UPDATE videogames_categories SET videogames_id = ?, category_id = ? WHERE "; 
+		updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy, search);
+		return executeStatementWithParameters(updateQuery, videogamesCategories);
 	}
 
 	@Override
@@ -95,11 +74,7 @@ public class VideogameCategoryDAO implements IDao<VideogameCategory>{
 		try {
 			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(updateQuery);					
 			while(rs.next()) {
-				VideogameCategory videogamesCategories = new VideogameCategory();
-				videogamesCategories.setId(rs.getString("id"));
-				videogamesCategories.setVideogameId(rs.getString("videogame_id"));
-				videogamesCategories.setCategoryId(rs.getString("category_id"));
-				
+				VideogameCategory videogamesCategories = setVideogameCategoryAttributes(rs);
 				videogamesCategoriesList.add(videogamesCategories);
 			}		
 			rs.close();
@@ -119,11 +94,7 @@ public class VideogameCategoryDAO implements IDao<VideogameCategory>{
 		try {
 			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(updateQuery);					
 			while(rs.next()) {
-				VideogameCategory videogamesCategories = new VideogameCategory();
-				videogamesCategories.setId(rs.getString("id"));
-				videogamesCategories.setVideogameId(rs.getString("videogame_id"));
-				videogamesCategories.setCategoryId(rs.getString("category_id"));
-				
+				VideogameCategory videogamesCategories = setVideogameCategoryAttributes(rs);
 				videogamesCategoriesList.add(videogamesCategories);
 			}		
 			rs.close();
@@ -132,5 +103,39 @@ public class VideogameCategoryDAO implements IDao<VideogameCategory>{
 		}	
 		
 		return videogamesCategoriesList;
+	}
+	
+	
+	/*
+	 * Tool Methods
+	 */
+	private ErrorType executeStatementWithParameters(String query, VideogameCategory videogameCategory) {
+		PreparedStatement preparedStatement = null;
+		try {
+			preparedStatement = DatabaseController.DATABASE_CONNECTION.prepareStatement(query);
+			preparedStatement.setString(1, videogameCategory.getVideogameId());
+			preparedStatement.setString(2, videogameCategory.getCategoryId());
+
+			preparedStatement.execute();
+			preparedStatement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return ErrorType.DATABASE_STATEMENT_ERROR;
+		}
+		return ErrorType.NO_ERROR;
+	}
+	
+	private VideogameCategory setVideogameCategoryAttributes(ResultSet rs) {
+		VideogameCategory videogameCategory = null;
+		try {
+			videogameCategory = new VideogameCategory();
+			videogameCategory.setId(rs.getString("id"));
+			videogameCategory.setVideogameId(rs.getString("videogame_id"));
+			videogameCategory.setCategoryId(rs.getString("category_id"));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return videogameCategory;
 	}
 }

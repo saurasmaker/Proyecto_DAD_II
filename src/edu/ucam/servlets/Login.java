@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import edu.ucam.daos.UserDAO;
 import edu.ucam.enums.ErrorType;
 import edu.ucam.enums.SearchBy;
-import edu.ucam.interfaces.IDao;
 import edu.ucam.pojos.User;
 
 /**
@@ -42,7 +41,6 @@ public class Login extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//request.getRequestDispatcher(url).forward(request, response);
 		response.sendRedirect(request.getContextPath() + "/index.jsp");
 	}
 

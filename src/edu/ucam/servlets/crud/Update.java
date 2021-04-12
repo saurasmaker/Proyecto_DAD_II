@@ -107,8 +107,8 @@ public class Update extends HttpServlet {
 		updateAssessment.setValue(Integer.parseInt(request.getParameter(Assessment.ATR_ASSESSMENT_VALUE)));
 		updateAssessment.setSubject(request.getParameter(Assessment.ATR_ASSESSMENT_SUBJECT));
 		updateAssessment.setComment(request.getParameter(Assessment.ATR_ASSESSMENT_COMMENT));
-		updateAssessment.setPublicationDate(Date.valueOf(request.getParameter(Assessment.ATR_ASSESSMENT_PUBLICATIONDATE)));
-		updateAssessment.setEditDate(Date.valueOf(request.getParameter(Assessment.ATR_ASSESSMENT_EDITDATE)));
+		updateAssessment.setPublicationDate(Timestamp.valueOf(request.getParameter(Assessment.ATR_ASSESSMENT_PUBLICATIONDATE).replace("T"," ")));
+		updateAssessment.setEditDate(Timestamp.valueOf(request.getParameter(Assessment.ATR_ASSESSMENT_EDITDATE).replace("T"," ")));
 		updateAssessment.setVideogameId(request.getParameter(Assessment.ATR_ASSESSMENT_VIDEOGAMEID));
 		updateAssessment.setUserId(request.getParameter(Assessment.ATR_ASSESSMENT_USERID));
 		
@@ -123,7 +123,7 @@ public class Update extends HttpServlet {
 		Bill updateBill = new Bill();
 		updateBill.setId(request.getParameter(Bill.ATR_BILL_ID));
 		updateBill.setUserId(request.getParameter(Bill.ATR_BILL_USERID));
-		updateBill.setPurchaseDate(Date.valueOf(request.getParameter(Bill.ATR_BILL_PURCHASEDATE)));
+		updateBill.setPurchaseDate(Timestamp.valueOf(request.getParameter(Bill.ATR_BILL_PURCHASEDATE).replace("T"," ")));
 		if(request.getParameter(Bill.ATR_BILL_PURCHASEDATE).contentEquals("on")) updateBill.setPaid(true);
 		else updateBill.setPaid(false);
 		
@@ -167,8 +167,8 @@ public class Update extends HttpServlet {
 		updateRental.setUserId(request.getParameter(Rental.ATR_RENTAL_USERID));
 		updateRental.setVideogameId(request.getParameter(Rental.ATR_RENTAL_VIDEOGAMEID));
 		updateRental.setVideogameId(request.getParameter(Rental.ATR_RENTAL_VIDEOGAMEID));
-		updateRental.setStartDate(Date.valueOf(request.getParameter(Rental.ATR_RENTAL_STARTDATE)));
-		updateRental.setEndDate(Date.valueOf(request.getParameter(Rental.ATR_RENTAL_ENDDATE)));
+		updateRental.setStartDate(Timestamp.valueOf(request.getParameter(Rental.ATR_RENTAL_STARTDATE).replace("T"," ")));
+		updateRental.setEndDate(Timestamp.valueOf(request.getParameter(Rental.ATR_RENTAL_ENDDATE).replace("T"," ")));
 		updateRental.setReturned(Boolean.valueOf(request.getParameter(Rental.ATR_RENTAL_RETURNED)));
 
 		if(updateRental.getUserId() != null && updateRental.getVideogameId() != null)

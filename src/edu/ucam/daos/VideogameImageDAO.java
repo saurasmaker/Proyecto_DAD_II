@@ -87,6 +87,9 @@ public class VideogameImageDAO implements IDao<VideogameImage>{
 	}
 	
 
+	/*
+	 * Tool Methods
+	 */
 	public ArrayList<VideogameImage> listByVideogameId(String videogameId) {
 		ArrayList<VideogameImage> videogameImagesList = new ArrayList<VideogameImage>();
 		ResultSet rs = null;
