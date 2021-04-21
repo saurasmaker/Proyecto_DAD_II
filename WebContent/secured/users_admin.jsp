@@ -34,10 +34,10 @@
 			<p><input id = "user-input-password" type = "text" class="form-control" placeholder = "Introduce la Contraseña del Usuario..." name = "<%=User.ATR_USER_PASSWORD %>" required></p>
 
 			<label for="user-input-signupdate">Fecha de Registro: </label>
-			<p><input id = "user-input-signupdate" type = "datetime-local" step="1" class="form-control" name = "<%=User.ATR_USER_SIGNUPDATE %>" required></p>
+			<p><input id = "user-input-signupdate" <%if(((String)session.getAttribute("BROWSERNAME")).contains("Chrome")){ %> type =  "datetime-local" <% } else { %> type =  "date" <% } %> step="1" class="form-control" name = "<%=User.ATR_USER_SIGNUPDATE %>" required></p>
 			
 			<label for="user-input-lastsignin">Fecha de ultima Autenticación: </label>
-			<p><input id = "user-input-lastsignin" type = "datetime-local" step="1" class="form-control" name = "<%=User.ATR_USER_LASTSIGNIN %>" required></p>
+			<p><input id = "user-input-lastsignin" <%if(((String)session.getAttribute("BROWSERNAME")).contains("Chrome")){ %> type =  "datetime-local" <% } else { %> type =  "date" <% } %> step="1" class="form-control" name = "<%=User.ATR_USER_LASTSIGNIN %>" required></p>
 						
             <p><input id = "input-send" type = "submit" class="btn btn-primary" value = "Crear"></p>
         </form>
@@ -60,10 +60,10 @@
 			<p><input id = "user-input-update-password" type = "text" class="form-control" placeholder = "Introduce la Contraseña del Usuario..." name = "<%=User.ATR_USER_PASSWORD %>" required></p>
 
 			<label for="user-input-update-signupdate">Fecha de Registro: </label>
-			<p><input id = "user-input-update-signupdate" type = "datetime-local" step="1" class="form-control" name = "<%=User.ATR_USER_SIGNUPDATE %>"></p>
+			<p><input id = "user-input-update-signupdate" <%if(((String)session.getAttribute("BROWSERNAME")).contains("Chrome")){ %> type =  "datetime-local" <% } else { %> type =  "datetime" <% } %> step="1" class="form-control" name = "<%=User.ATR_USER_SIGNUPDATE %>"></p>
 			
 			<label for="user-input-update-lastsignin">Fecha de última Autenticación: </label>
-			<p><input id = "user-input-update-lastsignin" type = "datetime-local" step="1" class="form-control" name = "<%=User.ATR_USER_LASTSIGNIN %>"></p>
+			<p><input id = "user-input-update-lastsignin" <%if(((String)session.getAttribute("BROWSERNAME")).contains("Chrome")){ %> type =  "datetime-local" <% } else { %> type =  "datetime" <% } %> step="1" class="form-control" name = "<%=User.ATR_USER_LASTSIGNIN %>"></p>
 			
             <p>
                 <input id = "input-edit-send" type = "submit" class="btn btn-primary" value = "Editar">

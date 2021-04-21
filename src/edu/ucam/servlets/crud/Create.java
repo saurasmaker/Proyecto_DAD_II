@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.regex.Pattern;
 import java.sql.Blob;
 
 import javax.servlet.ServletException;
@@ -226,14 +229,15 @@ public class Create extends HttpServlet {
 		
 		try {
 			User newUser = new User(request.getParameter(User.ATR_USER_USERNAME), request.getParameter(User.ATR_USER_EMAIL), request.getParameter(User.ATR_USER_PASSWORD));
+			String date = request.getParameter(User.ATR_USER_SIGNUPDATE);
 			
-			String buffer = request.getParameter(User.ATR_USER_SIGNUPDATE);
-			if(buffer!=null) newUser.setSignUpDate(Timestamp.valueOf(buffer.replace("T"," ")));
-			buffer = request.getParameter(User.ATR_USER_LASTSIGNIN);
-			if(buffer != null)newUser.setLastSignIn(Timestamp.valueOf(buffer.replace("T"," ")));
+			newUser.setSignUpDate(validateDate(date));
+			date = request.getParameter(User.ATR_USER_LASTSIGNIN);
+			newUser.setLastSignIn(validateDate(date));
 			
 			if(newUser.getUsername() != null && newUser.getEmail() != null && newUser.getPassword() != null) 
 				(new UserDAO()).create(newUser);
+			
 		}catch(Exception e) {
 			e.printStackTrace();
 			url = request.getContextPath() + "/mod/error.jsp?ERROR_TYPE=" + ErrorType.CREATE_USER_ERROR;
@@ -299,6 +303,18 @@ public class Create extends HttpServlet {
 			e.printStackTrace();
 			url = request.getContextPath() + "/mod/error.jsp?ERROR_TYPE=" + ErrorType.CREATE_VIDEOGAME_CATEGORY_ERROR;
 		}
+	}
+	
+	private Timestamp validateDate(String date) {
+		
+		Pattern simpleDatePattern = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}$");
+		
+		if(date!=null && date.contains("T"))
+			return Timestamp.valueOf(date.replace("T"," "));
+		else if(simpleDatePattern.matcher(date).matches())
+			return (Timestamp.valueOf(date + "T00:00:00:0000"));
+		else 
+			return Timestamp.valueOf(LocalDateTime.now());
 	}
 	
 }
