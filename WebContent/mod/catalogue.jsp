@@ -2,6 +2,7 @@
     pageEncoding="ISO-8859-1"%>
 
 <%@ page import = "java.util.ArrayList" %> 
+<%@ page import = "sun.misc.BASE64Encoder" %>
 
 <%@ page import = "edu.ucam.pojos.*" %> 
 <%@ page import = "edu.ucam.daos.*" %> 
@@ -11,6 +12,7 @@
 	<%
 	ArrayList<Videogame> videogamesCatalogueList = (new VideogameDAO()).list();
 	ArrayList<Assessment> assessmentsCatalogueList = (new AssessmentDAO()).list();
+	ArrayList<VideogameImage> videogamesImagesList;
 	
 	User thisUser = (User) session.getAttribute(User.ATR_USER_LOGGED);
 	Basket basket = null;
@@ -43,31 +45,40 @@
 					</ul>
 				</div>
 					
-				<div id="carouselExampleIndicators" class="carousel slide col-6" data-interval="0" data-ride="carousel">
-				  <ol class="carousel-indicators">
-				    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-				    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-				    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-				  </ol>
-				  <div class="carousel-inner">
-				    <div class="carousel-item active">
-				      <img class="d-block w-100" src="..." alt="First slide">
-				    </div>
-				    <div class="carousel-item">
-				      <img class="d-block w-100" src="..." alt="Second slide">
-				    </div>
-				    <div class="carousel-item">
-				      <img class="d-block w-100" src="..." alt="Third slide">
-				    </div>
-				  </div>
-				  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-				    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-				    <span class="sr-only">Previous</span>
-				  </a>
-				  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-				    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-				    <span class="sr-only">Next</span>
-				  </a>
+				<div id="carouselExampleIndicators<%=i %>" class="carousel slide col-6" data-interval="0" data-ride="carousel">
+					<ol class="carousel-indicators">
+					<% VideogameImageDAO videogameImageDao = new VideogameImageDAO();
+					videogamesImagesList = videogameImageDao.listByVideogameId(videogamesCatalogueList.get(i).getId());
+					
+					if(videogamesImagesList != null && videogamesImagesList.size() != 0) {
+						for(int j = 0; j < videogamesImagesList.size(); ++j) {	%>
+					    		<li data-target="#carouselExampleIndicators<%=i %>" data-slide-to="<%=j %>" <% if(j == 0){ %> class="active" <% } %> ></li>
+					    
+					<% 	} } else { %>
+							<li data-target="#carouselExampleIndicators<%=i %>" data-slide-to="0" class="active"></li>
+					<% 	} %>
+					</ol>
+				  	
+				  	<div class="carousel-inner">
+				  	
+				  		<%	if(videogamesImagesList != null && videogamesImagesList.size() != 0) {
+								for(int j = 0; j < videogamesImagesList.size(); ++j) { 	BASE64Encoder b64e = new BASE64Encoder(); %>
+				    	<div class="carousel-item <% if(j == 0){ %> active <%}%>">
+				    		<img class="d-block w-100" src="data:image/png;base64,<%= b64e.encode((videogamesImagesList.get(j).getImage()))%>" alt="<%=videogamesImagesList.get(j).getName() %>">
+				    	</div>
+				    	<% 	}	} %>
+
+				  	</div>
+				  	
+				  	<a class="carousel-control-prev" href="#carouselExampleIndicators<%=i %>" role="button" data-slide="prev">
+				    	<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				    	<span class="sr-only">Previous</span>
+				  	</a>
+				  
+				  	<a class="carousel-control-next" href="#carouselExampleIndicators<%=i %>" role="button" data-slide="next">
+				    	<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				    	<span class="sr-only">Next</span>
+				  	</a>
 				</div>
 					
 				<div class = "col-12">

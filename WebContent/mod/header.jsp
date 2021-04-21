@@ -17,7 +17,7 @@
 		    <div class="collapse navbar-collapse" id="navbarSupportedContent">
 		        <ul class="navbar-nav mr-auto">
 		            <li class="nav-item">
-		                <a class="nav-link" href = "#">Catálogo <span class="sr-only">()</span></a>
+		                <a class="nav-link" href = "<%= request.getContextPath()%>/index.jsp">Catálogo <span class="sr-only">()</span></a>
 		            </li>
 		            <li class="nav-item">
 		                <a class="nav-link" href="#">Ofertas</a>

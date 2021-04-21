@@ -1,5 +1,7 @@
 package edu.ucam.daos;
 
+import java.io.ByteArrayInputStream;
+import java.sql.Blob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -115,7 +117,7 @@ public class VideogameImageDAO implements IDao<VideogameImage>{
 		try {
 			preparedStatement = DatabaseController.DATABASE_CONNECTION.prepareStatement(query);
 			preparedStatement.setString(1, videogameImage.getName());
-			preparedStatement.setBlob(2, videogameImage.getImage());
+			preparedStatement.setBlob(2, new ByteArrayInputStream(videogameImage.getImage()));
 			preparedStatement.setString(3, videogameImage.getVideogameId());
 			
 			preparedStatement.execute();
@@ -130,10 +132,11 @@ public class VideogameImageDAO implements IDao<VideogameImage>{
 	private VideogameImage setVideogameImageAttributes(ResultSet rs) {
 		VideogameImage videogameImage = null;
 		try {
+			Blob blobImage= rs.getBlob("image");
 			videogameImage = new VideogameImage();
 			videogameImage.setId(rs.getString("id"));
 			videogameImage.setName(rs.getString("name"));
-			videogameImage.setImage(rs.getBlob("image"));
+			videogameImage.setImage(blobImage.getBytes(1, (int)blobImage.length()));
 			videogameImage.setVideogameId("videogame_id");
 		} catch (SQLException e) {
 			e.printStackTrace();

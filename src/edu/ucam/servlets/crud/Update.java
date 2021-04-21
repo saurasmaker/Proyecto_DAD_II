@@ -22,8 +22,11 @@ import edu.ucam.servlets.Controller;
  */
 @WebServlet({"/UPDATE", "/Update", "/update"})
 public class Update extends HttpServlet {
+
 	private static final long serialVersionUID = 1L;
-       
+    
+	String url = "";
+	
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -43,6 +46,8 @@ public class Update extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		url = request.getHeader("referer");
+
 		String objectClass = request.getParameter(Controller.ATR_OBJECT_CLASS);		
 		
 		if(objectClass != null)
@@ -50,34 +55,37 @@ public class Update extends HttpServlet {
 		
 		case "edu.ucam.pojos.Assessment":
 			updateAssessment(request);
+			url += "#assessments-title";
 			break;
 		
 		case "edu.ucam.pojos.Bill":
 			updateBill(request);
+			url += "#bills-title";
 			break;
 			
 		case "edu.ucam.pojos.Category":
 			updateCategory(request);
+			url += "#categories-title";
 			break;
 			
 		case "edu.ucam.pojos.Purchase":
 			updatePurchase(request);
+			url += "#purchases-title";
 			break;
 			
 		case "edu.ucam.pojos.Rental":
 			updateRental(request);
+			url += "#rentals-title";
 			break;
 			
 		case "edu.ucam.pojos.User":
 			updateUser(request);
+			url += "#users-title";
 			break;
 					
 		case "edu.ucam.pojos.Videogame":
 			updateVideogame(request);
-			break;
-			
-		case "edu.ucam.pojos.VideogamesCategories":
-			updateVideogamesCategories(request);
+			url += "#videogames-title";
 			break;
 		
 		default:
@@ -204,6 +212,10 @@ public class Update extends HttpServlet {
 		return ErrorType.PARAMETER_NULL;
 	}
 
+	
+	
+	
+	/*
 	private ErrorType updateVideogamesCategories(HttpServletRequest request){
 		
 		VideogameCategory newVideogamesCategories = new VideogameCategory(request.getParameter(VideogameCategory.ATR_VIDEOGAMESCATEGORIES_VIDEOGAMEID),
@@ -215,5 +227,6 @@ public class Update extends HttpServlet {
 		
 		return ErrorType.PARAMETER_NULL;
 	}
+	*/
 
 }

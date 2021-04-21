@@ -2,6 +2,7 @@
     pageEncoding="ISO-8859-1"%>
 
 <%@ page import = "java.util.ArrayList" %>
+<%@ page import = "sun.misc.BASE64Encoder" %>
 
 <%@ page import = "edu.ucam.enums.*" %>
 
@@ -175,10 +176,11 @@
 			 		<tbody>
 			 			<tr>
 				 			<% ArrayList<VideogameImage> videogameImagesVideogameList = (new VideogameImageDAO()).listByVideogameId(videogameId);
+				 			System.out.println("ey");
 				 			for(int i = 0; i < videogameImagesVideogameList.size(); ++i) {
-				 				VideogameImage showVideogameImage = videogameImagesVideogameList.get(i); %>
+				 				VideogameImage showVideogameImage = videogameImagesVideogameList.get(i); BASE64Encoder b64e = new BASE64Encoder();%>
 				 				
-				 				<td><img src = "<%=showVideogameImage.getImage() %>" name = "<%=showVideogameImage.getName() %>"/></td>
+				 				<td><img src="data:image/png;base64,<%= b64e.encode((videogameImagesVideogameList.get(i).getImage()))%>" alt = "<%=showVideogameImage.getName() %>" width = "50px"/></td>
 				 				
 				 			<% } %>
 			 			</tr>

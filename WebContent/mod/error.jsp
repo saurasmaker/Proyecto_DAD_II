@@ -12,9 +12,11 @@
 	</head>
 
 	<body>
-		<jsp:include page="/mod/header.jsp" />
-		<%= request.getParameter("ERROR_TYPE") %>
-		<jsp:include page="/mod/footer.jsp" />
+		<div class = "general container">
+			<jsp:include page="/mod/header.jsp" />
+			<%= request.getParameter("ERROR_TYPE") %>
+			<jsp:include page="/mod/footer.jsp" />
+		</div>
 	</body>
 
 </html>

@@ -2,21 +2,20 @@ package edu.ucam.servlets.crud;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Paths;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.regex.Pattern;
-import java.sql.Blob;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-
-import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 
 import edu.ucam.daos.AssessmentDAO;
 import edu.ucam.daos.BillDAO;
@@ -35,6 +34,7 @@ import edu.ucam.servlets.Controller;
  * Servlet implementation class CreateVideogame
  */
 @WebServlet({"/CREATE", "/Create", "/create"})
+@MultipartConfig
 public class Create extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
@@ -61,10 +61,7 @@ public class Create extends HttpServlet {
 
 		url = request.getHeader("referer");
 		
-		String objectClass = request.getParameter(Controller.ATR_OBJECT_CLASS);		
-		
-		System.out.println(objectClass);
-		
+		String objectClass = request.getParameter(Controller.ATR_OBJECT_CLASS);				
 		
 		if(objectClass != null)
 		switch(objectClass) {
@@ -105,7 +102,7 @@ public class Create extends HttpServlet {
 			break;
 			
 		case "edu.ucam.pojos.VideogameImage":
-			createVideogamesImages(request);
+			createVideogamesImages(request, response);
 			url += "#videogames-title";
 			break;	
 		
@@ -270,25 +267,24 @@ public class Create extends HttpServlet {
 	}
 	
 	
-	private void createVideogamesImages(HttpServletRequest request) {
+	private void createVideogamesImages(HttpServletRequest request, HttpServletResponse response) {
 
 		try {
-			if(ServletFileUpload.isMultipartContent(request)) System.out.println("Me cago en todo");;
+			
 			VideogameImage newVideogameImage = new VideogameImage();
-			newVideogameImage.setName(request.getParameter(VideogameImage.ATR_VIDEOGAMEIMAGE_NAME));
+			
+			Part imagePart = request.getPart(VideogameImage.ATR_VIDEOGAMEIMAGE_IMAGE);
+			InputStream imageInputStream = imagePart.getInputStream(); 
+			byte[] imageByteArray = new byte[imageInputStream.available()];
+			imageInputStream.read(imageByteArray);
+			
+			newVideogameImage.setName(Paths.get(imagePart.getSubmittedFileName()).getFileName().toString());
+			newVideogameImage.setImage(imageByteArray);
 			newVideogameImage.setVideogameId(request.getParameter(VideogameImage.ATR_VIDEOGAMEIMAGE_VIDEOGAMEID));
-			Part filePart = null;
-			InputStream inputStream = null;
-				filePart = request.getPart(VideogameImage.ATR_VIDEOGAMEIMAGE_IMAGE);
-				inputStream = filePart.getInputStream();
-				newVideogameImage.setImage((Blob)inputStream);
-	
-			
-			System.out.println(filePart.getContentType());
-			
 			
 			if(newVideogameImage.getName() != null && newVideogameImage.getVideogameId() != null && newVideogameImage.getImage() != null)
 				(new VideogameImageDAO()).create(newVideogameImage);
+			
 		}catch(Exception e) {
 			e.printStackTrace();
 			url = request.getContextPath() + "/mod/error.jsp?ERROR_TYPE=" + ErrorType.CREATE_VIDEOGAME_IMAGE_ERROR;

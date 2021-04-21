@@ -1,7 +1,5 @@
 package edu.ucam.pojos;
 
-import java.sql.Blob;
-
 import edu.ucam.interfaces.IMyPojo;
 
 public class VideogameImage implements IMyPojo{
@@ -17,7 +15,7 @@ public class VideogameImage implements IMyPojo{
 	 * Attributes
 	 */
 	private String id, name, videogameId;
-	private Blob image;
+	private byte[] image;
 	
 	
 	
@@ -74,12 +72,12 @@ public class VideogameImage implements IMyPojo{
 	}
 
 
-	public Blob getImage() {
+	public byte[] getImage() {
 		return image;
 	}
 
 
-	public void setImage(Blob image) {
+	public void setImage(byte[] image) {
 		this.image = image;
 	}
 	
