@@ -11,24 +11,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import edu.ucam.daos.AssessmentDAO;
-import edu.ucam.daos.BillDAO;
-import edu.ucam.daos.CategoryDAO;
-import edu.ucam.daos.PurchaseDAO;
-import edu.ucam.daos.RentalDAO;
-import edu.ucam.daos.UserDAO;
-import edu.ucam.daos.VideogameDAO;
-import edu.ucam.daos.VideogameCategoryDAO;
-import edu.ucam.enums.ErrorType;
-import edu.ucam.enums.SearchBy;
-import edu.ucam.pojos.Assessment;
-import edu.ucam.pojos.Bill;
-import edu.ucam.pojos.Category;
-import edu.ucam.pojos.Purchase;
-import edu.ucam.pojos.Rental;
-import edu.ucam.pojos.User;
-import edu.ucam.pojos.Videogame;
-import edu.ucam.pojos.VideogameCategory;
+import edu.ucam.daos.*;
+import edu.ucam.enums.*;
+import edu.ucam.pojos.*;
+
 import edu.ucam.servlets.Controller;
 
 /**
