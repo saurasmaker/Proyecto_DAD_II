@@ -25,23 +25,45 @@
 			<input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Assessment.class.getName() %>" />
 			
 			<label for="assessment-input-id">ID: </label>
-			<p><input id = "assessment-input-id" type = "text" class="form-control" placeholder = "Introduce el nombre del producto..." name = "<%=Assessment.ATR_ASSESSMENT_ID %>" readonly></p>
+			<p><input id = "assessment-input-id" type = "text" class="form-control" placeholder = "texto..." name = "<%=Assessment.ATR_ASSESSMENT_ID %>" readonly></p>
 				
 			<label for="assessment-input-value">Valor: </label>
-			<p><input id = "assessment-input-value" type = "text" class="form-control" placeholder = "Introduce el valor de la reseña..." name = "<%=Assessment.ATR_ASSESSMENT_VALUE %>" required></p>
+			<p><input id = "assessment-input-value" type = "number" min = "0" max = "5" step = "1" placeholder = "número..." name = "<%=Assessment.ATR_ASSESSMENT_VALUE %>" required></p>
 						
 			<label for="assessment-input-subject">Asunto: </label>
-			<p><input id = "assessment-input-subject" type = "text" class="form-control" placeholder = "Introduce la marca del producto..." name = "<%=Assessment.ATR_ASSESSMENT_SUBJECT %>" required></p>
+			<p><input id = "assessment-input-subject" type = "text" class="form-control" placeholder = "texto..." name = "<%=Assessment.ATR_ASSESSMENT_SUBJECT %>" required></p>
 						
 			<label for="assessment-input-comment">Comentario: </label>
-			<p><input id = "assessment-input-comment" type = "text" class="form-control" placeholder = "Introduce el modelo del producto..." name = "<%=Assessment.ATR_ASSESSMENT_COMMENT %>" required></p>
+			<p><input id = "assessment-input-comment" type = "text" class="form-control" placeholder = "texto..." name = "<%=Assessment.ATR_ASSESSMENT_COMMENT %>" required></p>
+				
+			<label style = "text-decoration: underline black;">Publicación: </label>
+			<div class = "row col-12">
+				
+				<div class = "col-12">
+					
+					<label for="assessment-input-publicationdate">Fecha de Publicación: </label>
+					<p><input id = "assessment-input-publicationdate" type = "date" class="form-control" name = "<%=Assessment.ATR_ASSESSMENT_PUBLICATIONDATE %>" required></p>
 						
-		    <label for="assessment-input-publicationdate">Fecha de Publicación: </label>
-			<p><input id = "assessment-input-publicationdate" type = "date" class="form-control" placeholder = "Introduce el precio del producto formato (n,xy)..." name = "<%=Assessment.ATR_ASSESSMENT_PUBLICATIONDATE %>" required></p>
-						
-			<label for="assessment-input-editdate">Fecha de última Edición: </label>
-			<p><input id = "assessment-input-editdate" type = "date" class="form-control" placeholder = "Introduce la cantidad de stock disponible" name = "<%=Assessment.ATR_ASSESSMENT_EDITDATE %>"></p>
-						
+					<label for="assessment-input-publicationtime">Hora de Publicación: </label>
+					<p><input id = "assessment-input-publicationtime" type = "time" class="form-control" step="1" name = "<%=Assessment.ATR_ASSESSMENT_PUBLICATIONTIME %>" required></p>
+					
+				</div>
+			</div>	
+					
+			<label style = "text-decoration: underline black;">Edición: </label>
+			<div class = "row col-12">
+				<div class ="col-12">
+				
+					<label for="assessment-input-editdate">Fecha de última Edición: </label>
+					<p><input id = "assessment-input-editdate" type = "date" class="form-control" name = "<%=Assessment.ATR_ASSESSMENT_EDITDATE %>"></p>	
+				
+					<label for="assessment-input-edittime">Hora de última Edición: </label>
+					<p><input id = "assessment-input-edittime" type = "time" class="form-control" step="1" name = "<%=Assessment.ATR_ASSESSMENT_EDITTIME %>"></p>	
+				
+				</div>		
+			</div>		
+			
+		    
 			<label for="assessment-input-videogameid">ID Videojuego: </label>
 			<p><select id = "assessment-input-videogameid" class="form-control" name = "<%=Assessment.ATR_ASSESSMENT_VIDEOGAMEID %>">
 			  <option value="none" selected>Select a User...</option>
@@ -71,25 +93,46 @@
             <input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Assessment.class.getName() %>" />
             
             <label for="assessment-input-update-id">ID: </label>
-			<p><input id = "assessment-input-update-id" type = "text" class="form-control" placeholder = "Introduce el nombre del producto..." name = "<%=Assessment.ATR_ASSESSMENT_ID %>" readonly></p>
+			<p><input id = "assessment-input-update-id" type = "text" class="form-control" placeholder = "texto..." name = "<%=Assessment.ATR_ASSESSMENT_ID %>" readonly></p>
 				
 			<label for="assessment-input-update-value">Valor: </label>
-			<p><input id = "assessment-input-update-value" type = "text" class="form-control" placeholder = "Introduce el valor de la reseña..." name = "<%=Assessment.ATR_ASSESSMENT_VALUE %>" required></p>
+			<p><input id = "assessment-input-update-value" type = "number" min = "0" max = "5" step = "1" placeholder = "número..." class="form-control" placeholder = "Introduce el valor de la reseña..." name = "<%=Assessment.ATR_ASSESSMENT_VALUE %>" required></p>
 						
 			<label for="assessment-input-update-subject">Asunto: </label>
-			<p><input id = "assessment-input-update-subject" type = "text" class="form-control" placeholder = "Introduce la marca del producto..." name = "<%=Assessment.ATR_ASSESSMENT_SUBJECT %>" required></p>
+			<p><input id = "assessment-input-update-subject" type = "text" class="form-control" placeholder = "texto..." name = "<%=Assessment.ATR_ASSESSMENT_SUBJECT %>" required></p>
 						
 			<label for="assessment-input-update-comment">Comentario: </label>
-			<p><input id = "assessment-input-update-comment" type = "text" class="form-control" placeholder = "Introduce el modelo del producto..." name = "<%=Assessment.ATR_ASSESSMENT_COMMENT %>" required></p>
+			<p><input id = "assessment-input-update-comment" type = "text" class="form-control" placeholder = "texto..." name = "<%=Assessment.ATR_ASSESSMENT_COMMENT %>" required></p>
 						
-		    <label for="assessment-input-update-publicationdate">Fecha de Publicación: </label>
-			<p><input id = "assessment-input-update-publicationdate" type = "date" class="form-control" placeholder = "Introduce el precio del producto formato (n,xy)..." name = "<%=Assessment.ATR_ASSESSMENT_PUBLICATIONDATE %>" required></p>
+			<label style = "text-decoration: underline black;">Publicación: </label>
+			<div class = "row col-12">
+				
+				<div class = "col-12">
+					
+					<label for="assessment-input-update-publicationdate">Fecha de Publicación: </label>
+					<p><input id = "assessment-input-update-publicationdate" type = "date" class="form-control" name = "<%=Assessment.ATR_ASSESSMENT_PUBLICATIONDATE %>" required></p>
 						
-			<label for="assessment-input-update-editdate">Fecha de última Edición: </label>
-			<p><input id = "assessment-input-update-editdate" type = "date" class="form-control" placeholder = "Introduce la cantidad de stock disponible" name = "<%=Assessment.ATR_ASSESSMENT_EDITDATE %>"></p>
+					<label for="assessment-input-update-publicationtime">Hora de Publicación: </label>
+					<p><input id = "assessment-input-update-publicationtime" type = "time" class="form-control" step = "1" name = "<%=Assessment.ATR_ASSESSMENT_PUBLICATIONTIME %>" required></p>
+					
+				</div>
+			</div>	
+					
+			<label style = "text-decoration: underline black;">Edición: </label>
+			<div class = "row col-12">
+				<div class ="col-12">
+				
+					<label for="assessment-input-editdate">Fecha de última Edición: </label>
+					<p><input id = "assessment-input-update-editdate" type = "date" class="form-control" name = "<%=Assessment.ATR_ASSESSMENT_EDITDATE %>"></p>	
+				
+					<label for="assessment-input-update-edittime">Hora de última Edición: </label>
+					<p><input id = "assessment-input-update-edittime" type = "time" class="form-control" step = "1" name = "<%=Assessment.ATR_ASSESSMENT_EDITTIME %>"></p>	
+				
+				</div>		
+			</div>	
 						
 			<label for="assessment-input-update-videogameid">ID Videojuego: </label>
-			<p><select id = "assessment-input-update-videogameid" class="form-control" name = "<%=Assessment.ATR_ASSESSMENT_USERID %>">
+			<p><select id = "assessment-input-update-videogameid" class="form-control" name = "<%=Assessment.ATR_ASSESSMENT_VIDEOGAMEID %>">
 			  <option value="none" selected>Elige un Videojuego...</option>
 			  <% for(int i = 0; i < videogamesAssessmentList.size(); ++i) { %>
 				  <option value="<%=videogamesAssessmentList.get(i).getId() %>"><%=videogamesAssessmentList.get(i).getName() %></option>

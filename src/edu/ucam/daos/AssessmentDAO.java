@@ -18,7 +18,7 @@ public class AssessmentDAO implements IDao<Assessment>{
 	 */
 	@Override
 	public ErrorType create(Assessment assessment) {
-		return executeQueryWithParameters("INSERT INTO assessments (value, subject, comment, publication_date, edit_date, videogame_id, user_id) VALUES (?, ?, ?, ?, ?, ?, ?)" , assessment);		
+		return executeQueryWithParameters("INSERT INTO assessments (value, subject, comment, publication_date, publication_time, edit_date, edit_time, videogame_id, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)" , assessment);		
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class AssessmentDAO implements IDao<Assessment>{
 	
 	@Override
 	public ErrorType update(String search, SearchBy searchBy, Assessment assessment) {
-		String updateQuery = "UPDATE assessments SET value = ?, subject = ?, comment = ?, publication_date = ?, edit_date = ?, videogame_id = ?, user_id = ? WHERE ";
+		String updateQuery = "UPDATE assessments SET value = ?, subject = ?, comment = ?, publication_date = ?, publication_time = ?, edit_date = ?, edit_time = ?, videogame_id = ?, user_id = ? WHERE ";
 		updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy, search);
 		return executeQueryWithParameters(updateQuery, assessment);
 	}
@@ -144,10 +144,12 @@ public class AssessmentDAO implements IDao<Assessment>{
 			preparedStatement.setInt(1, assessment.getValue());
 			preparedStatement.setString(2, assessment.getSubject());
 			preparedStatement.setString(3, assessment.getComment());
-			preparedStatement.setTimestamp(4, assessment.getPublicationDate());
-			preparedStatement.setTimestamp(5, assessment.getEditDate());
-			preparedStatement.setString(6, assessment.getVideogameId());
-			preparedStatement.setString(7, assessment.getUserId());
+			preparedStatement.setDate(4, assessment.getPublicationDate());
+			preparedStatement.setTime(5, assessment.getPublicationTime());
+			preparedStatement.setDate(6, assessment.getEditDate());
+			preparedStatement.setTime(7, assessment.getEditTime());
+			preparedStatement.setString(8, assessment.getVideogameId());
+			preparedStatement.setString(9, assessment.getUserId());
 			
 			preparedStatement.execute();
 			preparedStatement.close();
@@ -166,7 +168,13 @@ public class AssessmentDAO implements IDao<Assessment>{
 			assessment.setId(rs.getString("id"));
 			assessment.setValue(rs.getInt("value"));
 			assessment.setSubject(rs.getString("subject"));
-			assessment.setComment(rs.getString("publcation_date"));
+			assessment.setComment(rs.getString("comment"));
+			assessment.setPublicationDate(rs.getDate("publication_date"));
+			assessment.setPublicationTime(rs.getTime("publication_time"));
+			assessment.setEditDate(rs.getDate("edit_date"));
+			assessment.setEditTime(rs.getTime("edit_time"));
+			assessment.setVideogameId(rs.getString("videogame_id"));
+			assessment.setUserId(rs.getString("user_id"));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

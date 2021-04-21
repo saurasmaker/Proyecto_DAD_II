@@ -3,8 +3,8 @@ package edu.ucam.servlets.crud;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Date;
+import java.sql.Time;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.regex.Pattern;
 import java.sql.Blob;
@@ -129,13 +129,17 @@ public class Create extends HttpServlet {
 	 */
 	private void createAssessment(HttpServletRequest request) {
 		
+		System.out.println(request.getParameter(Assessment.ATR_ASSESSMENT_PUBLICATIONTIME));
+		
 		try {
 			Assessment newAssessment = new Assessment();
 			newAssessment.setValue(Integer.parseInt(request.getParameter(Assessment.ATR_ASSESSMENT_VALUE)));
 			newAssessment.setSubject(request.getParameter(Assessment.ATR_ASSESSMENT_SUBJECT));
 			newAssessment.setComment(request.getParameter(Assessment.ATR_ASSESSMENT_COMMENT));
-			newAssessment.setPublicationDate(Timestamp.valueOf(request.getParameter(Assessment.ATR_ASSESSMENT_PUBLICATIONDATE).replace("T"," ")));
-			newAssessment.setEditDate(Timestamp.valueOf(request.getParameter(Assessment.ATR_ASSESSMENT_EDITDATE).replace("T"," ")));
+			newAssessment.setPublicationDate(Date.valueOf(request.getParameter(Assessment.ATR_ASSESSMENT_PUBLICATIONDATE)));
+			newAssessment.setPublicationTime(Time.valueOf(request.getParameter(Assessment.ATR_ASSESSMENT_PUBLICATIONTIME)));
+			newAssessment.setEditDate(Date.valueOf(request.getParameter(Assessment.ATR_ASSESSMENT_EDITDATE)));
+			newAssessment.setEditTime(Time.valueOf(request.getParameter(Assessment.ATR_ASSESSMENT_EDITTIME)));
 			newAssessment.setVideogameId(request.getParameter(Assessment.ATR_ASSESSMENT_VIDEOGAMEID));
 			newAssessment.setUserId(request.getParameter(Assessment.ATR_ASSESSMENT_USERID));
 			

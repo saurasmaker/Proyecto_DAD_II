@@ -2,6 +2,7 @@ package edu.ucam.servlets.crud;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.Time;
 import java.sql.Timestamp;
 
 import javax.servlet.ServletException;
@@ -102,15 +103,20 @@ public class Update extends HttpServlet {
 	}
 	
 	private ErrorType updateAssessment(HttpServletRequest request) {
+		
 		Assessment updateAssessment = new Assessment();
 		updateAssessment.setId(request.getParameter(Assessment.ATR_ASSESSMENT_ID));
 		updateAssessment.setValue(Integer.parseInt(request.getParameter(Assessment.ATR_ASSESSMENT_VALUE)));
 		updateAssessment.setSubject(request.getParameter(Assessment.ATR_ASSESSMENT_SUBJECT));
 		updateAssessment.setComment(request.getParameter(Assessment.ATR_ASSESSMENT_COMMENT));
-		updateAssessment.setPublicationDate(Timestamp.valueOf(request.getParameter(Assessment.ATR_ASSESSMENT_PUBLICATIONDATE).replace("T"," ")));
-		updateAssessment.setEditDate(Timestamp.valueOf(request.getParameter(Assessment.ATR_ASSESSMENT_EDITDATE).replace("T"," ")));
+		updateAssessment.setPublicationDate(Date.valueOf(request.getParameter(Assessment.ATR_ASSESSMENT_PUBLICATIONDATE)));
+		updateAssessment.setPublicationTime(Time.valueOf(request.getParameter(Assessment.ATR_ASSESSMENT_PUBLICATIONTIME)));
+		updateAssessment.setEditDate(Date.valueOf(request.getParameter(Assessment.ATR_ASSESSMENT_EDITDATE)));
+		updateAssessment.setEditTime(Time.valueOf(request.getParameter(Assessment.ATR_ASSESSMENT_EDITTIME)));
 		updateAssessment.setVideogameId(request.getParameter(Assessment.ATR_ASSESSMENT_VIDEOGAMEID));
 		updateAssessment.setUserId(request.getParameter(Assessment.ATR_ASSESSMENT_USERID));
+		
+		System.out.println(updateAssessment.toJavaScriptFunction());
 		
 		if(updateAssessment.getSubject() != null && updateAssessment.getComment() != null && updateAssessment.getPublicationDate() != null && 
 				updateAssessment.getEditDate() != null && updateAssessment.getVideogameId() != null && updateAssessment.getUserId() != null)

@@ -19,7 +19,7 @@ function displayAdminPage (){
 }
 
 
-function updateAssessment(id, value, subject, comment, publicationDate, editDate, videogameId, userId){
+function updateAssessment(id, value, subject, comment, publicationDate, publicationTime, editDate, editTime, videogameId, userId){
 	document.getElementById("create-assessment-form").style.display = "none";
     document.getElementById("update-assessment-form").style.display = "block";
 
@@ -28,11 +28,11 @@ function updateAssessment(id, value, subject, comment, publicationDate, editDate
     document.getElementById("assessment-input-update-subject").value = subject;
     document.getElementById("assessment-input-update-comment").value = comment;
     document.getElementById("assessment-input-update-publicationdate").value = publicationDate;
+    document.getElementById("assessment-input-update-publicationtime").value = publicationTime;
     document.getElementById("assessment-input-update-editdate").value = editDate;
+    document.getElementById("assessment-input-update-edittime").value = editTime;
     document.getElementById("assessment-input-update-videogameid").value = videogameId;
     document.getElementById("assessment-input-update-userid").value = userId;
-
-    alert("Lets Update Assessment");
 }
 
 function updateBill(id, userId, purchaseDate, paid){
@@ -43,8 +43,6 @@ function updateBill(id, userId, purchaseDate, paid){
     document.getElementById("bill-input-update-userid").value = userId;
     document.getElementById("bill-input-update-purchasedate").value = purchaseDate;
     document.getElementById("bill-input-update-paid").value = paid;
-
-    alert("Lets Update Bill");
 }
 
 function updateCategory(id, name, description){
@@ -54,8 +52,6 @@ function updateCategory(id, name, description){
     document.getElementById("category-input-update-id").value = id;
     document.getElementById("category-input-update-name").value = name;
     document.getElementById("category-input-update-description").value = description;
-
-    alert("Lets Update Category");
 }
 
 function updatePurchase(id, amount, videogameId, billId){
@@ -66,8 +62,6 @@ function updatePurchase(id, amount, videogameId, billId){
     document.getElementById("purchase-input-update-amount").value = amount;
     document.getElementById("purchase-input-update-videogameid").value = videogameId;
     document.getElementById("purchase-input-update-billId").value = billId;
-
-    alert("Lets Update Purchase");
 }
 
 function updateRental(id, userId, videogameId, startDate, endDate, returned){
@@ -80,8 +74,6 @@ function updateRental(id, userId, videogameId, startDate, endDate, returned){
     document.getElementById("rental-input-update-startdate").value = startDate;
     document.getElementById("rental-input-update-enddate").value = endDate;
     document.getElementById("rental-input-update-returned").value = returned;
-
-    alert("Lets Update Rental");
 }
 
 function updateUser(id, username, email, password, signUpDate, lastSignIn){
