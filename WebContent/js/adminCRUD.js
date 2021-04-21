@@ -35,14 +35,17 @@ function updateAssessment(id, value, subject, comment, publicationDate, publicat
     document.getElementById("assessment-input-update-userid").value = userId;
 }
 
-function updateBill(id, userId, purchaseDate, paid){
+function updateBill(id, userId, billingDate, billingTime, paid, paidDate, paidTime){
 	document.getElementById("create-bill-form").style.display = "none";
     document.getElementById("update-bill-form").style.display = "block";
     
     document.getElementById("bill-input-update-id").value = id;
     document.getElementById("bill-input-update-userid").value = userId;
-    document.getElementById("bill-input-update-purchasedate").value = purchaseDate;
-    document.getElementById("bill-input-update-paid").value = paid;
+    document.getElementById("bill-input-update-billingdate").value = billingDate;
+    document.getElementById("bill-input-update-billingtime").value = billingTime;
+    document.getElementById("bill-input-update-paid").checked = (paid == "true");
+    document.getElementById("bill-input-update-paiddate").value = paidDate;
+    document.getElementById("bill-input-update-paidtime").value = paidTime;
 }
 
 function updateCategory(id, name, description){

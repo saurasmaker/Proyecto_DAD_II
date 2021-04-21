@@ -67,7 +67,7 @@
 			
             <p>
                 <input id = "input-edit-send" type = "submit" class="btn btn-primary" value = "Editar">
-                <button id = "input-edit-send" class="btn btn-secondary" type = "button" role="button" onclick = "cancelUpdateUser()" style = "margin-left: 10px;">Cancelar</button>
+                <a id = "input-edit-send" class="btn btn-secondary" type = "button" role="button" href = "users-title" onclick = "cancelUpdateUser()" style = "margin-left: 10px;">Cancelar</a>
             </p>
         </form>
     </div>

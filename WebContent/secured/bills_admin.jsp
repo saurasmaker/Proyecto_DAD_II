@@ -36,11 +36,30 @@
 			  <% } %>
 			</select></p>
 
-		    <label for="bill-input-purchasedate">Fecha de Compra: </label>
-			<p><input id = "bill-input-purchasedate" type = "date" class="form-control" placeholder = "Introduce la fecha de compra..." name = "<%=Bill.ATR_BILL_PURCHASEDATE %>" required></p>
+			<label style = "text-decoration: underline black;">Facturación: </label>
+			<div class = "row col-12">
+				<div class = "col-12">
+				    <label for="bill-input-billingdate">Fecha de Facturación: </label>
+					<p><input id = "bill-input-billingdate" type = "date" class="form-control" name = "<%=Bill.ATR_BILL_BILLINGDATE %>" required></p>
+				
+					<label for="bill-input-billingtime">Hora de Facturación: </label>
+					<p><input id = "bill-input-billingtime" type = "time" step = "1" class="form-control" name = "<%=Bill.ATR_BILL_BILLINGTIME %>" required></p>
+				</div>
+			</div>
 		
 			<label for="bill-input-paid">Pagado: </label>
-			<p><input id = "bill-input-paid" type = "checkbox" class="form-control" name = "<%=Bill.ATR_BILL_PAID %>" required></p>
+			<p><input id = "bill-input-paid" type = "checkbox" class="form-control" name = "<%=Bill.ATR_BILL_PAID %>"></p>
+				
+			<label style = "text-decoration: underline black;">Pago: </label>
+			<div class = "row col-12">
+				<div class = "col-12">
+				    <label for="bill-input-paiddate">Fecha del Pago: </label>
+					<p><input id = "bill-input-paiddate" type = "date" class="form-control" name = "<%=Bill.ATR_BILL_PAIDDATE %>" required></p>
+				
+					<label for="bill-input-paidtime">Hora del Pago: </label>
+					<p><input id = "bill-input-paidtime" type = "time" step = "1" class="form-control" name = "<%=Bill.ATR_BILL_PAIDTIME %>" required></p>
+				</div>
+			</div>
 						
             <p><input id = "input-send" type = "submit" class="btn btn-primary" value = "Crear"></p>
         </form>
@@ -61,15 +80,34 @@
 			  <% } %>
 			</select></p>
 
-		    <label for="bill-input-update-purchasedate">Fecha de Compra: </label>
-			<p><input id = "bill-input-update-purchasedate" type = "date" class="form-control" placeholder = "Introduce la fecha de compra..." name = "<%=Bill.ATR_BILL_PURCHASEDATE %>" required></p>
+		    <label style = "text-decoration: underline black;">Facturación: </label>
+			<div class = "row col-12">
+				<div class = "col-12">
+				    <label for="bill-input-update-billingdate">Fecha de Facturación: </label>
+					<p><input id = "bill-input-update-billingdate" type = "date" class="form-control" name = "<%=Bill.ATR_BILL_BILLINGDATE %>" required></p>
+				
+					<label for="bill-input-update-billingtime">Hora de Facturación: </label>
+					<p><input id = "bill-input-update-billingtime" type = "time" step = "1" class="form-control" name = "<%=Bill.ATR_BILL_BILLINGTIME %>" required></p>
+				</div>
+			</div>
 		
 			<label for="bill-input-update-paid">Pagado: </label>
-			<p><input id = "bill-input-update-paid" type = "checkbox" class="form-control" name = "<%=Bill.ATR_BILL_PAID %>" required></p>
+			<p><input id = "bill-input-update-paid" type = "checkbox" class="form-control" name = "<%=Bill.ATR_BILL_PAID %>"></p>
+				
+			<label style = "text-decoration: underline black;">Pago: </label>
+			<div class = "row col-12">
+				<div class = "col-12">
+				    <label for="bill-input-update-paiddate">Fecha del Pago: </label>
+					<p><input id = "bill-input-update-paiddate" type = "date" class="form-control" name = "<%=Bill.ATR_BILL_PAIDDATE %>" required></p>
+				
+					<label for="bill-input-update-paidtime">Hora del Pago: </label>
+					<p><input id = "bill-input-update-paidtime" type = "time" step = "1" class="form-control" name = "<%=Bill.ATR_BILL_PAIDTIME %>" required></p>
+				</div>
+			</div>
             
             <p>
                 <input id = "input-edit-send" type = "submit" class="btn btn-primary" value = "Editar">
-                <button id = "input-edit-send" class="btn btn-secondary" role="button" onclick = "cancelUpdateBill()" style = "margin-left: 10px;">Cancelar</button>
+                <a id = "input-edit-send" class="btn btn-secondary" href = "#bills-title" role="button" onclick = "cancelUpdateBill()" style = "margin-left: 10px;">Cancelar</a>
             </p>
         </form>
     </div>
@@ -83,8 +121,11 @@
                   	<tr>
                      	<th scope="col">ID</th>
                      	<th scope="col">ID Usuario</th>
-                     	<th scope="col">Fecha de Compra</th>
+                     	<th scope="col">Fecha de Facturación</th>
+                     	<th scope="col">Hora de Facturación</th>
 						<th scope="col">Pagado</th>
+						<th scope="col">Fecha de Pago</th>
+						<th scope="col">Hora de Pago</th>
                         <th scope="col">Editar</th>
                         <th scope="col">Eliminar</th>
                   	</tr>
@@ -96,8 +137,11 @@
 					<tr>
                      	<td><%=showBill.getId() %></td>
                      	<td><%=showBill.getUserId() %></td>
-                        <td><%=showBill.getPurchaseDate() %></td>
+                        <td><%=showBill.getBillingDate() %></td>
+                        <td><%=showBill.getBillingTime() %></td>
                         <td><%=showBill.isPaid() %></td>
+                        <td><%=showBill.getPaidDate() %></td>
+                        <td><%=showBill.getPaidTime() %></td>
                         <td>
                             <button type = "submit" class="btn btn-warning" onclick = "updateBill(<%=showBill.toJavaScriptFunction() %>)">Editar</button>
                         </td>

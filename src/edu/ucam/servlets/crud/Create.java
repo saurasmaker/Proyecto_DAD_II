@@ -155,16 +155,18 @@ public class Create extends HttpServlet {
 	
 	
 	private void createBill(HttpServletRequest request) {
-		
+				
 		try {
 			Bill newBill = new Bill();
 			newBill.setUserId(request.getParameter(Bill.ATR_BILL_USERID));
-			newBill.setPurchaseDate(Timestamp.valueOf(request.getParameter(Bill.ATR_BILL_PURCHASEDATE).replace("T"," ")));
-			if(request.getParameter(Bill.ATR_BILL_PURCHASEDATE).contentEquals("on")) newBill.setPaid(true);
+			newBill.setBillingDate(Date.valueOf(request.getParameter(Bill.ATR_BILL_BILLINGDATE)));
+			newBill.setBillingTime(Time.valueOf(request.getParameter(Bill.ATR_BILL_BILLINGTIME)));
+			if(request.getParameter(Bill.ATR_BILL_PAID) != null) newBill.setPaid(true);
 			else newBill.setPaid(false);
+			newBill.setPaidDate(Date.valueOf(request.getParameter(Bill.ATR_BILL_PAIDDATE)));
+			newBill.setPaidTime(Time.valueOf(request.getParameter(Bill.ATR_BILL_PAIDTIME)));
 			
-			
-			if(newBill.getUserId() != null && newBill.getPurchaseDate() != null) 
+			if(newBill.getUserId() != null && newBill.getBillingDate() != null) 
 				(new BillDAO()).create(newBill);	
 		}catch(Exception e) {
 			e.printStackTrace();

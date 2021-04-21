@@ -126,15 +126,20 @@ public class Update extends HttpServlet {
 	}
 	
 	private ErrorType updateBill(HttpServletRequest request) {
+
 		Bill updateBill = new Bill();
 		updateBill.setId(request.getParameter(Bill.ATR_BILL_ID));
 		updateBill.setUserId(request.getParameter(Bill.ATR_BILL_USERID));
-		updateBill.setPurchaseDate(Timestamp.valueOf(request.getParameter(Bill.ATR_BILL_PURCHASEDATE).replace("T"," ")));
-		if(request.getParameter(Bill.ATR_BILL_PURCHASEDATE).contentEquals("on")) updateBill.setPaid(true);
+		updateBill.setBillingDate(Date.valueOf(request.getParameter(Bill.ATR_BILL_BILLINGDATE)));
+		updateBill.setBillingTime(Time.valueOf(request.getParameter(Bill.ATR_BILL_BILLINGTIME)));
+		if(request.getParameter(Bill.ATR_BILL_PAID) != null) updateBill.setPaid(true);
 		else updateBill.setPaid(false);
+		updateBill.setPaidDate(Date.valueOf(request.getParameter(Bill.ATR_BILL_PAIDDATE)));
+		updateBill.setPaidTime(Time.valueOf(request.getParameter(Bill.ATR_BILL_PAIDTIME)));
 		
+		System.out.println(updateBill.toJavaScriptFunction());
 		
-		if(updateBill.getUserId() != null && updateBill.getPurchaseDate() != null) {
+		if(updateBill.getUserId() != null && updateBill.getBillingDate() != null) {
 			return (new BillDAO()).update(updateBill.getId(), SearchBy.ID, updateBill);
 		}
 		

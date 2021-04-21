@@ -18,7 +18,7 @@ public class BillDAO implements IDao<Bill>{
 	 */
 	@Override
 	public ErrorType create(Bill bill) {
-		return executeQueryWithParameters("INSERT INTO bills (user_id, purchase_date, paid) VALUES (?, ?, ?)" , bill);		
+		return executeQueryWithParameters("INSERT INTO bills (user_id, billing_date, billing_time, paid, paid_date, paid_time) VALUES (?, ?, ?, ?, ?, ?)" , bill);		
 	}
 
 	@Override
@@ -45,7 +45,7 @@ public class BillDAO implements IDao<Bill>{
 
 	@Override
 	public ErrorType update(String search, SearchBy searchBy, Bill bill) {
-		String updateQuery = "UPDATE assessments SET value = ?, subject = ?, comment = ?, publication_date = ?, edit_date = ?, videogame_id = ?, user_id = ? WHERE ";
+		String updateQuery = "UPDATE bills SET user_id = ?, billing_date = ?, billing_time = ?, paid = ?, paid_date = ?, paid_time = ? WHERE ";
 		updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy, search);
 		return executeQueryWithParameters(updateQuery, bill);
 	}
@@ -117,8 +117,11 @@ public class BillDAO implements IDao<Bill>{
 		try {
 			preparedStatement = DatabaseController.DATABASE_CONNECTION.prepareStatement(query);
 			preparedStatement.setString(1, bill.getUserId());
-			preparedStatement.setTimestamp(2, bill.getPurchaseDate());
-			preparedStatement.setBoolean(3, bill.isPaid());
+			preparedStatement.setDate(2, bill.getBillingDate());
+			preparedStatement.setTime(3, bill.getBillingTime());
+			preparedStatement.setBoolean(4, bill.isPaid());
+			preparedStatement.setDate(5, bill.getPaidDate());
+			preparedStatement.setTime(6, bill.getPaidTime());
 			
 			preparedStatement.execute();
 			preparedStatement.close();
@@ -136,8 +139,11 @@ public class BillDAO implements IDao<Bill>{
 			bill = new Bill();
 			bill.setId(rs.getString("id"));
 			bill.setUserId(rs.getString("user_id"));
-			bill.setPurchaseDate(rs.getTimestamp("purchase_date"));
+			bill.setBillingDate(rs.getDate("billing_date"));
+			bill.setBillingTime(rs.getTime("billing_time"));
 			bill.setPaid(rs.getBoolean("paid"));
+			bill.setPaidDate(rs.getDate("paid_date"));
+			bill.setPaidTime(rs.getTime("paid_time"));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
