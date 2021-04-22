@@ -18,6 +18,7 @@ import edu.ucam.pojos.Rental;
 import edu.ucam.pojos.User;
 import edu.ucam.pojos.Videogame;
 import edu.ucam.pojos.VideogameCategory;
+import edu.ucam.pojos.VideogameImage;
 import edu.ucam.servlets.Controller;
 
 /**
@@ -59,34 +60,47 @@ public class Delete extends HttpServlet {
 		
 		case "edu.ucam.pojos.Assessment":
 			et = deleteAssessment(request.getParameter(Assessment.ATR_ASSESSMENT_ID));
+			url += "#assessments-title";
 			break;
 		
 		case "edu.ucam.pojos.Bill":
 			et = deleteBill(request.getParameter(Bill.ATR_BILL_ID));
+			url += "#bills-title";
 			break;
 			
 		case "edu.ucam.pojos.Category":
 			et = deleteCategory(request.getParameter(Category.ATR_CATEGORY_ID));
+			url += "#categories-title";
 			break;
 			
 		case "edu.ucam.pojos.Purchase":
 			et = deletePurchase(request.getParameter(Purchase.ATR_PURCHASE_ID));
+			url += "#purchases-title";
 			break;
 			
 		case "edu.ucam.pojos.Rental":
 			et = deleteRental(request.getParameter(Rental.ATR_RENTAL_ID));
+			url += "#rentals-title";
 			break;
 			
 		case "edu.ucam.pojos.User":
 			et = deleteUser(request.getParameter(User.ATR_USER_ID));
+			url += "#users-title";
 			break;
 					
 		case "edu.ucam.pojos.Videogame":
 			et = deleteVideogame(request.getParameter(Videogame.ATR_VIDEOGAME_ID));
+			url += "#videogames-title";
 			break;
 			
 		case "edu.ucam.pojos.VideogameCategory":
-			et = deleteVideogamesCategories(request.getParameter(VideogameCategory.ATR_VIDEOGAMESCATEGORIES_ID));
+			et = deleteVideogameCategory(request.getParameter(VideogameCategory.ATR_VIDEOGAMESCATEGORIES_ID));
+			url += "#videogames-title";
+			break;
+			
+		case "edu.ucam.pojos.VideogameImage":
+			et = deleteVideogameImage(request.getParameter(VideogameImage.ATR_VIDEOGAMEIMAGE_ID));
+			url += "#videogames-title";
 			break;
 		
 		default:
@@ -101,7 +115,7 @@ public class Delete extends HttpServlet {
 	}
 	
 	
-	private ErrorType deleteAssessment(String idAssessment) {
+private ErrorType deleteAssessment(String idAssessment) {
 		
 		if(idAssessment != null) 
 			return (new AssessmentDAO()).delete(idAssessment, SearchBy.ID);
@@ -157,10 +171,16 @@ public class Delete extends HttpServlet {
 		return ErrorType.PARAMETER_NULL;
 	}
 	
-	private ErrorType deleteVideogamesCategories(String idVideogamesCategories) {
-		
+	private ErrorType deleteVideogameCategory(String idVideogamesCategories) {
 		if(idVideogamesCategories != null) 
 			return (new VideogameCategoryDAO()).delete(idVideogamesCategories, SearchBy.ID);
+		
+		return ErrorType.PARAMETER_NULL;
+	}
+	
+	private ErrorType deleteVideogameImage(String idVideogameImage) {
+		if(idVideogameImage != null) 
+			return (new VideogameImageDAO()).delete(idVideogameImage, SearchBy.ID);
 		
 		return ErrorType.PARAMETER_NULL;
 	}
