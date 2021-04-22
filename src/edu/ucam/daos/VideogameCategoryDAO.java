@@ -86,8 +86,8 @@ public class VideogameCategoryDAO implements IDao<VideogameCategory>{
 	}
 
 	
-	public ArrayList<VideogameCategory> listByVideogameId(String videogameId) {
-		String updateQuery = "SELECT * FROM videogames_categories WHERE videogame_id = '" + videogameId + "'"; 		
+	public ArrayList<VideogameCategory> listByVideogameId(String categoryId) {
+		String updateQuery = "SELECT * FROM videogames v INNER JOIN videogames_categories vc ON v.id = vc.videogame_id WHERE vc.category_id = '" + categoryId + '"'; 		
 		ResultSet rs = null;
 		ArrayList<VideogameCategory> videogamesCategoriesList = new ArrayList<VideogameCategory>();
 		

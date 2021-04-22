@@ -1,6 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     
+<%@ page import = "java.util.ArrayList" %>
+
+<%@ page import = "edu.ucam.pojos.Category" %>
+<%@ page import = "edu.ucam.daos.CategoryDAO" %>
+<%@ page import = "edu.ucam.servlets.Controller" %>    
+
 <%@ page import = "edu.ucam.pojos.User" %>    
 
 	<% if(session.getAttribute(User.ATR_USER_LOGGED)==null) { %>
@@ -27,16 +33,14 @@
 		            		Secciones
 		                </a>
 		                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-		                    <a class="dropdown-item" href="#">Acción</a>
-		                    <a class="dropdown-item" href="#">RPG</a>
-		                    <a class="dropdown-item" href="#">Aventura</a>
-		                    <a class="dropdown-item" href="#">Rol</a>
-		                    <a class="dropdown-item" href="#">Sandbox</a>
-		                    <a class="dropdown-item" href="#">Deportes</a>
-		                    <a class="dropdown-item" href="#">Fantasía</a>
-		                    <a class="dropdown-item" href="#">Ciencia Ficción</a>
-		                    <div class="dropdown-divider"></div>
-		                    <a class="dropdown-item" href="#">Otros</a>
+		                    <% 
+		                    ArrayList<Category> headerCategoryList = (new CategoryDAO()).list();
+		                    Category showHcl;
+		    			  	for(int i = 0; i < headerCategoryList.size(); ++i) {	
+		    			  		showHcl = headerCategoryList.get(i);
+		    			  	%>
+		                    <a class="dropdown-item" href="<%= request.getContextPath()%>/index.jsp?SEARCH_VIDEOGAME_BY_CATEGORY=<%=showHcl.getId() %>"><%= showHcl.getName() %></a>
+							<% } %>
 		                </div>
 		            </li>
 		        </ul>

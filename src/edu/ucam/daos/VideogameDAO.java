@@ -9,6 +9,7 @@ import edu.ucam.database.DatabaseController;
 import edu.ucam.enums.ErrorType;
 import edu.ucam.enums.SearchBy;
 import edu.ucam.interfaces.IDao;
+import edu.ucam.pojos.Category;
 import edu.ucam.pojos.Videogame;
 
 public class VideogameDAO implements IDao<Videogame>{
@@ -86,6 +87,27 @@ public class VideogameDAO implements IDao<Videogame>{
 		return videogamesList;
 	}
 	
+	
+	public ArrayList<Videogame> listByCategoryId(String categoryId) {
+		
+		String updateQuery = "SELECT * FROM videogames v INNER JOIN videogames_categories vc ON v.id = vc.videogame_id WHERE vc.category_id = '" + categoryId + "'"; 		
+		ResultSet rs = null;
+		ArrayList<Videogame> videogamesList = new ArrayList<Videogame>();
+		
+		try {
+			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(updateQuery);					
+			while(rs.next()) {
+				Videogame videogame = setUserAttributes(rs);
+				videogamesList.add(videogame);
+			}	
+			rs.close();
+		} catch (Exception e)  {
+			e.printStackTrace();
+		}	
+		
+		return videogamesList;
+		
+	}
 	
 	/*
 	 * Tool Methods

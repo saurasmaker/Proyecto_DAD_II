@@ -3,11 +3,11 @@
     <jsp-version>1.2</jsp-version>
     <short-name>hola</short-name>
     <uri>infodeotags</uri>
-    <description>Etiquetas de la empresa ficticia Infodeo.</description>
+    <description>Tis tag will show the videogames by category</description>
 	
     <tag>
-	    <name>holamundo</name>
-        <tag-class>tags.MyTag</tag-class>
+	    <name>showvideogamesbycategory</name>
+        <tag-class>edu.ucam.tags.ShowVideogamesByCategory</tag-class>
         <body-content>empty</body-content>
         <info>Saludo</info>
         <attribute>
@@ -15,7 +15,7 @@
              <required>false</required>
         </attribute>
         <attribute>
-             <name>apellidos</name>
+             <name>category</name>
              <required>false</required>
         </attribute>
     </tag>
