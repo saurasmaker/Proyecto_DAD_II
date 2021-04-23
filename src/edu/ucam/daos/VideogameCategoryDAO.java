@@ -68,41 +68,18 @@ public class VideogameCategoryDAO implements IDao<VideogameCategory>{
 	@Override
 	public ArrayList<VideogameCategory> list() {
 		String updateQuery = "SELECT * FROM videogames_categories"; 		
-		ResultSet rs = null;
-		ArrayList<VideogameCategory> videogamesCategoriesList = new ArrayList<VideogameCategory>();
-		
-		try {
-			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(updateQuery);					
-			while(rs.next()) {
-				VideogameCategory videogamesCategories = setVideogameCategoryAttributes(rs);
-				videogamesCategoriesList.add(videogamesCategories);
-			}		
-			rs.close();
-		} catch (SQLException e)  {
-			e.printStackTrace();
-		}	
-		
-		return videogamesCategoriesList;
+		return listTool(updateQuery);
 	}
 
 	
-	public ArrayList<VideogameCategory> listByVideogameId(String categoryId) {
-		String updateQuery = "SELECT * FROM videogames v INNER JOIN videogames_categories vc ON v.id = vc.videogame_id WHERE vc.category_id = '" + categoryId + '"'; 		
-		ResultSet rs = null;
-		ArrayList<VideogameCategory> videogamesCategoriesList = new ArrayList<VideogameCategory>();
-		
-		try {
-			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(updateQuery);					
-			while(rs.next()) {
-				VideogameCategory videogamesCategories = setVideogameCategoryAttributes(rs);
-				videogamesCategoriesList.add(videogamesCategories);
-			}		
-			rs.close();
-		} catch (SQLException e)  {
-			e.printStackTrace();
-		}	
-		
-		return videogamesCategoriesList;
+	public ArrayList<VideogameCategory> listByCategoryId(String categoryId) {
+		String updateQuery = "SELECT * FROM videogames_categories WHERE category_id = '" + categoryId + "'"; 		
+		return listTool(updateQuery);
+	}
+	
+	public ArrayList<VideogameCategory> listByVideogameId(String videogameId) {
+		String updateQuery = "SELECT * FROM videogames_categories WHERE videogame_id = '" + videogameId + "'"; 		
+		return listTool(updateQuery);
 	}
 	
 	
@@ -137,5 +114,24 @@ public class VideogameCategoryDAO implements IDao<VideogameCategory>{
 			e.printStackTrace();
 		}
 		return videogameCategory;
+	}
+	
+	private ArrayList<VideogameCategory> listTool(String updateQuery){
+		
+		ResultSet rs = null;
+		ArrayList<VideogameCategory> videogamesCategoriesList = new ArrayList<VideogameCategory>();
+		
+		try {
+			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(updateQuery);					
+			while(rs.next()) {
+				VideogameCategory videogamesCategories = setVideogameCategoryAttributes(rs);
+				videogamesCategoriesList.add(videogamesCategories);
+			}		
+			rs.close();
+		} catch (SQLException e)  {
+			e.printStackTrace();
+		}	
+		
+		return videogamesCategoriesList;	
 	}
 }
