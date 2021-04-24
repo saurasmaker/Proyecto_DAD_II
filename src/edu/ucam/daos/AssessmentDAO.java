@@ -91,6 +91,27 @@ public class AssessmentDAO implements IDao<Assessment>{
 	/*
 	 * Tool Methods
 	 */
+	public Assessment readByVideogameUserId(String userId, String videogameId) {
+		Assessment assessment = null;
+		ResultSet rs = null;
+		
+		String selectQuery = "SELECT * FROM assessments WHERE user_id = '" + userId + "' AND videogame_id = '" + videogameId + "'" ; 
+		try {
+			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(selectQuery);	
+			if(rs.next()) { //se valida si hay resultados
+				if(rs.getRow() == 1) {
+					assessment = setAssessmentAttributes(rs);
+				}
+			}
+			rs.close();
+		} catch (Exception e)  {
+			e.printStackTrace();
+		}	
+			
+		return assessment;
+	}
+	
+	
 	public ArrayList<Assessment> listByVideogameId(String videogameId) {
 		
 		ArrayList<Assessment> assessmentsList = new ArrayList<Assessment>();
@@ -103,13 +124,13 @@ public class AssessmentDAO implements IDao<Assessment>{
 			rs = DatabaseController.DATABASE_CONNECTION.createStatement().executeQuery(selectQuery);					
 			while(rs.next()) {
 				Assessment assessment = setAssessmentAttributes(rs);
-				assessmentsList.add(read(assessment.getVideogameId(), SearchBy.ID));
+				assessmentsList.add(assessment);
 			}	
 			rs.close();
 		} catch (SQLException e)  {
 			e.printStackTrace();
 		}	
-			
+				
 		return assessmentsList;
 	}
 	
@@ -126,7 +147,7 @@ public class AssessmentDAO implements IDao<Assessment>{
 			rs = DatabaseController.DATABASE_CONNECTION.createStatement().executeQuery(selectQuery);					
 			while(rs.next()) {
 				Assessment assessment = setAssessmentAttributes(rs);
-				assessmentsList.add(read(assessment.getUserId(), SearchBy.ID));
+				assessmentsList.add(assessment);
 			}	
 			rs.close();
 		} catch (SQLException e)  {
@@ -175,6 +196,9 @@ public class AssessmentDAO implements IDao<Assessment>{
 			assessment.setEditTime(rs.getTime("edit_time"));
 			assessment.setVideogameId(rs.getString("videogame_id"));
 			assessment.setUserId(rs.getString("user_id"));
+			
+			System.out.println(assessment.toJavaScriptFunction());
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

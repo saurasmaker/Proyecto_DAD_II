@@ -63,7 +63,7 @@
 		<div class='col-lg-4 col-md-6 col-sm-12' style = 'padding-bottom: 10px;'>
 		
 	    
-	        <h2><%= videogamesCatalogueList.get(i).getName() %></h2>
+	        <h2><a href="<%= request.getContextPath()%>/mod/videogame.jsp?<%=Videogame.ATR_VIDEOGAME_ID %>=<%=showVcl.getId() %>"><%= showVcl.getName()%></a></h2>
 				
 			<div class = 'row'>
 				<div class = 'col-6'>
@@ -125,32 +125,7 @@
 	
 	            
 					
-               	<% if(session.getAttribute(User.ATR_USER_LOGGED) != null && videogamesCatalogueList.get(i).getStock() > 0) { %>
-                   <div class = 'col-3'>
-                   <form method = 'POST' action = '<%= request.getServletContext()%>/buy'>
-                       <input type = 'hidden' name = 'IDUSER' value = '<%= "asdf" %>'/>
-                       <input type = 'hidden' name = 'IDPRODUCT' value = '<?php echo $id ?>'/>
-                       <input type = 'submit' value = 'Comprar' class='btn btn-primary'/>
-                   </form>
-                   </div>
-                   
-                   <div class = 'col-3'>
-                   <form method = 'POST' action = '<%= request.getServletContext()%>/rent'>
-                       <input type = 'hidden' name = 'IDUSER' value = '>'/>
-                       <input type = 'hidden' name = 'IDPRODUCT' value = ''/>
-                       <input type = 'submit' value = 'Alquilar' class='btn btn-primary'/>
-                   </form>
-                   </div>
-                   
-                   <div class = 'col-3'>
-                   <form method = 'POST' action = ''>
-                       <input type = 'hidden' name = 'IDUSER' value = ''/>
-                       <input type = 'hidden' name = 'IDPRODUCT' value = ''/>
-                       <input type = 'submit' value = 'Votar' class='btn btn-secondary'/>
-                   </form>
-                   </div>
-                   
- 				<% } %>
+               	
 					
 	            </div>
 	        </div>	    

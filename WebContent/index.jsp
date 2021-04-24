@@ -23,7 +23,6 @@
 			<jsp:include page="mod/catalogue.jsp" />
 			<jsp:include page="mod/footer.jsp" />
 		</div>
-		
 	</body>
 	
 	
