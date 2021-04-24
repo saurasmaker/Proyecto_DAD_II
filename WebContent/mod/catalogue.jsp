@@ -6,14 +6,11 @@
 
 <%@ page import = 'edu.ucam.pojos.*' %> 
 <%@ page import = 'edu.ucam.daos.*' %> 
-<%@ page import = 'edu.ucam.enums.*' %>
 
+<div class = 'row content videogames-catalogue'>
+	
 
-<%
-	/*
-		We check that the user is authenticated
-		to show the user options.
-	*/
+	<%
 	User thisUser = (User) session.getAttribute(User.ATR_USER_LOGGED);
 	Basket basket = null;
 	if(thisUser != null){
@@ -23,13 +20,10 @@
 	
 	ArrayList<Videogame> videogamesCatalogueList;
 	
-	
-	/*
-		Initializing videogame search variables.
-	*/	
 	String categoryId = null;
 	try{
 		categoryId = request.getParameter("SEARCH_VIDEOGAME_BY_CATEGORY");
+		System.out.println(categoryId);
 	}catch(Exception e){
 		categoryId = null;
 	}
@@ -39,26 +33,26 @@
 	else 
 		videogamesCatalogueList = (new VideogameDAO()).list();
 	
+<<<<<<< HEAD
 	/*
 		Initializing and declaring other necessary variables.
 	*/
 	ArrayList<VideogameCategory> videogamesCategoriesList;
+=======
+	
+	ArrayList<Assessment> assessmentsCatalogueList = (new AssessmentDAO()).list();
+>>>>>>> parent of 9c50cc0 (Show categories implemented)
 	ArrayList<VideogameImage> videogamesImagesList;
-	Category categoryOfVideogame;
 
-%>
-
-
-<div class = 'row content videogames-catalogue'>
+	%>
 	
 	<div class = 'col-12'>
-		<h3 class = 'display-2 text-center'>Cat&aacutelogo</h3>
+		<h3 class = 'display-2 text-center'>Catálogo</h3>
 		<hr width = '50%'/>
 		<br/>
-	</div>		
+	</div>
 		
-	<% for(int i = 0; i < videogamesCatalogueList.size(); ++i) { 
-		Videogame showVcl = videogamesCatalogueList.get(i); %>
+	<% for(int i = 0; i < videogamesCatalogueList.size(); ++i){ %>
 	
 		<div class='col-lg-4 col-md-6 col-sm-12' style = 'padding-bottom: 10px;'>
 		
@@ -68,27 +62,15 @@
 			<div class = 'row'>
 				<div class = 'col-6'>
 					<ul>
-						<li>Stock: <strong><%= showVcl.getStock() %></strong></li>
-	                    <li>Precio de Compra: <strong><%= showVcl.getPurchasePrice() %>&#8364</strong></li>
-	                    <li>Precio de Alquiler: <strong><%= showVcl.getRentalPrice() %>&#8364</strong></li>
-	                    
-	                    
-	                    <li>Categor&iacuteas: 
-	                    <strong><% 
-	                    videogamesCategoriesList = (new VideogameCategoryDAO()).listByVideogameId(showVcl.getId());
-	                    
-	                    for(int j = 0; j < videogamesCategoriesList.size(); ++j) {	                
-	                    	VideogameCategory showVc = videogamesCategoriesList.get(j);
-	                    	categoryOfVideogame = (new CategoryDAO()).read(showVc.getCategoryId(), SearchBy.ID);
-	                    	out.print(categoryOfVideogame.getName() + " ");
-	                    }
-	                    %></strong>
-	                    </li>
+						<li><strong>Release date:</strong> <%= videogamesCatalogueList.get(i).getReleaseDate() %></li>
+						<li><strong>Stock:</strong> <%= videogamesCatalogueList.get(i).getReleaseDate() %></li>
+	                    <li><strong>Purchase price:</strong> <%= videogamesCatalogueList.get(i).getPurchasePrice() %></li>
+	                    <li><strong>Rental price:</strong> <%= videogamesCatalogueList.get(i).getRentalPrice() %></li>
 					</ul>
 				</div>
 					
 				<div id='carouselExampleIndicators<%=i %>' class='carousel slide col-6' data-interval='0' data-ride='carousel'>
-					<ol class='carousel-indicators'  style = 'background-color: rgb(220,220,220);'>
+					<ol class='carousel-indicators'>
 					<% VideogameImageDAO videogameImageDao = new VideogameImageDAO();
 					videogamesImagesList = videogameImageDao.listByVideogameId(videogamesCatalogueList.get(i).getId());
 					
@@ -122,6 +104,12 @@
 				    	<span class='sr-only'>Next</span>
 				  	</a>
 				</div>
+					
+				<div class = 'col-12'>
+					<div>
+						<p align = 'justify'><%= videogamesCatalogueList.get(i).getDescription() %></p>
+					</div>
+	            </div>
 	
 	            
 					
