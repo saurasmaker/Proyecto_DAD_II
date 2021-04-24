@@ -42,6 +42,7 @@
 	/*
 		Initializing and declaring other necessary variables.
 	*/
+	ArrayList<Assessment> assessmentsCatalogueList = (new AssessmentDAO()).list();
 	ArrayList<VideogameCategory> videogamesCategoriesList;
 	ArrayList<VideogameImage> videogamesImagesList;
 	Category categoryOfVideogame;
