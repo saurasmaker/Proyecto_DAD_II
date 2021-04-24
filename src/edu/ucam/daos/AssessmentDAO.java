@@ -119,7 +119,6 @@ public class AssessmentDAO implements IDao<Assessment>{
 		ResultSet rs = null;
 		
 		String selectQuery = "SELECT * FROM assessments WHERE videogame_id = '" + videogameId + "'"; 
-		System.out.println(selectQuery);
 		try {
 			rs = DatabaseController.DATABASE_CONNECTION.createStatement().executeQuery(selectQuery);					
 			while(rs.next()) {
@@ -142,7 +141,6 @@ public class AssessmentDAO implements IDao<Assessment>{
 		ResultSet rs = null;
 		
 		String selectQuery = "SELECT * FROM assessments WHERE user_id = '" + userId + "'"; 
-		System.out.println(selectQuery);
 		try {
 			rs = DatabaseController.DATABASE_CONNECTION.createStatement().executeQuery(selectQuery);					
 			while(rs.next()) {
@@ -197,8 +195,6 @@ public class AssessmentDAO implements IDao<Assessment>{
 			assessment.setVideogameId(rs.getString("videogame_id"));
 			assessment.setUserId(rs.getString("user_id"));
 			
-			System.out.println(assessment.toJavaScriptFunction());
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
