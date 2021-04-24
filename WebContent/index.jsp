@@ -13,13 +13,6 @@
 
 	<head>
 		<jsp:include page="mod/head.jsp" />
-		
-		<!-- Styles -->
-		<link rel = "stylesheet" href = "styles/mystyle.css"/>
-	
-		<!-- Scripts -->
-		<script type="text/javascript" src="js/test.js"></script>
-		
 		<title>Infodeo 2</title>
 	</head>
 	

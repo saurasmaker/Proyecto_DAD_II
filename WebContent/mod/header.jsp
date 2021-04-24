@@ -71,9 +71,9 @@
 		            		<%= thisUser.getUsername() %>
 		                </a>
 		                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-		                    <a class="dropdown-item" href="#">Perfil</a>
-		                    <a class="dropdown-item" href="index.php?ACTUAL_PAGE=orders">Pedidos</a>
-		                    <a class="dropdown-item" href="#">Preferencias</a>
+		                    <a class="dropdown-item" href="<%=request.getContextPath() %>/user/user_profile.jsp">Perfil</a>
+		                    <a class="dropdown-item" href="">Pedidos</a>
+		                    <a class="dropdown-item" href="">Preferencias</a>
 		                    <div class="dropdown-divider"></div>
 		                    <a class="dropdown-item" href="<%= request.getContextPath() %>/logout">Logout</a>
 		                </div>
@@ -82,7 +82,7 @@
 		            
 		        		<% if(thisUser.getUsername().equals("admin")) { %>	
 		                	<li class="nav-item">
-		                		<a class="nav-link" href = "secured/admin_page.jsp">Administrar<span class="sr-only">(current)</span></a>
+		                		<a class="nav-link" href = "<%=request.getContextPath() %>/secured/admin_page.jsp">Administrar<span class="sr-only">(current)</span></a>
 		            		</li>
 		          	<% } }%>	     
 		        </ul>
