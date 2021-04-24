@@ -22,6 +22,7 @@
 	
 	
 	<!-- JQuery -->
-	<script type="text/javascript" src = "api/jquery/jquery.js"></script>	
+	<script type="text/javascript" src = "<%=request.getContextPath() %>/api/jquery/jquery.js"></script>	
 
-	
+	<!-- My Styles -->
+	<link rel = "stylesheet" href = "<%=request.getContextPath() %>/styles/mystyle.css"/>

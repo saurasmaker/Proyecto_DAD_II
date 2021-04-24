@@ -1,4 +1,4 @@
-function showPasswordLog() {
+function showPasswordProfile() {
   var x = document.getElementById("login-form-pass");
   if (x.type === "password") {
     x.type = "text";

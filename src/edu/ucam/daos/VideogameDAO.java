@@ -9,7 +9,6 @@ import edu.ucam.database.DatabaseController;
 import edu.ucam.enums.ErrorType;
 import edu.ucam.enums.SearchBy;
 import edu.ucam.interfaces.IDao;
-import edu.ucam.pojos.Category;
 import edu.ucam.pojos.Videogame;
 
 public class VideogameDAO implements IDao<Videogame>{
