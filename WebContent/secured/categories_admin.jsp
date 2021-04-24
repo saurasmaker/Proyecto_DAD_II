@@ -46,7 +46,7 @@
             
             <p>
                 <input id = "input-edit-send" type = "submit" class="btn btn-primary" value = "Editar">
-                <a id = "input-edit-send" class="btn btn-secondary" href = "#categories-title" role="button" onclick = "cancelUpdateCategory()" style = "margin-left: 10px;">Cancelar</a>
+                <a id = "input-edit-send" class="btn btn-secondary smooth-scroller" href = "#categories-title" role="button" onclick = "cancelUpdateCategory()" style = "margin-left: 10px;">Cancelar</a>
             </p>
         </form>
     </div>

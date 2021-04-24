@@ -93,7 +93,7 @@
 			
             <p>
                 <input id = "input-edit-send" type = "submit" class="btn btn-primary" value = "Editar">
-                <a id = "input-edit-send" class="btn btn-secondary" role="button" href = "rentals-title" onclick = "cancelUpdateRental()" style = "margin-left: 10px;">Cancelar</a>
+                <a id = "input-edit-send" class="btn btn-secondary smooth-scroller" role="button" href = "#rentals-title" onclick = "cancelUpdateRental()" style = "margin-left: 10px;">Cancelar</a>
             </p>
         </form>
     </div>

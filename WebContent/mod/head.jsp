@@ -26,5 +26,8 @@
 	
 	<!-- My Styles -->
 	<link rel = "stylesheet" href = "<%=request.getContextPath() %>/styles/mystyle.css"/>
+	
+	<!-- My Scripts -->
+	<script type="text/javascript" src = "<%=request.getContextPath() %>/js/smooth_scrolling.js"></script>	
 
 	
