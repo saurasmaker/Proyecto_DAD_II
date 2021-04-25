@@ -17,7 +17,7 @@
 <%@ page import = "edu.ucam.daos.VideogameCategoryDAO" %>
 
 <%@ page import = "edu.ucam.servlets.Controller" %>
-
+<%@ page import = 'edu.ucam.actions.admin.*' %>
 
 	<div id = "videogames-title" class = "col-12">
         <h3 class = "display-3">Videojuegos</h3>
@@ -26,8 +26,9 @@
     </div>
 	  
 	<div class = "col-lg-4 col-md-6 col-sm-12">
-      	<form id = "create-videogame-form" class = "form-group" action = "<%= request.getContextPath() %>/CREATE" method = "POST">
+      	<form id = "create-videogame-form" class = "form-group" action = "<%= request.getContextPath() %>/Controller" method = "POST">
 			
+			<input type='hidden' name='<%= Controller.ATR_SELECT_ACTION %>' value='<%= Create.ATR_ACTION %>'/>
 			<input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Videogame.class.getName() %>" />
 			
 			<label for="videogame-input-id">ID: </label>
@@ -253,7 +254,8 @@
 								Category showCategory =  (new CategoryDAO()).read(videogameCategoriesByVideogameIdList.get(i).getCategoryId(), SearchBy.ID); %>
 				 				
 				 				<td>
-									<form action = "<%= request.getContextPath() %>/DELETE" method = "POST">
+									<form action = "<%= request.getContextPath() %>/Controller" method = "POST">
+										<input type='hidden' name='<%= Controller.ATR_SELECT_ACTION %>' value='<%= Delete.ATR_ACTION %>'/>	
 		                           		<input type = "hidden" name = "<%=VideogameCategory.ATR_VIDEOGAMESCATEGORIES_ID %>" value = "<%=videogameCategoriesByVideogameIdList.get(i).getId() %>">
 		                           		<input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=VideogameCategory.class.getName() %>" />
 		                           		<button type = "submit" class="btn btn-danger">Eliminar</button>

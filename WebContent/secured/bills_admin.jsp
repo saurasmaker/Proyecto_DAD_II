@@ -11,6 +11,7 @@
 <%@ page import = "edu.ucam.daos.UserDAO" %>
 
 <%@ page import = "edu.ucam.servlets.Controller" %>
+<%@ page import = 'edu.ucam.actions.admin.*' %>
 
 
 	<div id = "bills-title" class = "col-12">
@@ -20,8 +21,9 @@
     </div>
 	  
 	<div class = "col-lg-4 col-md-6 col-sm-12">
-      	<form id = "create-bill-form" class = "form-group" action = "<%= request.getContextPath() %>/CREATE" method = "POST">
+      	<form id = "create-bill-form" class = "form-group" action = "<%= request.getContextPath() %>/Controller" method = "POST">
 			
+			<input type='hidden' name='<%= Controller.ATR_SELECT_ACTION %>' value='<%= Create.ATR_ACTION %>'/>
 			<input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Bill.class.getName() %>" />
 			
 			<label for="bill-input-id">ID: </label>
@@ -146,7 +148,8 @@
                             <button type = "submit" class="btn btn-warning" onclick = "updateBill(<%=showBill.toJavaScriptFunction() %>)">Editar</button>
                         </td>
                         <td>
-							<form action = "<%= request.getContextPath() %>/DELETE" method = "POST">
+							<form action = "<%= request.getContextPath() %>/Controller" method = "POST">
+							<input type='hidden' name='<%= Controller.ATR_SELECT_ACTION %>' value='<%= Delete.ATR_ACTION %>'/>
                            		<input type = "hidden" name = "<%=Bill.ATR_BILL_ID %>" value = "<%=showBill.getId() %>">
                            		<input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Bill.class.getName() %>">   
                            		<button type = "submit" class="btn btn-danger">Eliminar</button>

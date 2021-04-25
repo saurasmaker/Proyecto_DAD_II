@@ -13,6 +13,7 @@
 <%@ page import = "edu.ucam.daos.BillDAO" %>
 
 <%@ page import = "edu.ucam.servlets.Controller" %>
+<%@ page import = 'edu.ucam.actions.admin.*' %>
 
 <div id = "purchases-title" class = "col-12">
         <h3 class = "display-3">Compras</h3>
@@ -21,8 +22,9 @@
     </div>
 	  
 	<div class = "col-lg-4 col-md-6 col-sm-12">
-      	<form id = "create-purchase-form" class = "form-group" action = "<%= request.getContextPath() %>/CREATE" method = "POST">
+      	<form id = "create-purchase-form" class = "form-group" action = "<%= request.getContextPath() %>/Controller" method = "POST">
 			
+			<input type='hidden' name='<%= Controller.ATR_SELECT_ACTION %>' value='<%= Create.ATR_ACTION %>'/>
 			<input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Purchase.class.getName() %>" />
 			
 			<label for="purchase-input-id">ID: </label>
@@ -115,7 +117,8 @@
                             <button type = "submit" class="btn btn-warning" onclick = "updatePurchase(<%= showPurchase.toJavaScriptFunction()%>)">Editar</button>
                         </td>
                         <td>
-							<form action = "<%= request.getContextPath() %>/DELETE" method = "POST">
+							<form action = "<%= request.getContextPath() %>/Controller" method = "POST">
+								<input type='hidden' name='<%= Controller.ATR_SELECT_ACTION %>' value='<%= Delete.ATR_ACTION %>'/>
                            		<input type = "hidden" name = "<%=Purchase.ATR_PURCHASE_ID %>" value = "<%=showPurchase.getId() %>">
                            		<input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Purchase.class.getName() %>">   
                            		<button type = "submit" class="btn btn-danger">Eliminar</button>

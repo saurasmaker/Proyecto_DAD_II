@@ -10,7 +10,10 @@
 <%@ page import = "edu.ucam.daos.AssessmentDAO" %>
 <%@ page import = "edu.ucam.daos.UserDAO" %>
 <%@ page import = "edu.ucam.daos.VideogameDAO" %>
+
 <%@ page import = "edu.ucam.servlets.Controller" %>
+<%@ page import = "edu.ucam.actions.admin.*" %>
+
 
 
 	<div id = "assessments-title" class = "col-12">
@@ -20,8 +23,9 @@
     </div>
 	  
 	<div class = "col-lg-4 col-md-6 col-sm-12">
-      	<form id = "create-assessment-form" class = "form-group" action = "<%= request.getContextPath() %>/CREATE" method = "POST">
+      	<form id = "create-assessment-form" class = "form-group" action = "<%= request.getContextPath() %>/Controller" method = "POST">
 			
+			<input type='hidden' name='<%= Controller.ATR_SELECT_ACTION %>' value='<%= Create.ATR_ACTION %>'/>
 			<input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Assessment.class.getName() %>" />
 			
 			<label for="assessment-input-id">ID: </label>
@@ -187,7 +191,8 @@
                         	<button type = "submit" class="btn btn-warning" onclick = "updateAssessment(<%=showAssessment.toJavaScriptFunction() %>)">Editar</button>           
                         </td>
                         <td>
-							<form action = "<%= request.getContextPath() %>/DELETE" method = "POST">
+							<form action = "<%= request.getContextPath() %>/Controller" method = "POST">
+								<input type='hidden' name='<%= Controller.ATR_SELECT_ACTION %>' value='<%= Delete.ATR_ACTION %>'/>
                            		<input type = "hidden" name = "<%=Assessment.ATR_ASSESSMENT_ID %>" value = "<%=showAssessment.getId() %>">
                            		<input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Assessment.class.getName() %>">   
                            		<button type = "submit" class="btn btn-danger">Eliminar</button>
