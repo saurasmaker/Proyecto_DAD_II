@@ -1,7 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     
-<%@ page import="edu.ucam.pojos.*" %> 
+<%@ page import='edu.ucam.servlets.Controller' %>
+
+<%@ page import="edu.ucam.pojos.User" %>
+<%@ page import='edu.ucam.actions.user.Login' %>
+ 
 
 
 	<!-- SCRIPTS -->
@@ -11,7 +15,7 @@
     <!-- LOGIN -->
 	<div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	  <div class="modal-dialog" role="document">
-	    <form class="modal-content" action= "<%= request.getContextPath() %>/login" method="post">
+	    <form class="modal-content" action= "<%= request.getContextPath() %>/Controller" method="post">
 	      
 	      <div class="modal-header text-center">
 	        <h4 class="modal-title w-100 font-weight-bold">Login</h4>
@@ -21,6 +25,9 @@
 	      </div>
 	      
 	      <div class="modal-body mx-3">
+	        
+	        <input type='hidden' name='<%= Controller.ATR_SELECT_ACTION %>' value='<%= Login.ATR_ACTION %>'/>
+	        
 	        <div class="md-form mb-5">
 	          <i class="fas fa-user prefix grey-text"></i>
 	          <input type="text" id="loginForm-email" class="form-control validate" name="<%= User.ATR_USER_USERNAME %>" required>

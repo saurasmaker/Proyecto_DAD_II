@@ -5,7 +5,9 @@
 
 <%@ page import = "edu.ucam.pojos.Category" %>
 <%@ page import = "edu.ucam.daos.CategoryDAO" %>
-<%@ page import = "edu.ucam.servlets.Controller" %>    
+<%@ page import = "edu.ucam.servlets.Controller" %> 
+<%@ page import = 'edu.ucam.actions.user.Logout' %>   
+   
 
 <%@ page import = "edu.ucam.pojos.User" %>    
 
@@ -73,9 +75,12 @@
 		                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 		                    <a class="dropdown-item" href="<%=request.getContextPath() %>/user/user_profile.jsp">Perfil</a>
 		                    <a class="dropdown-item" href="">Pedidos</a>
-		                    <a class="dropdown-item" href="">Preferencias</a>
+		                    <a class="dropdown-item" href="">Preferencias</a>		                    
 		                    <div class="dropdown-divider"></div>
-		                    <a class="dropdown-item" href="<%= request.getContextPath() %>/logout">Logout</a>
+		                    <form action= "<%= request.getContextPath() %>/Controller" method="post">
+		                    	<input type='hidden' name='<%= Controller.ATR_SELECT_ACTION %>' value='<%= Logout.ATR_ACTION %>'/>
+		                    	<input type = "submit" value = "Logout" class="dropdown-item">
+		                    </form>		                    
 		                </div>
 		                
 		            </li>

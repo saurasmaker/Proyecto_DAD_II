@@ -7,13 +7,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import edu.ucam.interfaces.IAction;
+import edu.ucam.pojos.User;
 
-public class EditProfile implements IAction{
-	public static final String ATR_ACTION = "ATR_EDITPROFILE_ACTION";
+public class Logout implements IAction{
+
+	public static final String ATR_ACTION = "ATR_LOGOUT_ACTION";
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		return null;
+		
+		request.getSession().removeAttribute(User.ATR_USER_LOGGED);
+		
+		return "";
 	}
+	
 }

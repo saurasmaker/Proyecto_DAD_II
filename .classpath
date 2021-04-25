@@ -17,7 +17,6 @@
 			<attribute name="javadoc_location" value="https://docs.oracle.com/javaee/7/api/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/sun.misc.BASE64Decoder.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/mysql-connector-java-8.0.23.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

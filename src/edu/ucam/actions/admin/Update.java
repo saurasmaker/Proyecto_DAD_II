@@ -1,4 +1,4 @@
-package edu.ucam.actions.user;
+package edu.ucam.actions.admin;
 
 import java.io.IOException;
 
@@ -8,9 +8,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import edu.ucam.interfaces.IAction;
 
-public class EditProfile implements IAction{
-	public static final String ATR_ACTION = "ATR_EDITPROFILE_ACTION";
-
+public class Update implements IAction{
+	
+	public static final String ATR_ACTION = "ATR_UPDATE_ACTION";
+	
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
