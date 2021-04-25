@@ -9,6 +9,8 @@
 <%@ page import = 'edu.ucam.daos.*' %> 
 <%@ page import = 'edu.ucam.enums.*' %>
 
+<%@ page import = 'edu.ucam.actions.user.MakeAssessment' %>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -152,20 +154,52 @@
 			    					Votar
 			  					</a></p>
 			  					
+			  					<% if(thisAssessment != null) { %>
 			  				<div class="collapse" id="collapse-vote">
-			  					<form id = "create-assessment-form" class = "form-group" action = "<%= request.getContextPath() %>/CONTROLLER" method = "POST">
+			  					<form id = "create-assessment-form" class = "form-group" action = "<%= request.getContextPath() %>/Controller" method = "POST">
 				
+									<input type='hidden' name='<%= Controller.ATR_SELECT_ACTION %>' value='<%= MakeAssessment.ATR_ACTION %>'/>
+									<input id = "assessment-input-classname" type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Assessment.class.getName() %>" />	
+									<input id = "assessment-input-id" type = "hidden" name = "<%=Assessment.ATR_ASSESSMENT_ID %>" value = "<%=thisAssessment.getId() %>">	
+									<input id = "assessment-input-videogameid" type = "hidden" name = "<%=Assessment.ATR_ASSESSMENT_VIDEOGAMEID %>" value = "<%=thisAssessment.getVideogameId() %>">
+									<input id = "assessment-input-userid" type = "hidden" name = "<%=Assessment.ATR_ASSESSMENT_USERID %>" value = "<%=thisAssessment.getUserId() %>">
+									
+									<div>
+			  							<p>Estrellas:
+			  								<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_VALUE %>" value="1" required <% if(thisAssessment.getValue() == 1) out.print("checked"); %>/>1
+			            					<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_VALUE %>" value="2" <% if(thisAssessment.getValue() == 2) out.print("checked"); %>/>2
+			            					<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_VALUE %>" value="3" <% if(thisAssessment.getValue() == 3) out.print("checked"); %>/>3
+			            					<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_VALUE %>" value="4" <% if(thisAssessment.getValue() == 4) out.print("checked"); %>/>4
+			            					<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_VALUE %>" value="5" <% if(thisAssessment.getValue() == 5) out.print("checked"); %>/>5
+			            				</p>
+			  						</div>
+												
+									<label for="assessment-input-subject">Asunto: </label>
+									<p><input id = "assessment-input-subject" type = "text" class="form-control" placeholder = "texto..." name = "<%=Assessment.ATR_ASSESSMENT_SUBJECT %>" value = '<%=thisAssessment.getSubject() %>' required></p>
+												
+									<label for="assessment-input-comment">Comentario: </label>
+									<p><textarea id = "assessment-input-comment" class="form-control" placeholder = "texto..." name = "<%=Assessment.ATR_ASSESSMENT_COMMENT %>" required><% if(thisAssessment != null) out.print(thisAssessment.getComment()); %></textarea></p>
+												
+						            <p><input id = "input-send" type = "submit" class="btn btn-primary" value = "<% if(thisAssessment != null) out.print("Editar"); else out.print("Enviar"); %>"></p>
+						        </form>
+							</div>
+			  				<% } else { %>
+			  				
+			  				<div class="collapse" id="collapse-vote">
+			  					<form id = "create-assessment-form" class = "form-group" action = "<%= request.getContextPath() %>/Controller" method = "POST">
+				
+									<input type='hidden' name='<%= Controller.ATR_SELECT_ACTION %>' value='<%= MakeAssessment.ATR_ACTION %>'/>
 									<input id = "assessment-input-classname" type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Assessment.class.getName() %>" />		
 									<input id = "assessment-input-videogameid" type = "hidden" name = "<%=Assessment.ATR_ASSESSMENT_VIDEOGAMEID %>" value = "<%=videogameId %>">
 									<input id = "assessment-input-userid" type = "hidden" name = "<%=Assessment.ATR_ASSESSMENT_USERID %>" value = "<%=userLoged.getId() %>">
 									
 									<div>
 			  							<p>Estrellas:
-			  								<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_ID %>" value="1" required/>1
-			            					<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_ID %>" value="2"/>2
-			            					<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_ID %>" value="3"/>3
-			            					<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_ID %>" value="4"/>4
-			            					<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_ID %>" value="5"/>5
+			  								<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_VALUE %>" value="1" required/>1
+			            					<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_VALUE %>" value="2"/>2
+			            					<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_VALUE %>" value="3"/>3
+			            					<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_VALUE %>" value="4"/>4
+			            					<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_VALUE %>" value="5"/>5
 			            				</p>
 			  						</div>
 												
@@ -173,14 +207,13 @@
 									<p><input id = "assessment-input-subject" type = "text" class="form-control" placeholder = "texto..." name = "<%=Assessment.ATR_ASSESSMENT_SUBJECT %>" required></p>
 												
 									<label for="assessment-input-comment">Comentario: </label>
-									<p><textarea id = "assessment-input-comment" class="form-control" placeholder = "texto..." name = "<%=Assessment.ATR_ASSESSMENT_COMMENT %>" required>
-										<% if(thisAssessment != null) out.print(thisAssessment.getComment()); %>
-									</textarea></p>
+									<p><textarea id = "assessment-input-comment" class="form-control" placeholder = "texto..." name = "<%=Assessment.ATR_ASSESSMENT_COMMENT %>" required></textarea></p>
 												
 						            <p><input id = "input-send" type = "submit" class="btn btn-primary" value = "<% if(thisAssessment != null) out.print("Editar"); else out.print("Enviar"); %>"></p>
 						        </form>
 							</div>
-			  				<%} %>
+			  				
+			  				<% } } %>
 						</div>
 
 
