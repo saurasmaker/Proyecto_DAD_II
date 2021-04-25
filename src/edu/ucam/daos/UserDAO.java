@@ -3,6 +3,7 @@ package edu.ucam.daos;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import edu.ucam.database.DatabaseController;

@@ -37,7 +37,7 @@ public class Controller extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		url = request.getHeader("referer");
+		url = request.getContextPath();
 		User user = (User) request.getSession().getAttribute(User.ATR_USER_LOGGED);
 		String selectedAction = request.getParameter(ATR_SELECT_ACTION);
 		

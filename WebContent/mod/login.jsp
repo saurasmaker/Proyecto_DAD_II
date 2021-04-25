@@ -5,6 +5,7 @@
 
 <%@ page import="edu.ucam.pojos.User" %>
 <%@ page import='edu.ucam.actions.user.Login' %>
+<%@ page import='edu.ucam.actions.user.Signup' %>
  
 
 
@@ -64,7 +65,7 @@
 	<div class="modal fade" id="modalRegisterForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
 	  aria-hidden="true">
 	  <div class="modal-dialog" role="document">
-	    <form class="modal-content" action = "<%= request.getContextPath() %>/signup" method = "post">
+	    <form class="modal-content" action = "<%= request.getContextPath() %>/Controller" method = "post">
 	      <div class="modal-header text-center">
 	        <h4 class="modal-title w-100 font-weight-bold">Sign up</h4>
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -72,6 +73,7 @@
 	        </button>
 	      </div>
 	      
+	      <input type='hidden' name='<%= Controller.ATR_SELECT_ACTION %>' value='<%= Signup.ATR_ACTION %>'/>
 	      
 	      <div class="modal-body mx-3">
 	      	<div class="md-form mb-4">

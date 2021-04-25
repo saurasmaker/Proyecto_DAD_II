@@ -1,6 +1,7 @@
 package edu.ucam.actions.user;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +26,8 @@ public class Signup implements IAction{
 		user.setUsername(request.getParameter(User.ATR_USER_USERNAME));
 		user.setEmail(request.getParameter(User.ATR_USER_EMAIL));
 		user.setPassword(request.getParameter(User.ATR_USER_PASSWORD));
+		user.setSignUpDate(new Timestamp(System.currentTimeMillis()));
+		user.setLastSignIn(new Timestamp(System.currentTimeMillis()));
 		
 		ErrorType errorType = dao.create(user);
 		if(errorType != ErrorType.NO_ERROR) {		
@@ -32,7 +35,7 @@ public class Signup implements IAction{
 		}
 		else {
 			user = dao.read(user.getUsername(), SearchBy.USERNAME);
-			request.getSession().setAttribute(User.ATR_USER, user);
+			request.getSession().setAttribute(User.ATR_USER_LOGGED, user);
 			return "/index.jsp";
 		}
 	}

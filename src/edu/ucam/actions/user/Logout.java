@@ -18,7 +18,7 @@ public class Logout implements IAction{
 		
 		request.getSession().removeAttribute(User.ATR_USER_LOGGED);
 		
-		return "";
+		return "/index.jsp";
 	}
 	
 }
