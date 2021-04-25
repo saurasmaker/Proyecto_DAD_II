@@ -13,6 +13,9 @@
 
 	<body>
 		<div class = "general container">
+			<br/>
+			<br/>
+			<br/>
 			<jsp:include page="/mod/header.jsp" />
 			<%= request.getParameter("ERROR_TYPE") %>
 			<jsp:include page="/mod/footer.jsp" />

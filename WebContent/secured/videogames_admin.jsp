@@ -57,7 +57,9 @@
 
 
 
-        <form id = "update-videogame-form" class = "form-group" action = "<%= request.getContextPath() %>/UPDATE" method = "POST">
+        <form id = "update-videogame-form" class = "form-group" action = "<%= request.getContextPath() %>/Controller" method = "POST">
+            
+            <input type='hidden' name='<%= Controller.ATR_SELECT_ACTION %>' value='<%= Update.ATR_ACTION %>'/>
             <input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Videogame.class.getName() %>" />
 			
 			<label for="videogame-input-update-id">ID: </label>
