@@ -3,6 +3,8 @@ package edu.ucam.pojos;
 import java.sql.Date;
 import java.sql.Time;
 
+import javax.servlet.http.HttpServletRequest;
+
 import edu.ucam.interfaces.IMyPojo;
 
 public class Assessment implements IMyPojo{
@@ -27,6 +29,25 @@ public class Assessment implements IMyPojo{
 	private Date publicationDate, editDate;
 	private Time publicationTime, editTime;
 	
+	/*
+	 * Constructors
+	 */
+	public Assessment() {
+		
+	}	
+	
+	public Assessment(HttpServletRequest request) {
+		this.id = request.getParameter(ATR_ASSESSMENT_ID);
+		this.value = Integer.parseInt(request.getParameter(ATR_ASSESSMENT_VALUE));
+		this.subject = request.getParameter(ATR_ASSESSMENT_SUBJECT);
+		this.comment = request.getParameter(ATR_ASSESSMENT_COMMENT);
+		this.videogameId = request.getParameter(ATR_ASSESSMENT_VIDEOGAMEID);
+		this.userId = request.getParameter(ATR_ASSESSMENT_USERID);
+		this.publicationDate = Date.valueOf(request.getParameter(Assessment.ATR_ASSESSMENT_PUBLICATIONDATE));
+		this.publicationTime = Time.valueOf(request.getParameter(Assessment.ATR_ASSESSMENT_PUBLICATIONTIME));
+		this.editDate = Date.valueOf(request.getParameter(Assessment.ATR_ASSESSMENT_EDITDATE));
+		this.editTime = Time.valueOf(request.getParameter(Assessment.ATR_ASSESSMENT_EDITTIME));
+	}
 	
 	/*
 	 * Methods
@@ -105,11 +126,6 @@ public class Assessment implements IMyPojo{
 		this.editTime = editTime;
 	}
 	
-	/*
-	 * Constructors
-	 */
-	public Assessment() {
-		
-	}	
+	
 	
 }

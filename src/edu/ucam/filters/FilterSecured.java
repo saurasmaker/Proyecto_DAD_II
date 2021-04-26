@@ -47,7 +47,7 @@ public class FilterSecured implements Filter {
 		
 		User user = (User) httpSession.getAttribute(User.ATR_USER_LOGGED);
 		
-		if(user != null && user.getUsername().equals("admin")) {
+		if(user != null && user.getIsAdmin()){
 			chain.doFilter(request, response);
 		}
 		else {

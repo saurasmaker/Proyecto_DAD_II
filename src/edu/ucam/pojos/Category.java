@@ -1,5 +1,7 @@
 package edu.ucam.pojos;
 
+import javax.servlet.http.HttpServletRequest;
+
 import edu.ucam.interfaces.IMyPojo;
 
 public class Category implements IMyPojo{
@@ -18,7 +20,28 @@ public class Category implements IMyPojo{
 	 */
 	private  String id, name, description;
 
+	/*
+	 * Constructors
+	 */
+	public Category() {
+		
+	}
 	
+	public Category(HttpServletRequest request) {
+		this.id = request.getParameter(ATR_CATEGORY_ID);
+		this.name = request.getParameter(ATR_CATEGORY_NAME);
+		this.description = request.getParameter(ATR_CATEGORY_DESCRIPTION);
+	}
+
+
+	
+	/*
+	 * Methods
+	 */
+	@Override
+	public String toJavaScriptFunction() {
+		return "'" + this.id + "', '" + this.name + "', '" + this.description + "'";
+	}
 	
 	/*
 	 * Getters & Setters
@@ -50,30 +73,5 @@ public class Category implements IMyPojo{
 	
 	
 	
-	/*
-	 * Constructors
-	 */
-	public Category() {
-		
-	}
 	
-	public Category(String name, String description) {
-		this.name = name;
-		this.description = description;
-	}
-	
-	public Category(String id, String name, String description) {
-		this.id = id;
-		this.name = name;
-		this.description = description;
-	}
-
-	
-	/*
-	 * Methods
-	 */
-	@Override
-	public String toJavaScriptFunction() {
-		return "'" + this.id + "', '" + this.name + "', '" + this.description + "'";
-	}
 }

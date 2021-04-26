@@ -2,6 +2,8 @@ package edu.ucam.pojos;
 
 import java.sql.Date;
 
+import javax.servlet.http.HttpServletRequest;
+
 import edu.ucam.interfaces.IMyPojo;
 
 public class Videogame implements IMyPojo{
@@ -22,6 +24,34 @@ public class Videogame implements IMyPojo{
 	private int stock;
 	private Date releaseDate;
 	private float purchasePrice, rentalPrice;
+	
+	
+	/*
+	 * Constructors
+	 */
+	public Videogame() {
+		
+	}
+	
+	public Videogame(HttpServletRequest request) {
+		this.id = request.getParameter(ATR_VIDEOGAME_ID);
+		this.name = request.getParameter(ATR_VIDEOGAME_NAME);
+		this.description = request.getParameter(ATR_VIDEOGAME_DESCRIPTION);
+		this.releaseDate = Date.valueOf(request.getParameter(ATR_VIDEOGAME_RELEASEDATE));
+		this.stock = Integer.parseInt(request.getParameter(ATR_VIDEOGAME_STOCK));
+		this.purchasePrice = Float.valueOf(request.getParameter(ATR_VIDEOGAME_PURCHASEPRICE));
+		this.rentalPrice = Float.valueOf(request.getParameter(ATR_VIDEOGAME_RENTALPRICE));
+	}
+
+	
+	/*
+	 * Methods
+	 */
+	@Override
+	public String toJavaScriptFunction() {
+		return "'" + this.id + "', '" + this.name + "', '" + this.description + "', '" + this.releaseDate + "', '"  + 
+				this.stock + "', '" + this.purchasePrice + "', '"  + this.rentalPrice + "'";
+	}
 	
 	
 	/*
@@ -84,34 +114,4 @@ public class Videogame implements IMyPojo{
 		this.rentalPrice = rentalPrice;
 	}
 
-	
-	
-	/*
-	 * Constructors
-	 */
-	public Videogame() {
-		this.releaseDate = new Date(System.currentTimeMillis());
-	}
-	
-	public Videogame(String name, String description, Date releaseDate, int stock) {
-		this.name = name;
-		this.description = description;
-		this.releaseDate = releaseDate;
-		this.stock = stock;
-	}
-	
-	public Videogame(String id, String name, String description, Date releaseDate, int stock) {
-		this.id = id;
-		this.name = name;
-		this.description = description;
-		this.releaseDate = releaseDate;
-		this.stock = stock;
-	}
-
-	@Override
-	public String toJavaScriptFunction() {
-		return "'" + this.id + "', '" + this.name + "', '" + this.description + "', '" + this.releaseDate + "', '"  + 
-				this.stock + "', '" + this.purchasePrice + "', '"  + this.rentalPrice + "'";
-	}
-	
 }

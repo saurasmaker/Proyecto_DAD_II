@@ -29,14 +29,20 @@
 			<label for="rental-input-id">ID: </label>
 			<p><input id = "rental-input-id" type = "text" class="form-control" placeholder = "Identificador de la categoría" name = "<%=Rental.ATR_RENTAL_ID %>" readonly></p>
 
-		    <label for="rental-input-userid">ID Usuario: </label>
-			<p><select id = "rental-input-userid" class="form-control" name = "<%=Rental.ATR_RENTAL_USERID %>">
-			  <option value="none" selected>Elige un Usuario...</option>
-			  <% ArrayList<User> usersRentalList = (new UserDAO()).list();
-			  for(int i = 0; i < usersRentalList.size(); ++i) { %>
-				  <option value="<%=usersRentalList.get(i).getId() %>"><%=usersRentalList.get(i).getId() %></option>
-			  <% } %>
-			</select></p>
+			<label for="rental-input-startdate">Fecha Inicio: </label>
+			<p><input id = "rental-input-startdate" type = "date" class="form-control" name = "<%=Rental.ATR_RENTAL_STARTDATE %>" required></p>
+			
+			<label for="rental-input-startdate">Hora Inicio: </label>
+			<p><input id = "rental-input-starttime" type = "time" step = "1" class="form-control" name = "<%=Rental.ATR_RENTAL_STARTTIME %>" required></p>
+			
+			<label for="rental-input-enddate">Fecha Devolución: </label>
+			<p><input id = "rental-input-enddate" type = "date" class="form-control" name = "<%=Rental.ATR_RENTAL_ENDDATE %>" required></p>
+			
+			<label for="rental-input-enddate">Hora Devolución: </label>
+			<p><input id = "rental-input-endtime" type = "time" step = "1" class="form-control" name = "<%=Rental.ATR_RENTAL_ENDTIME %>" required></p>
+			
+			<label for="rental-input-returned">Devuelto: </label>
+			<p><input id = "rental-input-returned" type = "checkbox" class="form-control" name = "<%=Rental.ATR_RENTAL_RETURNED %>"></p>
 			
 			<label for="rental-input-videogameid">ID Videojuego: </label>
 			<p><select id = "rental-input-videogameid" class="form-control" name = "<%=Rental.ATR_RENTAL_VIDEOGAMEID %>">
@@ -46,17 +52,16 @@
 				  <option value="<%=videogamesRentalList.get(i).getId() %>"><%=videogamesRentalList.get(i).getName() %></option>
 			  <% } %>
 			</select></p>
-			
-			<label for="rental-input-startdate">Fecha Inicio: </label>
-			<p><input id = "rental-input-startdate" type = "date" class="form-control" name = "<%=Rental.ATR_RENTAL_STARTDATE %>" required></p>
-			
-			<label for="rental-input-enddate">Fecha Devolución: </label>
-			<p><input id = "rental-input-enddate" type = "date" class="form-control" name = "<%=Rental.ATR_RENTAL_ENDDATE %>" required></p>
-			
-			<label for="rental-input-returned">Devuelto: </label>
-			<p><input id = "rental-input-returned" type = "checkbox" class="form-control" name = "<%=Rental.ATR_RENTAL_RETURNED %>"></p>
 						
-						
+			<label for="rental-input-billid">ID Factura: </label>
+			<p><select id = "rental-input-billid" class="form-control" name = "<%=Rental.ATR_RENTAL_BILLID %>">
+			  <option value="none" selected>Elige una Factura...</option>
+			  <% ArrayList<User> usersRentalList = (new UserDAO()).list();
+			  for(int i = 0; i < usersRentalList.size(); ++i) { %>
+				  <option value="<%=usersRentalList.get(i).getId() %>"><%=usersRentalList.get(i).getId() %></option>
+			  <% } %>
+			</select></p>
+			
             <p><input id = "input-send" type = "submit" class="btn btn-primary" value = "Crear"></p>
         </form>
 
@@ -68,15 +73,22 @@
             <input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Rental.class.getName() %>" />
 			
 			<label for="rental-input-update-id">ID: </label>
-			<p><input id = "rental-input-id" type = "text" class="form-control" placeholder = "Identificador de la categoría" name = "<%=Rental.ATR_RENTAL_ID %>" readonly></p>
+			<p><input id = "rental-input-update-id" type = "text" class="form-control" placeholder = "Identificador de la categoría" name = "<%=Rental.ATR_RENTAL_ID %>" readonly></p>
 
-		    <label for="rental-input-update-userid">ID Usuario: </label>
-			<p><select id = "rental-input-update-userid" class="form-control" name = "<%=Rental.ATR_RENTAL_USERID %>">
-			  <option value="none" selected>Elige un Usuario...</option>
-			  <% for(int i = 0; i < usersRentalList.size(); ++i) { %>
-				  <option value="<%=usersRentalList.get(i).getId() %>"><%=usersRentalList.get(i).getId() %></option>
-			  <% } %>
-			</select></p>
+		    <label for="rental-input-update-startdate">Fecha Inicio: </label>
+			<p><input id = "rental-input-update-startdate" type = "date" class="form-control" name = "<%=Rental.ATR_RENTAL_STARTDATE %>" required></p>
+			
+			<label for="rental-input-update-startdate">Hora Inicio: </label>
+			<p><input id = "rental-input-update-starttime" type = "time" step = "1" class="form-control" name = "<%=Rental.ATR_RENTAL_STARTTIME %>" required></p>
+			
+			<label for="rental-input-update-enddate">Fecha Devolución: </label>
+			<p><input id = "rental-input-update-enddate" type = "date" class="form-control" name = "<%=Rental.ATR_RENTAL_ENDDATE %>" required></p>
+			
+			<label for="rental-input-update-enddate">Hora Devolución: </label>
+			<p><input id = "rental-input-update-endtime" type = "time" step = "1" class="form-control" name = "<%=Rental.ATR_RENTAL_ENDTIME %>" required></p>
+			
+			<label for="rental-input-update-returned">Devuelto: </label>
+			<p><input id = "rental-input-update-returned" type = "checkbox" class="form-control" name = "<%=Rental.ATR_RENTAL_RETURNED %>"></p>
 			
 			<label for="rental-input-update-videogameid">ID Videojuego: </label>
 			<p><select id = "rental-input-update-videogameid" class="form-control" name = "<%=Rental.ATR_RENTAL_VIDEOGAMEID %>">
@@ -85,15 +97,14 @@
 				  <option value="<%=videogamesRentalList.get(i).getId() %>"><%=videogamesRentalList.get(i).getName() %></option>
 			  <% } %>
 			</select></p>
-			
-			<label for="rental-input-update-startdate">Fecha Inicio: </label>
-			<p><input id = "rental-input-update-startdate" type = "date" class="form-control" name = "<%=Rental.ATR_RENTAL_STARTDATE %>" required></p>
-			
-			<label for="rental-input-update-enddate">Fecha Devolución: </label>
-			<p><input id = "rental-input-update-enddate" type = "date" class="form-control" name = "<%=Rental.ATR_RENTAL_ENDDATE %>" required></p>
-			
-			<label for="rental-input-update-returned">Devuelto: </label>
-			<p><input id = "rental-input-update-returned" type = "checkbox" class="form-control" name = "<%=Rental.ATR_RENTAL_RETURNED %>"></p>
+						
+			<label for="rental-input-update-billid">ID Factura: </label>
+			<p><select id = "rental-input-update-billid" class="form-control" name = "<%=Rental.ATR_RENTAL_BILLID %>">
+			  <option value="none" selected>Elige una Factura...</option>
+			  <% for(int i = 0; i < usersRentalList.size(); ++i) { %>
+				  <option value="<%=usersRentalList.get(i).getId() %>"><%=usersRentalList.get(i).getId() %></option>
+			  <% } %>
+			</select></p>
 			
             <p>
                 <input id = "input-edit-send" type = "submit" class="btn btn-primary" value = "Editar">
@@ -110,7 +121,7 @@
                	<thead class = "thead-dark">
                   	<tr>
                      	<th scope="col">ID</th>
-                     	<th scope="col">ID Usuario</th>
+                     	<th scope="col">ID Factura</th>
                      	<th scope="col">ID Videojuego</th>
                      	<th scope="col">Fecha Inicio</th>
                         <th scope="col">Fecha Devolución</th>
@@ -124,7 +135,7 @@
 			  		Rental showRental = rentalsRentalList.get(i); %>
 					<tr>
                      	<td><%=showRental.getId() %></td>
-                     	<td><%=showRental.getUserId() %></td>
+                     	<td><%=showRental.getBillId() %></td>
                      	<td><%=showRental.getVideogameId() %></td>
                      	<td><%=showRental.getStartDate() %></td>
                      	<td><%=showRental.getEndDate() %></td>

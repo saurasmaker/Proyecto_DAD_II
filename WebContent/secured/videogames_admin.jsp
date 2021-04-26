@@ -159,8 +159,8 @@
 	    </div>
 	    
 		<div class = "col-6">
-			<form id = "add-videogameimage-form" class = "form-group" enctype="multipart/form-data" action = "<%= request.getContextPath() %>/CREATE" method = "POST">
-	        	
+			<form id = "add-videogameimage-form" class = "form-group" enctype="multipart/form-data" action = "<%= request.getContextPath() %>/Controller" method = "POST">
+	        	<input type='hidden' name='<%= Controller.ATR_SELECT_ACTION %>' value='<%= Create.ATR_ACTION %>'/>
 	        	<input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=VideogameImage.class.getName() %>" />
 	        	
 	        	<input id = "videogameimage-input-idvideogame" type = "hidden" name = "<%=VideogameImage.ATR_VIDEOGAMEIMAGE_VIDEOGAMEID %>" value = "<%=videogameId %>">
@@ -192,7 +192,8 @@
 				 				VideogameImage showVideogameImage = videogameImagesVideogameList.get(i); %>
 				 				
 				 				<td>
-									<form action = "<%= request.getContextPath() %>/DELETE" method = "POST">
+									<form action = "<%= request.getContextPath() %>/Controller" method = "POST">
+										<input type='hidden' name='<%= Controller.ATR_SELECT_ACTION %>' value='<%= Delete.ATR_ACTION %>'/>
 		                           		<input type = "hidden" name = "<%=VideogameImage.ATR_VIDEOGAMEIMAGE_ID %>" value = "<%=showVideogameImage.getId() %>">
 		                           		<input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=VideogameImage.class.getName() %>" />
 		                           		<button type = "submit" class="btn btn-danger">Eliminar</button>
@@ -216,8 +217,9 @@
 	    
 		<div class = "col-6">
 		
-			<form id = "add-videogamecategory-form" class = "form-group" action = "<%= request.getContextPath() %>/CREATE" method = "POST">
+			<form id = "add-videogamecategory-form" class = "form-group" action = "<%= request.getContextPath() %>/Controller" method = "POST">
 			    
+			    <input type='hidden' name='<%= Controller.ATR_SELECT_ACTION %>' value='<%= Create.ATR_ACTION %>'/>
 			    <input id = "videogameimage-input-idvideogame" type = "hidden" name = "<%=VideogameCategory.ATR_VIDEOGAMESCATEGORIES_VIDEOGAMEID %>" value = "<%=videogameId %>">
 				<input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=VideogameCategory.class.getName() %>" />
 			

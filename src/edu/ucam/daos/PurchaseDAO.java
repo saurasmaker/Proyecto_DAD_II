@@ -73,8 +73,7 @@ public class PurchaseDAO implements IDao<Purchase>{
 		try {
 			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(selectQuery);					
 			while(rs.next()) {
-				Purchase purchae = setPurchaseAttributes(rs);	
-				purchasesList.add(purchae);
+				purchasesList.add(setPurchaseAttributes(rs));
 			}	
 			rs.close();
 		} catch (SQLException e)  {

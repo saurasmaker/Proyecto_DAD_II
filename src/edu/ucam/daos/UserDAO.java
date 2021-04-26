@@ -3,7 +3,6 @@ package edu.ucam.daos;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import edu.ucam.database.DatabaseController;
@@ -21,7 +20,7 @@ public class UserDAO implements IDao<User>{
 	 */
 	@Override
 	public ErrorType create(User user) {
-		return executeQueryWithParameters("INSERT INTO users (username, email, password, sign_up_date, last_sign_in) VALUES (?, ?, ?, ?, ?)", user);	
+		return executeQueryWithParameters("INSERT INTO users (username, email, password, sign_up_date, sign_up_time, last_sign_in_date, last_sign_in_time, is_admin) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", user);	
 	}
 
 	
@@ -50,7 +49,7 @@ public class UserDAO implements IDao<User>{
 
 	@Override
 	public ErrorType update(String search, SearchBy searchBy, User user) {
-		String updateQuery = "UPDATE users SET username = ?, email = ?, password = ?, sign_up_date = ?, last_sign_in = ? WHERE ";
+		String updateQuery = "UPDATE users SET username = ?, email = ?, password = ?, sign_up_date = ?, sign_up_time = ?, last_sign_in_date = ?, last_sign_in_time = ?, is_admin = ? WHERE ";
 		updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy, search);			
 		executeQueryWithParameters(updateQuery, user);
 		return ErrorType.NO_ERROR;
@@ -105,8 +104,11 @@ public class UserDAO implements IDao<User>{
 			preparedStatement.setString(1, user.getUsername());
 			preparedStatement.setString(2, user.getEmail());
 			preparedStatement.setString(3, user.getPassword());
-			preparedStatement.setTimestamp(4, user.getSignUpDate());
-			preparedStatement.setTimestamp(5, user.getLastSignIn());
+			preparedStatement.setDate(4, user.getSignUpDate());
+			preparedStatement.setTime(5, user.getSignUpTime());
+			preparedStatement.setDate(6, user.getLastSignInDate());
+			preparedStatement.setTime(7, user.getLastSignInTime());
+			preparedStatement.setBoolean(8, user.getIsAdmin());
 			
 			preparedStatement.execute();
 			preparedStatement.close();
@@ -125,8 +127,11 @@ public class UserDAO implements IDao<User>{
 			user.setUsername(rs.getString("username"));
 			user.setEmail(rs.getString("email"));
 			user.setPassword(rs.getString("password"));
-			user.setSignUpDate(rs.getTimestamp("sign_up_date"));
-			user.setLastSignIn(rs.getTimestamp("last_sign_in"));
+			user.setSignUpDate(rs.getDate("sign_up_date"));
+			user.setSignUpTime(rs.getTime("sign_up_time"));
+			user.setLastSignInDate(rs.getDate("last_sign_in_date"));
+			user.setLastSignInTime(rs.getTime("last_sign_in_time"));
+			user.setIsAdmin(rs.getBoolean("is_admin"));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

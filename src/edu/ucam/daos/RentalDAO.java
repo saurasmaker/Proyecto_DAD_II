@@ -18,7 +18,7 @@ public class RentalDAO implements IDao<Rental>{
 	 */
 	@Override
 	public ErrorType create(Rental rental) {
-		return executeQueryWithParameters("INSERT INTO rentals (user_id, videogame_id, start_date, end_date, returned) VALUES (?, ?, ?, ?, ?)" , rental);		
+		return executeQueryWithParameters("INSERT INTO rentals (start_date, start_time, end_date, end_time, returned, videogame_id, bill_id) VALUES (?, ?, ?, ?, ?, ?, ?)" , rental);		
 
 	}
 
@@ -46,7 +46,7 @@ public class RentalDAO implements IDao<Rental>{
 
 	@Override
 	public ErrorType update(String search, SearchBy searchBy, Rental rental) {
-		String updateQuery = "UPDATE rentals SET user_id = ?, videogame_id = ?, start_date = ?, end_date = ?, returned = ? WHERE "; 
+		String updateQuery = "UPDATE rentals SET start_date = ?, start_time = ?, end_date = ?, end_time = ?, returned = ?, videogame_id = ?, bill_id = ?  WHERE "; 
 		updateQuery = IDao.appendSqlSearchBy(updateQuery, searchBy, search);
 		return executeQueryWithParameters(updateQuery, rental);
 	}
@@ -101,7 +101,7 @@ public class RentalDAO implements IDao<Rental>{
 			rs = DatabaseController.DATABASE_CONNECTION.createStatement().executeQuery(selectQuery);					
 			while(rs.next()) {
 				Rental rental = setRentalAttrubutes(rs);
-				rentalsList.add(read(rental.getUserId(), SearchBy.ID));
+				rentalsList.add(rental);
 			}	
 			rs.close();
 		} catch (SQLException e)  {
@@ -124,7 +124,7 @@ public class RentalDAO implements IDao<Rental>{
 			rs = DatabaseController.DATABASE_CONNECTION.createStatement().executeQuery(selectQuery);					
 			while(rs.next()) {
 				Rental rental = setRentalAttrubutes(rs);
-				rentalsList.add(read(rental.getUserId(), SearchBy.ID));
+				rentalsList.add(rental);
 			}	
 			rs.close();
 		} catch (SQLException e)  {
@@ -139,11 +139,13 @@ public class RentalDAO implements IDao<Rental>{
 		PreparedStatement preparedStatement = null;
 		try {
 			preparedStatement = DatabaseController.DATABASE_CONNECTION.prepareStatement(query);
-			preparedStatement.setString(1, rental.getUserId());
-			preparedStatement.setString(2, rental.getVideogameId());
-			preparedStatement.setTimestamp(3, rental.getStartDate());
-			preparedStatement.setTimestamp(4, rental.getEndDate());
+			preparedStatement.setDate(1, rental.getStartDate());
+			preparedStatement.setTime(2, rental.getStartTime());
+			preparedStatement.setDate(3, rental.getEndDate());
+			preparedStatement.setTime(4, rental.getEndTime());
 			preparedStatement.setBoolean(5, rental.isReturned());
+			preparedStatement.setString(6, rental.getVideogameId());
+			preparedStatement.setString(7, rental.getBillId());
 			
 			preparedStatement.execute();
 			preparedStatement.close();
@@ -160,10 +162,12 @@ public class RentalDAO implements IDao<Rental>{
 		try {
 			rental = new Rental();
 			rental.setId(rs.getString("id"));
-			rental.setUserId(rs.getString("user_id"));
+			rental.setBillId(rs.getString("user_id"));
 			rental.setVideogameId(rs.getString("videogame_id"));
-			rental.setStartDate(rs.getTimestamp("start_date"));
-			rental.setEndDate(rs.getTimestamp("end_date"));
+			rental.setStartDate(rs.getDate("start_date"));
+			rental.setStartTime(rs.getTime("start_time"));
+			rental.setEndDate(rs.getDate("end_date"));
+			rental.setEndTime(rs.getTime("end_time"));
 			rental.setReturned(rs.getBoolean("returned"));
 		} catch (SQLException e) {
 			e.printStackTrace();

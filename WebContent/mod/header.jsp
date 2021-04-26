@@ -7,8 +7,6 @@
 <%@ page import = "edu.ucam.daos.CategoryDAO" %>
 <%@ page import = "edu.ucam.servlets.Controller" %> 
 <%@ page import = 'edu.ucam.actions.user.Logout' %>   
-   
-
 <%@ page import = "edu.ucam.pojos.User" %>    
 
 	<% if(session.getAttribute(User.ATR_USER_LOGGED)==null) { %>
@@ -26,9 +24,6 @@
 		        <ul class="navbar-nav mr-auto">
 		            <li class="nav-item">
 		                <a class="nav-link" href = "<%= request.getContextPath()%>/index.jsp">Catálogo <span class="sr-only">()</span></a>
-		            </li>
-		            <li class="nav-item">
-		                <a class="nav-link" href="#">Ofertas</a>
 		            </li>
 		            <li class="nav-item dropdown">
 		                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -85,7 +80,7 @@
 		                
 		            </li>
 		            
-		        		<% if(thisUser.getUsername().equals("admin")) { %>	
+		        		<% if(thisUser.getIsAdmin()) { %>	
 		                	<li class="nav-item">
 		                		<a class="nav-link" href = "<%=request.getContextPath() %>/secured/admin_page.jsp">Administrar<span class="sr-only">(current)</span></a>
 		            		</li>

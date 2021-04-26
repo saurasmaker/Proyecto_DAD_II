@@ -32,7 +32,7 @@
 			<p><input id = "assessment-input-id" type = "text" class="form-control" placeholder = "texto..." name = "<%=Assessment.ATR_ASSESSMENT_ID %>" readonly></p>
 				
 			<label for="assessment-input-value">Valor: </label>
-			<p><input id = "assessment-input-value" type = "number" min = "0" max = "5" step = "1" placeholder = "número..." name = "<%=Assessment.ATR_ASSESSMENT_VALUE %>" required></p>
+			<p><input id = "assessment-input-value" type = "number" min = "1" max = "5" step = "1" class="form-control" placeholder = "número..." name = "<%=Assessment.ATR_ASSESSMENT_VALUE %>" required></p>
 						
 			<label for="assessment-input-subject">Asunto: </label>
 			<p><input id = "assessment-input-subject" type = "text" class="form-control" placeholder = "texto..." name = "<%=Assessment.ATR_ASSESSMENT_SUBJECT %>" required></p>
@@ -101,7 +101,7 @@
 			<p><input id = "assessment-input-update-id" type = "text" class="form-control" placeholder = "texto..." name = "<%=Assessment.ATR_ASSESSMENT_ID %>" readonly></p>
 				
 			<label for="assessment-input-update-value">Valor: </label>
-			<p><input id = "assessment-input-update-value" type = "number" min = "0" max = "5" step = "1" placeholder = "número..." class="form-control" placeholder = "Introduce el valor de la reseña..." name = "<%=Assessment.ATR_ASSESSMENT_VALUE %>" required></p>
+			<p><input id = "assessment-input-update-value" type = "number" min = "1" max = "5" step = "1" placeholder = "número..." class="form-control" placeholder = "Introduce el valor de la reseña..." name = "<%=Assessment.ATR_ASSESSMENT_VALUE %>" required></p>
 						
 			<label for="assessment-input-update-subject">Asunto: </label>
 			<p><input id = "assessment-input-update-subject" type = "text" class="form-control" placeholder = "texto..." name = "<%=Assessment.ATR_ASSESSMENT_SUBJECT %>" required></p>

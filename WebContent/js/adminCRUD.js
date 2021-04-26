@@ -67,19 +67,21 @@ function updatePurchase(id, amount, videogameId, billId){
     document.getElementById("purchase-input-update-billId").value = billId;
 }
 
-function updateRental(id, userId, videogameId, startDate, endDate, returned){
+function updateRental(id, startDate, startTime, endDate, endTime, returned, videogameId, billId){
 	document.getElementById("create-rental-form").style.display = "none";
     document.getElementById("update-rental-form").style.display = "block";
 
     document.getElementById("rental-input-update-id").value = id;
-    document.getElementById("rental-input-update-userid").value = userId;
-    document.getElementById("rental-input-update-videogameid").value = videogameId;
     document.getElementById("rental-input-update-startdate").value = startDate;
+    document.getElementById("rental-input-update-starttime").value = startTime;
     document.getElementById("rental-input-update-enddate").value = endDate;
+    document.getElementById("rental-input-update-endtime").value = endTime;
     document.getElementById("rental-input-update-returned").value = returned;
+    document.getElementById("rental-input-update-videogameid").value = videogameId;
+    document.getElementById("rental-input-update-billid").value = billId;  
 }
 
-function updateUser(id, username, email, password, signUpDate, lastSignIn){
+function updateUser(id, username, email, password, signUpDate, signUpTime, lastSignInDate, lastSignInTime, isAdmin){
 	document.getElementById("create-user-form").style.display = "none";
     document.getElementById("update-user-form").style.display = "block";
     
@@ -88,7 +90,10 @@ function updateUser(id, username, email, password, signUpDate, lastSignIn){
     document.getElementById("user-input-update-email").value = email;
     document.getElementById("user-input-update-password").value = password;
     document.getElementById("user-input-update-signupdate").value = signUpDate;
-    document.getElementById("user-input-update-lastsignin").value = lastSignIn; 
+    document.getElementById("user-input-update-signuptime").value = signUpTime;
+    document.getElementById("user-input-update-lastsignindate").value = lastSignInDate; 
+    document.getElementById("user-input-update-lastsignintime").value = lastSignInTime; 
+    document.getElementById("user-input-update-isadmin").checked = (isAdmin == "true");
 }
 
 function updateVideogame(id, name, description, releaseDate, stock, purchasePrice, rentalPrice){	
