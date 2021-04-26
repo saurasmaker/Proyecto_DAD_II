@@ -69,7 +69,7 @@
 		                </a>
 		                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 		                    <a class="dropdown-item" href="<%=request.getContextPath() %>/user/user_profile.jsp">Perfil</a>
-		                    <a class="dropdown-item" href="">Pedidos</a>
+		                    <a class="dropdown-item" href="<%=request.getContextPath() %>/user/user_bills.jsp">Facturas</a>
 		                    <a class="dropdown-item" href="">Preferencias</a>		                    
 		                    <div class="dropdown-divider"></div>
 		                    <form action= "<%= request.getContextPath() %>/Controller" method="post">

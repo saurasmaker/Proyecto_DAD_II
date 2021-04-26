@@ -89,13 +89,13 @@ public class RentalDAO implements IDao<Rental>{
 	/*
 	 * Tool Methods
 	 */
-	public ArrayList<Rental> listByUserId(String userId) {
+	public ArrayList<Rental> listByBillId(String billId) {
 		
 		ArrayList<Rental> rentalsList = new ArrayList<Rental>();
 			
 		ResultSet rs = null;
 		
-		String selectQuery = "SELECT * FROM rentals WHERE user_id = '" + userId + "'"; 
+		String selectQuery = "SELECT * FROM rentals WHERE bill_id = '" + billId + "'"; 
 		System.out.println(selectQuery);
 		try {
 			rs = DatabaseController.DATABASE_CONNECTION.createStatement().executeQuery(selectQuery);					
@@ -112,13 +112,13 @@ public class RentalDAO implements IDao<Rental>{
 	}
 	
 	
-	public ArrayList<Rental> listVideogameId(String videogameId) {
+	public ArrayList<Rental> listByVideogameId(String videogameId) {
 		
 		ArrayList<Rental> rentalsList = new ArrayList<Rental>();
 			
 		ResultSet rs = null;
 		
-		String selectQuery = "SELECT * FROM rentals WHERE user_id = '" + videogameId + "'"; 
+		String selectQuery = "SELECT * FROM rentals WHERE videogame_id = '" + videogameId + "'"; 
 		System.out.println(selectQuery);
 		try {
 			rs = DatabaseController.DATABASE_CONNECTION.createStatement().executeQuery(selectQuery);					
@@ -162,13 +162,15 @@ public class RentalDAO implements IDao<Rental>{
 		try {
 			rental = new Rental();
 			rental.setId(rs.getString("id"));
-			rental.setBillId(rs.getString("user_id"));
+			rental.setBillId(rs.getString("bill_id"));
 			rental.setVideogameId(rs.getString("videogame_id"));
 			rental.setStartDate(rs.getDate("start_date"));
 			rental.setStartTime(rs.getTime("start_time"));
 			rental.setEndDate(rs.getDate("end_date"));
 			rental.setEndTime(rs.getTime("end_time"));
 			rental.setReturned(rs.getBoolean("returned"));
+			
+			System.out.println(rental.toJavaScriptFunction());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

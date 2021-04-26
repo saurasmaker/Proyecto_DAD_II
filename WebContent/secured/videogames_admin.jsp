@@ -32,13 +32,13 @@
 			<input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Videogame.class.getName() %>" />
 			
 			<label for="videogame-input-id">ID: </label>
-			<p><input id = "videogame-input-id" type = "text" class="form-control" placeholder = "ID del Usuario" name = "<%=Videogame.ATR_VIDEOGAME_ID %>" readonly></p>
+			<p><input id = "videogame-input-id" type = "text" class="form-control" placeholder = "ID del Videojuego" name = "<%=Videogame.ATR_VIDEOGAME_ID %>" readonly></p>
 				
 			<label for="videogame-input-name">Nombre: </label>
 			<p><input id = "videogame-update-name" type = "text" class="form-control" placeholder = "Introduce el Nombre del Videojuego..." name = "<%=Videogame.ATR_VIDEOGAME_NAME %>" required></p>
 
 		    <label for="videogame-input-description">Descripción: </label>
-			<p><textarea id = "videogame-input-description" class="form-control" placeholder = "Introduce el Correo Electrónico del Usuario..." name = "<%=Videogame.ATR_VIDEOGAME_DESCRIPTION %>" required></textarea></p>
+			<p><textarea id = "videogame-input-description" class="form-control" placeholder = "Introduce la Descripción del Videojuego..." name = "<%=Videogame.ATR_VIDEOGAME_DESCRIPTION %>" required></textarea></p>
 
 			<label for="videogame-input-releasedate">Fecha de Lanzamiento: </label>
 			<p><input id = "videogame-input-releasedate" type = "date" class="form-control" name = "<%=Videogame.ATR_VIDEOGAME_RELEASEDATE %>" required></p>
@@ -63,13 +63,13 @@
             <input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Videogame.class.getName() %>" />
 			
 			<label for="videogame-input-update-id">ID: </label>
-			<p><input id = "videogame-input-update-id" type = "text" class="form-control" placeholder = "ID del Usuario" name = "<%=Videogame.ATR_VIDEOGAME_ID %>" readonly></p>
+			<p><input id = "videogame-input-update-id" type = "text" class="form-control" placeholder = "ID del Videojuego" name = "<%=Videogame.ATR_VIDEOGAME_ID %>" readonly></p>
 				
 			<label for="videogame-input-update-name">Nombre: </label>
 			<p><input id = "videogame-input-update-name" type = "text" class="form-control" placeholder = "Introduce el Nombre del Videojuego..." name = "<%=Videogame.ATR_VIDEOGAME_NAME %>" required></p>
 
 		    <label for="videogame-input-update-description">Descripción: </label>
-			<p><textarea id = "videogame-input-update-description" class="form-control" placeholder = "Introduce el Correo Electrónico del Usuario..." name = "<%=Videogame.ATR_VIDEOGAME_DESCRIPTION %>" required></textarea></p>
+			<p><textarea id = "videogame-input-update-description" class="form-control" placeholder = "Introduce la Descripción del Videojuego..." name = "<%=Videogame.ATR_VIDEOGAME_DESCRIPTION %>" required></textarea></p>
 
 			<label for="videogame-input-update-releasedate">Fecha de Lanzamiento: </label>
 			<p><input id = "videogame-input-update-releasedate" type = "date" class="form-control" name = "<%=Videogame.ATR_VIDEOGAME_RELEASEDATE %>" required></p>
@@ -117,7 +117,7 @@
 						<tr>
 	                     	<td><%=showVideogame.getId() %></td>
 	                     	<td><%=showVideogame.getName() %></td>
-	                        <td><%=showVideogame.getDescription() %></td>
+	                        <td><textarea readonly><%=showVideogame.getDescription() %></textarea></td>
 	                        <td><%=showVideogame.getReleaseDate() %></td>
 	                        <td><%=showVideogame.getStock() %></td>
 	                        <td><%=showVideogame.getPurchasePrice() %></td>
@@ -130,7 +130,8 @@
 	                            </a>
 	                        </td>
 	                        <td>
-								<form action = "<%= request.getContextPath() %>/DELETE" method = "POST">
+								<form action = "<%= request.getContextPath() %>/Controller" method = "POST">
+								<input type='hidden' name='<%= Controller.ATR_SELECT_ACTION %>' value='<%= Delete.ATR_ACTION %>'/>
 	                           		<input type = "hidden" name = "<%=Videogame.ATR_VIDEOGAME_ID %>" value = "<%=showVideogame.getId() %>">
 	                           		<input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Videogame.class.getName() %>">
 	                           		<button type = "submit" class="btn btn-danger">Eliminar</button>
@@ -161,9 +162,9 @@
 		<div class = "col-6">
 			<form id = "add-videogameimage-form" class = "form-group" enctype="multipart/form-data" action = "<%= request.getContextPath() %>/Controller" method = "POST">
 	        	<input type='hidden' name='<%= Controller.ATR_SELECT_ACTION %>' value='<%= Create.ATR_ACTION %>'/>
-	        	<input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=VideogameImage.class.getName() %>" />
-	        	
 	        	<input id = "videogameimage-input-idvideogame" type = "hidden" name = "<%=VideogameImage.ATR_VIDEOGAMEIMAGE_VIDEOGAMEID %>" value = "<%=videogameId %>">
+				<input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=VideogameImage.class.getName() %>" />
+	        	
 	        	
 	        	<label for="videogameimage-input-image">Elige una imagen: </label>
 				<p><input id = "videogameimage-input-image" type = "file" accept="image/*" class="form-control" name = "<%=VideogameImage.ATR_VIDEOGAMEIMAGE_IMAGE %>" required></p>												
@@ -225,7 +226,7 @@
 			
 	        	<label for="videogame-input-category">Elige una categoría: </label>
 				<p><select id = "videogame-input-category" class="form-control" name = "<%=VideogameCategory.ATR_VIDEOGAMESCATEGORIES_CATEGORYID %>">
-				  <option value="none" selected>Select a User...</option>
+				  <option value="none" selected>Categoría...</option>
 				  <% 
 				  ArrayList<Category> categoriesVideogameList = (new CategoryDAO()).list();
 				  for(int i = 0; i < categoriesVideogameList.size(); ++i) { %>
@@ -260,9 +261,9 @@
 				 				<td>
 									<form action = "<%= request.getContextPath() %>/Controller" method = "POST">
 										<input type='hidden' name='<%= Controller.ATR_SELECT_ACTION %>' value='<%= Delete.ATR_ACTION %>'/>	
-		                           		<input type = "hidden" name = "<%=VideogameCategory.ATR_VIDEOGAMESCATEGORIES_ID %>" value = "<%=videogameCategoriesByVideogameIdList.get(i).getId() %>">
-		                           		<input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=VideogameCategory.class.getName() %>" />
-		                           		<button type = "submit" class="btn btn-danger">Eliminar</button>
+		                           		<input type="hidden" name = "<%=VideogameCategory.ATR_VIDEOGAMESCATEGORIES_ID %>" value = "<%=videogameCategoriesByVideogameIdList.get(i).getId() %>">
+		                           		<input type="hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=VideogameCategory.class.getName() %>" />
+		                           		<button type="submit" class="btn btn-danger">Eliminar</button>
 		                        	</form>
 		                        </td>
 				 				

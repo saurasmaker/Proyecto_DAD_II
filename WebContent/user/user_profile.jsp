@@ -7,7 +7,7 @@
 
 <!DOCTYPE html>
 
-<% User thisUser = (User)session.getAttribute(User.ATR_USER_LOGGED); System.out.println(thisUser); %>
+<% User thisUser = (User)session.getAttribute(User.ATR_USER_LOGGED); %>
 
 <html>
 	<head>

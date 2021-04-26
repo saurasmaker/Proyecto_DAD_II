@@ -100,8 +100,7 @@ public class BillDAO implements IDao<Bill>{
 		try {
 			rs = DatabaseController.DATABASE_CONNECTION.createStatement().executeQuery(selectQuery);					
 			while(rs.next()) {
-				Bill bill = setBillAttributes(rs);
-				billsList.add(read(bill.getUserId(), SearchBy.ID));
+				billsList.add(setBillAttributes(rs));
 			}	
 			rs.close();
 		} catch (SQLException e)  {
@@ -114,7 +113,7 @@ public class BillDAO implements IDao<Bill>{
 	
 	private ErrorType executeQueryWithParameters(String query, Bill bill) {
 		PreparedStatement preparedStatement = null;
-		try {
+		try {		
 			preparedStatement = DatabaseController.DATABASE_CONNECTION.prepareStatement(query);
 			preparedStatement.setString(1, bill.getUserId());
 			preparedStatement.setDate(2, bill.getBillingDate());

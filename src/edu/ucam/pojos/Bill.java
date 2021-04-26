@@ -44,6 +44,10 @@ public class Bill implements IMyPojo{
 		this.paidTime = Time.valueOf(request.getParameter(ATR_BILL_PAIDTIME));
 		this.paid = request.getParameter(ATR_BILL_PAID) != null ? true : false;
 		
+		if(this.paid==false) {
+			this.paidDate = null;
+			this.paidTime = null;
+		}
 	}
 	
 	/*

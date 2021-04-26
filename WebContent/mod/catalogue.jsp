@@ -60,35 +60,14 @@
 	<% for(int i = 0; i < videogamesCatalogueList.size(); ++i) { 
 		Videogame showVcl = videogamesCatalogueList.get(i); %>
 	
-		<div class='col-lg-4 col-md-6 col-sm-12' style = 'padding-bottom: 10px;'>
-		
+		<div class='col-lg-3 col-md-4 col-sm-6'  style = 'margin-bottom: 10px; background-color: rgba(220, 220, 220, 0.5);'>
 	    
-	        <h2><a href="<%= request.getContextPath()%>/mod/videogame.jsp?<%=Videogame.ATR_VIDEOGAME_ID %>=<%=showVcl.getId() %>"><%= showVcl.getName()%></a></h2>
+	        <h3><a href="<%= request.getContextPath()%>/mod/videogame.jsp?<%=Videogame.ATR_VIDEOGAME_ID %>=<%=showVcl.getId() %>"><%= showVcl.getName()%></a></h3>
 				
-			<div class = 'row'>
-				<div class = 'col-6'>
-					<ul>
-						<li>Stock: <strong><%= showVcl.getStock() %></strong></li>
-	                    <li>Precio de Compra: <strong><%= showVcl.getPurchasePrice() %>&#8364</strong></li>
-	                    <li>Precio de Alquiler: <strong><%= showVcl.getRentalPrice() %>&#8364</strong></li>
-	                    
-	                    
-	                    <li>Categor&iacuteas: 
-	                    <strong><% 
-	                    videogamesCategoriesList = (new VideogameCategoryDAO()).listByVideogameId(showVcl.getId());
-	                    
-	                    for(int j = 0; j < videogamesCategoriesList.size(); ++j) {	                
-	                    	VideogameCategory showVc = videogamesCategoriesList.get(j);
-	                    	categoryOfVideogame = (new CategoryDAO()).read(showVc.getCategoryId(), SearchBy.ID);
-	                    	out.print(categoryOfVideogame.getName() + " ");
-	                    }
-	                    %></strong>
-	                    </li>
-					</ul>
-				</div>
-					
-				<div id='carouselExampleIndicators<%=i %>' class='carousel slide col-6' data-interval='0' data-ride='carousel'>
-					<ol class='carousel-indicators'  style = 'background-color: rgb(220,220,220);'>
+			<div class = 'row'>	
+			
+				<div id='carouselExampleIndicators<%=i %>' class='carousel slide col-12' data-interval='0' data-ride='carousel'>
+					<ol class='carousel-indicators'  style = 'background-color: rgba(220, 220, 220, 0.5); '>
 					<% VideogameImageDAO videogameImageDao = new VideogameImageDAO();
 					videogamesImagesList = videogameImageDao.listByVideogameId(videogamesCatalogueList.get(i).getId());
 					
@@ -105,10 +84,10 @@
 				  	
 				  		<%	if(videogamesImagesList != null && videogamesImagesList.size() != 0) {
 								for(int j = 0; j < videogamesImagesList.size(); ++j) { 	BASE64Encoder b64e = new BASE64Encoder(); %>
-				    	<div class='carousel-item <% if(j == 0){ %> active <%}%>'>
+				    	<div class='carousel-item <% if(j == 0){ %> active <% } %>'>
 				    		<img class='d-block w-100' src='data:image/png;base64,<%= b64e.encode((videogamesImagesList.get(j).getImage()))%>' alt='<%=videogamesImagesList.get(j).getName() %>'>
 				    	</div>
-				    	<% 	}	} %>
+				    	<% } } %>
 
 				  	</div>
 				  	
@@ -123,12 +102,16 @@
 				  	</a>
 				</div>
 	
-	            
+	            <div class = 'col-12'>
+					<ul>
+						<li>Stock: <strong><%= showVcl.getStock() %></strong></li>
+	                    <li>Precio de Compra: <strong><%= showVcl.getPurchasePrice() %>&#8364</strong></li>
+	                    <li>Precio de Alquiler: <strong><%= showVcl.getRentalPrice() %>&#8364</strong></li>
+					</ul>
+				</div>               	
 					
-               	
-					
-	            </div>
-	        </div>	    
+	        </div>
+	   	</div>	    
 		
 	<% } %>
 	

@@ -6,10 +6,12 @@
 <%@ page import = "edu.ucam.pojos.Rental" %>
 <%@ page import = "edu.ucam.pojos.Videogame" %>
 <%@ page import = "edu.ucam.pojos.User" %>
+<%@ page import = "edu.ucam.pojos.Bill" %>
 
 <%@ page import = "edu.ucam.daos.RentalDAO" %>
 <%@ page import = "edu.ucam.daos.VideogameDAO" %>
 <%@ page import = "edu.ucam.daos.UserDAO" %>
+<%@ page import = "edu.ucam.daos.BillDAO" %>
 
 <%@ page import = "edu.ucam.servlets.Controller" %>
 <%@ page import = 'edu.ucam.actions.admin.*' %>
@@ -56,9 +58,9 @@
 			<label for="rental-input-billid">ID Factura: </label>
 			<p><select id = "rental-input-billid" class="form-control" name = "<%=Rental.ATR_RENTAL_BILLID %>">
 			  <option value="none" selected>Elige una Factura...</option>
-			  <% ArrayList<User> usersRentalList = (new UserDAO()).list();
-			  for(int i = 0; i < usersRentalList.size(); ++i) { %>
-				  <option value="<%=usersRentalList.get(i).getId() %>"><%=usersRentalList.get(i).getId() %></option>
+			  <% ArrayList<Bill> billsRentalList = (new BillDAO()).list();
+			  for(int i = 0; i < billsRentalList.size(); ++i) { %>
+				  <option value="<%=billsRentalList.get(i).getId() %>"><%=billsRentalList.get(i).getId() %></option>
 			  <% } %>
 			</select></p>
 			
@@ -101,8 +103,8 @@
 			<label for="rental-input-update-billid">ID Factura: </label>
 			<p><select id = "rental-input-update-billid" class="form-control" name = "<%=Rental.ATR_RENTAL_BILLID %>">
 			  <option value="none" selected>Elige una Factura...</option>
-			  <% for(int i = 0; i < usersRentalList.size(); ++i) { %>
-				  <option value="<%=usersRentalList.get(i).getId() %>"><%=usersRentalList.get(i).getId() %></option>
+			  <% for(int i = 0; i < billsRentalList.size(); ++i) { %>
+				  <option value="<%=billsRentalList.get(i).getId() %>"><%=billsRentalList.get(i).getId() %></option>
 			  <% } %>
 			</select></p>
 			

@@ -3,6 +3,7 @@ package edu.ucam.servlets;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,7 @@ import edu.ucam.pojos.User;
  * Servlet implementation class Controller
  */
 @WebServlet({"/Controller","/controller", "/CONTROLLER"})
+@MultipartConfig
 public class Controller extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
@@ -82,6 +84,10 @@ public class Controller extends HttpServlet {
 			case Rent.ATR_ACTION:
 				url += (new Rent()).execute(request, response);
 				break;
+				
+			case PayBill.ATR_ACTION:
+				url += (new PayBill()).execute(request, response);
+				break;
 			
 			}
 			
@@ -89,7 +95,7 @@ public class Controller extends HttpServlet {
 			/*
 			 * For admin Users
 			 */
-			if(user.getUsername().equals("admin"))
+			if(user.getIsAdmin())
 				switch(selectedAction) {
 					
 				case Create.ATR_ACTION:
@@ -111,10 +117,6 @@ public class Controller extends HttpServlet {
 				}
 		
 		}
-		
-		
-		
-		
 		
 		doGet(request, response);
 	}
