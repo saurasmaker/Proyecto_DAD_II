@@ -2,6 +2,7 @@
     pageEncoding="ISO-8859-1"%>
     
 <%@ page import="edu.ucam.servlets.Controller" %>
+<%@ page import="edu.ucam.actions.user.EditProfile" %>
     
 <%@ page import="edu.ucam.pojos.User" %>
 
@@ -16,13 +17,20 @@
 		<script type="text/javascript" src="<%= request.getContextPath() %>/js/profile_tools.js"></script>
 	</head>
 	
-	<body>
+	<body onload = "cancelUpdateProfile(<%=thisUser.toJavaScriptFunction() %>)">
 		<div class = "general container">
 			<jsp:include page="../mod/header.jsp" />
 			
 			<div class = 'row content profile-div'>
 			
-				<form id = "update-user-form" class = "form-group" action = "<%= request.getContextPath() %>/UPDATE" method = "POST" style = "display: 'none';">
+				<div class = 'col-12'>
+					<h3 class = 'display-2 text-center'>Perfil</h3>
+					<hr width = '50%'/>
+					<br/>
+				</div>
+				
+				<form id = "update-user-form" class = "form-group" action = "<%= request.getContextPath() %>/Controller" method = "POST">
+					<input type='hidden' name='<%= Controller.ATR_SELECT_ACTION %>' value='<%= EditProfile.ATR_ACTION %>'/>
 		            <input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=User.class.getName() %>" />
 					<input id = "user-input-update-id" type = "hidden" class="form-control" placeholder = "ID del Usuario" name = "<%=User.ATR_USER_ID %>" value="<%=thisUser.getId() %>">
 						
@@ -38,9 +46,11 @@
 					<input type="checkbox" id="loginForm-check" name = "SHOWPASSWORD" onclick = "showPasswordProfile()">
 	          		<label data-error="wrong" data-success="right" for="loginForm-check" >Show password.</label>
 					
-		            <p>
-		                <input id = "input-edit-send" type = "submit" class="btn btn-primary" value = "Editar">
-		                <a id = "input-edit-send" class="btn btn-secondary" type = "button" role="button" href = "users-title" onclick = "cancelUpdateUser()" style = "margin-left: 10px;">Cancelar</a>
+					<a id = "open-update-form" class="btn btn-secondary" type = "button" role="button" href = "#" onclick = "openUpdateProfile(<%=thisUser.toJavaScriptFunction() %>)" style = "margin-left: 10px;">Editar</a>
+
+		            <p id = "edit-buttons" style = "display: 'none';">
+		                <input id = "input-edit-send" type = "submit" class="btn btn-primary" value = "Enviar">
+		                <a id = "cancel-button" class="btn btn-secondary" type = "button" role="button" href = "" onclick = "cancelUpdateProfile()" style = "margin-left: 10px;">Cancelar</a>
 		            </p>
 		        </form>
 				

@@ -18,7 +18,7 @@ import edu.ucam.pojos.User;
 /**
  * Servlet Filter implementation class FilterUser
  */
-@WebFilter("/mod/user_profile.jsp")
+@WebFilter("/user/*")
 public class FilterUser implements Filter {
 
     /**
