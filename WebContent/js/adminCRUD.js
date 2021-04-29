@@ -64,10 +64,10 @@ function updatePurchase(id, amount, videogameId, billId){
     document.getElementById("purchase-input-update-id").value = id;
     document.getElementById("purchase-input-update-amount").value = amount;
     document.getElementById("purchase-input-update-videogameid").value = videogameId;
-    document.getElementById("purchase-input-update-billId").value = billId;
+    document.getElementById("purchase-input-update-billid").value = billId;
 }
 
-function updateRental(id, startDate, startTime, endDate, endTime, returned, videogameId, billId){
+function updateRental(id, startDate, startTime, endDate, endTime, returned, videogameId, billId){	
 	document.getElementById("create-rental-form").style.display = "none";
     document.getElementById("update-rental-form").style.display = "block";
 
@@ -76,7 +76,7 @@ function updateRental(id, startDate, startTime, endDate, endTime, returned, vide
     document.getElementById("rental-input-update-starttime").value = startTime;
     document.getElementById("rental-input-update-enddate").value = endDate;
     document.getElementById("rental-input-update-endtime").value = endTime;
-    document.getElementById("rental-input-update-returned").value = returned;
+    document.getElementById("rental-input-update-returned").checked = (returned == "true");
     document.getElementById("rental-input-update-videogameid").value = videogameId;
     document.getElementById("rental-input-update-billid").value = billId;  
 }

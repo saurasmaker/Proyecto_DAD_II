@@ -28,13 +28,13 @@
 			<input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Purchase.class.getName() %>" />
 			
 			<label for="purchase-input-id">ID: </label>
-			<p><input id = "purchase-input-id" type = "text" class="form-control" placeholder = "Identificador de la categoría" name = "<%=Purchase.ATR_PURCHASE_ID %>" readonly></p>
+			<p><input id = "purchase-input-id" type = "text" class="form-control" placeholder = "ID de la Compra" name = "<%=Purchase.ATR_PURCHASE_ID %>" readonly></p>
 
 		    <label for="purchase-input-amount">Cantidad: </label>
-			<p><input id = "purchase-input-name" type = "number" step = "1" min = "1"  class="form-control" placeholder = "Introduce el nombre de la categoría..." name = "<%=Purchase.ATR_PURCHASE_AMOUNT %>" required></p>
+			<p><input id = "purchase-input-amount" type = "number" step = "1" min = "1"  class="form-control" placeholder = "Número..." name = "<%=Purchase.ATR_PURCHASE_AMOUNT %>" required></p>
 		
 			<label for="purchase-input-videogameid">ID Videojuego: </label>
-			<p><select id = "assessment-input-videogameid" class="form-control" name = "<%=Purchase.ATR_PURCHASE_VIDEOGAMEID %>">
+			<p><select id = "purchase-input-videogameid" class="form-control" name = "<%=Purchase.ATR_PURCHASE_VIDEOGAMEID %>">
 			  <option value="none" selected>Select a User...</option>
 			  <% ArrayList<Videogame> videogamesPurchaseList = (new VideogameDAO()).list();
 			  for(int i = 0; i < videogamesPurchaseList.size(); ++i) { %>
@@ -43,7 +43,7 @@
 			</select></p>
 			
 			<label for="purchase-input-billid">ID Factura: </label>
-			<p><select id = "assessment-input-billid" class="form-control" name = "<%=Purchase.ATR_PURCHASE_BILLID %>">
+			<p><select id = "purchase-input-billid" class="form-control" name = "<%=Purchase.ATR_PURCHASE_BILLID %>">
 			  <option value="none" selected>Select a User...</option>
 			  <% ArrayList<Bill> billsPurchaseList = (new BillDAO()).list();
 			  for(int i = 0; i < billsPurchaseList.size(); ++i) { %>
@@ -65,10 +65,10 @@
 			<p><input id = "purchase-input-update-id" type = "text" class="form-control" placeholder = "Identificador de la categoría" name = "<%=Purchase.ATR_PURCHASE_ID %>" readonly></p>
 
 		    <label for="purchase-input-update-amount">Cantidad: </label>
-			<p><input id = "purchase-input-update-name" type = "number" step = "1" min = "1" class="form-control" placeholder = "Introduce el nombre de la categoría..." name = "<%=Purchase.ATR_PURCHASE_AMOUNT %>" required></p>
+			<p><input id = "purchase-input-update-amount" type = "number" step = "1" min = "1" class="form-control" placeholder = "Introduce el nombre de la categoría..." name = "<%=Purchase.ATR_PURCHASE_AMOUNT %>" required></p>
 		
 			<label for="purchase-input-update-videogameid">ID Videojuego: </label>
-			<p><select id = "assessment-input-update-userid" class="form-control" name = "<%=Purchase.ATR_PURCHASE_VIDEOGAMEID %>">
+			<p><select id = "purchase-input-update-videogameid" class="form-control" name = "<%=Purchase.ATR_PURCHASE_VIDEOGAMEID %>">
 			  <option value="none" selected>Select a User...</option>
 			  <% for(int i = 0; i < videogamesPurchaseList.size(); ++i) { %>
 				  <option value="<%=videogamesPurchaseList.get(i).getId() %>"><%=videogamesPurchaseList.get(i).getName() %></option>
@@ -76,7 +76,7 @@
 			</select></p>
 			
 			<label for="purchase-input-update-billid">ID Factura: </label>
-			<p><select id = "assessment-update-input-userid" class="form-control" name = "<%=Purchase.ATR_PURCHASE_BILLID %>">
+			<p><select id = "purchase-input-update-billid" class="form-control" name = "<%=Purchase.ATR_PURCHASE_BILLID %>">
 			  <option value="none" selected>Select a User...</option>
 			  <% for(int i = 0; i < billsPurchaseList.size(); ++i) { %>
 				  <option value="<%=billsPurchaseList.get(i).getId() %>"><%=billsPurchaseList.get(i).getId() %></option>
