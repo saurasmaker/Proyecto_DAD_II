@@ -88,6 +88,10 @@ public class Controller extends HttpServlet {
 			case PayBill.ATR_ACTION:
 				url += (new PayBill()).execute(request, response);
 				break;
+				
+			case ReturnRental.ATR_ACTION:
+				url += (new ReturnRental()).execute(request, response);
+				break;
 			
 			}
 			

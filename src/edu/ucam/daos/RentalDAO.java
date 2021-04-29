@@ -96,7 +96,6 @@ public class RentalDAO implements IDao<Rental>{
 		ResultSet rs = null;
 		
 		String selectQuery = "SELECT * FROM rentals WHERE bill_id = '" + billId + "'"; 
-		System.out.println(selectQuery);
 		try {
 			rs = DatabaseController.DATABASE_CONNECTION.createStatement().executeQuery(selectQuery);					
 			while(rs.next()) {
@@ -119,7 +118,6 @@ public class RentalDAO implements IDao<Rental>{
 		ResultSet rs = null;
 		
 		String selectQuery = "SELECT * FROM rentals WHERE videogame_id = '" + videogameId + "'"; 
-		System.out.println(selectQuery);
 		try {
 			rs = DatabaseController.DATABASE_CONNECTION.createStatement().executeQuery(selectQuery);					
 			while(rs.next()) {
@@ -169,8 +167,6 @@ public class RentalDAO implements IDao<Rental>{
 			rental.setEndDate(rs.getDate("end_date"));
 			rental.setEndTime(rs.getTime("end_time"));
 			rental.setReturned(rs.getBoolean("returned"));
-			
-			System.out.println(rental.toJavaScriptFunction());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

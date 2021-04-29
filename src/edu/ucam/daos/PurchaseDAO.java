@@ -94,13 +94,13 @@ public class PurchaseDAO implements IDao<Purchase>{
 			
 		ResultSet rs = null;
 		
-		String selectQuery = "SELECT * FROM bills WHERE user_id = '" + videogameId + "'"; 
+		String selectQuery = "SELECT * FROM purchases WHERE videogame_id = '" + videogameId + "'"; 
 
 		try {
 			rs = DatabaseController.DATABASE_CONNECTION.createStatement().executeQuery(selectQuery);					
 			while(rs.next()) {
 				Purchase purchase = setPurchaseAttributes(rs);
-				purchasesList.add(read(purchase.getBillId(), SearchBy.ID));
+				purchasesList.add(purchase);
 			}	
 			rs.close();
 		} catch (SQLException e)  {
@@ -116,13 +116,13 @@ public class PurchaseDAO implements IDao<Purchase>{
 			
 		ResultSet rs = null;
 		
-		String selectQuery = "SELECT * FROM bills WHERE user_id = '" + billId + "'"; 
+		String selectQuery = "SELECT * FROM purchases WHERE bill_id = '" + billId + "'"; 
 
 		try {
 			rs = DatabaseController.DATABASE_CONNECTION.createStatement().executeQuery(selectQuery);					
 			while(rs.next()) {
 				Purchase purchase = setPurchaseAttributes(rs);
-				purchasesList.add(read(purchase.getBillId(), SearchBy.ID));
+				purchasesList.add(purchase);
 			}	
 			rs.close();
 		} catch (SQLException e)  {
