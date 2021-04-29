@@ -2,13 +2,22 @@
     pageEncoding="ISO-8859-1"%>
     
 <%@ page import="java.util.ArrayList" %>
+<%@ page import ="java.time.temporal.ChronoUnit" %>
+<%@ page import="java.sql.Date" %>
+<%@ page import="edu.ucam.enums.SearchBy" %>
     
 <%@ page import="edu.ucam.servlets.Controller" %>
 
 <%@ page import="edu.ucam.pojos.User" %>
+<%@ page import="edu.ucam.pojos.Videogame" %>
 <%@ page import="edu.ucam.pojos.Bill" %>
+<%@ page import="edu.ucam.pojos.Purchase" %>
+<%@ page import="edu.ucam.pojos.Rental" %>
 
+<%@ page import="edu.ucam.daos.VideogameDAO" %>
 <%@ page import="edu.ucam.daos.BillDAO" %>
+<%@ page import="edu.ucam.daos.PurchaseDAO" %>
+<%@ page import="edu.ucam.daos.RentalDAO" %>
 <%@ page import="edu.ucam.actions.user.PayBill" %>
 
 
@@ -42,18 +51,24 @@
 			                  	<tr>
 			                     	<th scope="col">ID</th>
 			                     	<th scope="col">ID Usuario</th>
-			                     	<th scope="col">Fecha de Facturación</th>
-			                     	<th scope="col">Hora de Facturación</th>
+			                     	<th scope="col">Fecha de Facturaci&oacute;n</th>
+			                     	<th scope="col">Hora de Facturaci&oacute;n</th>
 									<th scope="col">Pagado</th>
 									<th scope="col">Fecha de Pago</th>
 									<th scope="col">Hora de Pago</th>
 			                        <th scope="col">Pagar</th>
+			                        <th scope="col">Ver Factura</th>
 			                  	</tr>
 			               	</thead>
 						   	<tbody>
 			                <% ArrayList<Bill> billsList = (new BillDAO()).listByUserId(thisUser.getId());
 						  	for(int i = 0; i < billsList.size(); ++i) {
-								Bill showBill = billsList.get(i); %>
+								Bill showBill = billsList.get(i); 
+								
+								ArrayList<Purchase> purchasesBillList = (new PurchaseDAO()).listByBillId(showBill.getId());
+								ArrayList<Rental> rentalsBillList = (new RentalDAO()).listByBillId(showBill.getId());
+							%>
+							
 								<tr>
 			                     	<td><%=showBill.getId() %></td>
 			                     	<td><%=showBill.getUserId() %></td>
@@ -72,8 +87,69 @@
 			                        	</form>
 			                        	<% } else { out.print("<p><input type='checkbox' class='form-control' onclick='return false;'checked></p>"); }%>
 			                        </td>
+			                        <td>
+			                        	<a class="btn btn-secondary" data-toggle="collapse" href="#collapse-show-bill-<%=showBill.getId()%>" role="button" aria-expanded="false" aria-controls="collapseExample">
+			                        		Ver
+			                        	</a>
+			                        </td>
 			                	</tr>
 								  
+								<tr>
+									<td colspan="9">
+									<div class="collapse row" id="collapse-show-bill-<%=showBill.getId()%>">
+									
+										<% Float total = 0f; %>
+									
+										<div class = "col-12 row">												
+											<table class="table">
+												<thead>
+													<tr>
+														<th scope = "col">Tipo</th>
+														<th scope="col">Videojuego</th>
+														<th scope="col">Coste</th>
+														<th scope="col">Cantidad / D&iacute;as</th>
+													</tr>
+												</thead>
+												
+												<tbody>
+											<!-- PURCHASES OF THE BILLL -->
+											<% for(int j = 0; j < purchasesBillList.size(); ++j) { 
+												Purchase showPurchase = purchasesBillList.get(j);
+												Videogame showVideogame = (new VideogameDAO()).read(showPurchase.getVideogameId(), SearchBy.ID);
+												total += showPurchase.getAmount() * showVideogame.getPurchasePrice();
+												%>
+													<tr>
+														<td>Compra</td>
+														<td><%=showVideogame.getName() %></td>
+														<td><%=showVideogame.getPurchasePrice() %> &euro;</td>
+														<td><%=showPurchase.getAmount() %></td>
+													</tr>										
+											<% } %>
+											
+											
+											<!-- RENTALS OF THE BILLL -->
+											<% for(int j = 0; j < rentalsBillList.size(); ++j) { 
+												Rental showRental = rentalsBillList.get(j);
+												Videogame showVideogame = (new VideogameDAO()).read(showRental.getVideogameId(), SearchBy.ID);
+												total += showVideogame.getRentalPrice() * ChronoUnit.DAYS.between(showRental.getStartDate().toLocalDate(), showRental.getEndDate().toLocalDate());
+												%>
+													<tr>
+														<td>Alquiler</td>	
+														<td><%=showVideogame.getName() %></td>
+														<td><%=showVideogame.getRentalPrice() %> &euro; / d&iacute;a</td>
+														<td><%=ChronoUnit.DAYS.between(showRental.getStartDate().toLocalDate(), showRental.getEndDate().toLocalDate())%> D&iacute;as</td>
+													</tr>										
+											<% } %>
+											
+												</tbody>										
+											</table>
+											<h4 style="padding-left: 10px">Total: <strong><%=total %> &euro;</strong></h4>			
+										</div>
+
+									</div>
+									</td>
+								</tr>
+
 							<% } %>
 							</tbody>
 			            </table>
