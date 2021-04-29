@@ -43,6 +43,10 @@ public class Basket implements IMyPojo{
 	/*
 	 * Contructors
 	 */
+	public Basket() {
+		this.products = new ArrayList<Item>();
+	}
+	
 	public Basket(String userId) {
 		this.userId = userId;
 		this.products = new ArrayList<Item>();
@@ -55,26 +59,41 @@ public class Basket implements IMyPojo{
 	 */
 	public void addProduct(String videogameId, int amount) {
 		int n = -1;
-		if((n = isAlreadyInBasket(videogameId)) != -1) {
-			this.products.get(n).setAmount(this.products.get(n).getAmount()+amount);
+		if((n = isAlreadyInBasketInPosition(videogameId)) != -1) {
+			if(amount != -1 && this.products.get(n).getAmount() != -1)
+				this.products.get(n).setAmount(this.products.get(n).getAmount()+amount);
+			else
+				this.products.get(n).setAmount(amount);
 		}
 		else {
 			this.products.add(new Item(videogameId, amount));
 		}
 	}
 	
-	public void removeProduct(String videogameId, int amount) {
-		int n = isAlreadyInBasket(videogameId);
-		if(n == -1) {
-			this.products.remove(n);
-		}
-		else if(n > 0) {
-			this.products.get(n).setAmount(this.products.get(n).getAmount() - amount);
-			if(this.products.get(n).getAmount() <= 0) this.products.remove(n);
+	public Item getProductById(String videogameId) {
+		return this.products.get(isAlreadyInBasketInPosition(videogameId));
+	}
+	
+	public Item getProductByPosition(int i) {
+		return this.products.get(i);
+	}
+	
+	public void setProductAmount(String videogameId, int amount) {
+		int position = isAlreadyInBasketInPosition(videogameId);
+		
+		if(position != -1) {
+			
+			this.products.get(position).setAmount(amount);
+			
+			if(this.products.get(position).getAmount() == 0) {
+				this.products.remove(position);
+			}
+
 		}
 	}
 	
-	private int isAlreadyInBasket(String videogameId) {
+	
+	private int isAlreadyInBasketInPosition(String videogameId) {
 		
 		for(int i = 0; i < this.products.size(); ++i) {
 			if(this.products.get(i).getVideogameId().equals(videogameId))
@@ -94,31 +113,3 @@ public class Basket implements IMyPojo{
 	
 }
 
-
-class Item{
-	
-	private String videogameId;
-	private int amount;
-	
-	public Item(String videogameId, int amount) {
-		this.setVideogameId(videogameId);
-		this.setAmount(amount);
-	}
-
-	public String getVideogameId() {
-		return videogameId;
-	}
-
-	public void setVideogameId(String videogameId) {
-		this.videogameId = videogameId;
-	}
-
-	public int getAmount() {
-		return amount;
-	}
-
-	public void setAmount(int amount) {
-		this.amount = amount;
-	}
-	
-}

@@ -4,22 +4,16 @@
 <%@ page import = 'java.util.ArrayList' %> 
 <%@ page import = 'sun.misc.BASE64Encoder' %>
 
+<%@ page import = 'edu.ucam.servlets.Controller' %>
+
 <%@ page import = 'edu.ucam.pojos.*' %> 
 <%@ page import = 'edu.ucam.daos.*' %> 
 <%@ page import = 'edu.ucam.enums.*' %>
 
+<%@ page import = 'edu.ucam.actions.user.AddProductToBasket' %>
+
 
 <%
-	/*
-		We check that the user is authenticated
-		to show the user options.
-	*/
-	User thisUser = (User) session.getAttribute(User.ATR_USER_LOGGED);
-	Basket basket = null;
-	if(thisUser != null){
-		basket = new Basket(thisUser.getId());
-		session.setAttribute(Basket.ATR_BASKET, basket);
-	}
 	
 	ArrayList<Videogame> videogamesCatalogueList;
 	
@@ -52,7 +46,7 @@
 <div class = 'row content videogames-catalogue'>
 	
 	<div class = 'col-12'>
-		<h3 class = 'display-2 text-center'>Cat&aacutelogo</h3>
+		<h3 class = 'display-2 text-center'>Cat&aacute;logo</h3>
 		<hr width = '50%'/>
 		<br/>
 	</div>		
@@ -105,10 +99,33 @@
 	            <div class = 'col-12'>
 					<ul>
 						<li>Stock: <strong><%= showVcl.getStock() %></strong></li>
-	                    <li>Precio de Compra: <strong><%= showVcl.getPurchasePrice() %>&#8364</strong></li>
-	                    <li>Precio de Alquiler: <strong><%= showVcl.getRentalPrice() %>&#8364</strong></li>
+	                    <li>Precio de Compra: <strong><%= showVcl.getPurchasePrice() %> &euro;</strong></li>
+	                    <li>Precio de Alquiler: <strong><%= showVcl.getRentalPrice() %> &euro;</strong></li>
 					</ul>
-				</div>               	
+				</div>  
+				
+				<% if(showVcl.getStock() > 0) { %>
+		                   
+		                	<div class='row'>
+			                   	<div class='col-6'>
+				                   	<form method = 'POST' action = '<%= request.getContextPath()%>/Controller'>
+				                   		<input type = 'hidden' name = <%=Controller.ATR_SELECT_ACTION %> value = '<%= AddProductToBasket.ATR_ACTION %>'/>
+				                       	<input type = 'hidden' name = '<%=Basket.ATR_BASKET_PRODUCTID %>' value = '<%=showVcl.getId() %>'/>
+				                       	<input type = 'hidden' name = '<%=Basket.ATR_BASKET_AMOUNT %>' value = '1'/>
+				                       	<input type = 'submit' value = 'Comprar' class='btn btn-primary'/>
+				                   	</form>
+			                   	</div>
+			                   
+			                   	<div class = 'col-6'>
+				                   	<form method = 'POST' action = '<%= request.getContextPath()%>/Controller'>
+				                   		<input type = 'hidden' name = <%=Controller.ATR_SELECT_ACTION %> value = '<%= AddProductToBasket.ATR_ACTION %>'/>
+				                       	<input type = 'hidden' name = '<%=Basket.ATR_BASKET_PRODUCTID %>' value = '<%=showVcl.getId() %>'/>
+				                       	<input type = 'hidden' name = '<%=Basket.ATR_BASKET_AMOUNT %>' value = '-1'/>
+				                       	<input type = 'submit' value = 'Alquilar' class='btn btn-primary'/>
+				                   	</form>
+			                   	</div>
+		                   	</div>
+		            	<% } %>	             	
 					
 	        </div>
 	   	</div>	    

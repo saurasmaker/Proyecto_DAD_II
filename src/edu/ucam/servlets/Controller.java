@@ -42,7 +42,7 @@ public class Controller extends HttpServlet {
 		url = request.getContextPath();
 		User user = (User) request.getSession().getAttribute(User.ATR_USER_LOGGED);
 		String selectedAction = request.getParameter(ATR_SELECT_ACTION);
-				
+						
 		/*
 		 * For no logged Users
 		 */
@@ -55,7 +55,18 @@ public class Controller extends HttpServlet {
 		case Signup.ATR_ACTION:
 			url += (new Signup()).execute(request, response);
 			break;
+		
+		case AddProductToBasket.ATR_ACTION:
+			url += (new AddProductToBasket()).execute(request, response);
+			break;
 			
+		case EditProductFromBasket.ATR_ACTION:
+			url += (new EditProductFromBasket()).execute(request, response);
+			break;
+			
+		case CreateBill.ATR_ACTION:
+			url += (new CreateBill()).execute(request, response);
+			break;
 		}
 		
 		
@@ -64,10 +75,6 @@ public class Controller extends HttpServlet {
 		 */
 		if(user!=null) {
 			switch(selectedAction) {
-			
-			case Buy.ATR_ACTION:
-				url += (new Buy()).execute(request, response);
-				break;
 				
 			case EditProfile.ATR_ACTION:
 				url += (new EditProfile()).execute(request, response);

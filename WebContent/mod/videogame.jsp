@@ -10,6 +10,7 @@
 <%@ page import = 'edu.ucam.enums.*' %>
 
 <%@ page import = 'edu.ucam.actions.user.MakeAssessment' %>
+<%@ page import = 'edu.ucam.actions.user.AddProductToBasket' %>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -85,10 +86,10 @@
 						<strong>Características: </strong>
 						<ul>
 							<li>Stock: <strong><%= thisVideogame.getStock() %></strong></li>
-		                    <li>Precio de Compra: <strong><%= thisVideogame.getPurchasePrice() %>&#8364</strong></li>
-		                    <li>Precio de Alquiler: <strong><%= thisVideogame.getRentalPrice() %>&#8364</strong></li>
+		                    <li>Precio de Compra: <strong><%= thisVideogame.getPurchasePrice() %> &euro;</strong></li>
+		                    <li>Precio de Alquiler: <strong><%= thisVideogame.getRentalPrice() %> &euro;</strong></li>
 		                    
-		                    <li>Categor&iacuteas: 
+		                    <li>Categor&iacute;as: 
 		                    <strong><% 
 		                    
 		                    if(videogameCategoriesList!=null)
@@ -103,22 +104,23 @@
 					
 						<br/><strong>Descripción: </strong> <p><%= thisVideogame.getDescription() %></p>
 					
-						<% if(session.getAttribute(User.ATR_USER_LOGGED) != null && thisVideogame.getStock() > 0) { %>
+						<% if(thisVideogame.getStock() > 0) { %>
 		                   
 		                	<div class='row'>
 			                   	<div class='col-3'>
-				                   	<form method = 'POST' action = '<%= request.getServletContext()%>/buy'>
-				                       	<input type = 'hidden' name = '' value= ''/>
-				                       	<input type = 'hidden' name = 'IDUSER' value = '<%= "asdf" %>'/>
-				                       	<input type = 'hidden' name = 'IDPRODUCT' value = '<?php echo $id ?>'/>
+				                   	<form method = 'POST' action = '<%= request.getContextPath()%>/Controller'>
+				                   		<input type = 'hidden' name = <%=Controller.ATR_SELECT_ACTION %> value = '<%= AddProductToBasket.ATR_ACTION %>'/>
+				                       	<input type = 'hidden' name = '<%=Basket.ATR_BASKET_PRODUCTID %>' value = '<%=thisVideogame.getId() %>'/>
+				                       	<input type = 'hidden' name = '<%=Basket.ATR_BASKET_AMOUNT %>' value = '1'/>
 				                       	<input type = 'submit' value = 'Comprar' class='btn btn-primary'/>
 				                   	</form>
 			                   	</div>
 			                   
 			                   	<div class = 'col-3'>
-				                   	<form method = 'POST' action = '<%= request.getServletContext()%>/rent'>
-				                       	<input type = 'hidden' name = 'IDUSER' value = '>'/>
-				                       	<input type = 'hidden' name = 'IDPRODUCT' value = ''/>
+				                   	<form method = 'POST' action = '<%= request.getContextPath()%>/Controller'>
+				                   		<input type = 'hidden' name = <%=Controller.ATR_SELECT_ACTION %> value = '<%= AddProductToBasket.ATR_ACTION %>'/>
+				                       	<input type = 'hidden' name = '<%=Basket.ATR_BASKET_PRODUCTID %>' value = '<%=thisVideogame.getId() %>'/>
+				                       	<input type = 'hidden' name = '<%=Basket.ATR_BASKET_AMOUNT %>' value = '-1'/>
 				                       	<input type = 'submit' value = 'Alquilar' class='btn btn-primary'/>
 				                   	</form>
 			                   	</div>
@@ -180,7 +182,7 @@
 									<label for="assessment-input-comment">Comentario: </label>
 									<p><textarea id = "assessment-input-comment" class="form-control" placeholder = "texto..." name = "<%=Assessment.ATR_ASSESSMENT_COMMENT %>" required><% if(thisAssessment != null) out.print(thisAssessment.getComment()); %></textarea></p>
 												
-						            <p><input id = "input-send" type = "submit" class="btn btn-primary" value = "<% if(thisAssessment != null) out.print("Editar"); else out.print("Enviar"); %>"></p>
+						            <p><input id = "input-send" type = "submit" class="btn btn-primary" value = "Editar"></p>
 						        </form>
 							</div>
 			  				<% } else { %>
@@ -209,7 +211,7 @@
 									<label for="assessment-input-comment">Comentario: </label>
 									<p><textarea id = "assessment-input-comment" class="form-control" placeholder = "texto..." name = "<%=Assessment.ATR_ASSESSMENT_COMMENT %>" required></textarea></p>
 												
-						            <p><input id = "input-send" type = "submit" class="btn btn-primary" value = "<% if(thisAssessment != null) out.print("Editar"); else out.print("Enviar"); %>"></p>
+						            <p><input id = "input-send" type = "submit" class="btn btn-primary" value = "Enviar"></p>
 						        </form>
 							</div>
 			  				

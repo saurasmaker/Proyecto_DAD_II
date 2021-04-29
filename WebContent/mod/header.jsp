@@ -1,15 +1,40 @@
+<%@page import="edu.ucam.actions.user.EditProductFromBasket"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     
 <%@ page import = "java.util.ArrayList" %>
 
-<%@ page import = "edu.ucam.pojos.Category" %>
-<%@ page import = "edu.ucam.daos.CategoryDAO" %>
-<%@ page import = "edu.ucam.servlets.Controller" %> 
-<%@ page import = 'edu.ucam.actions.user.Logout' %>   
-<%@ page import = "edu.ucam.pojos.User" %>    
+<%@ page import = "edu.ucam.enums.SearchBy" %>
 
-	<% if(session.getAttribute(User.ATR_USER_LOGGED)==null) { %>
+<%@ page import = "edu.ucam.servlets.Controller" %> 
+<%@ page import = 'edu.ucam.actions.user.Logout' %>  
+<%@ page import = 'edu.ucam.actions.user.CreateBill' %>  
+ 
+<%@ page import = "edu.ucam.pojos.User" %>  
+<%@ page import = "edu.ucam.pojos.Videogame" %>   
+<%@ page import = "edu.ucam.pojos.Category" %>
+<%@ page import = "edu.ucam.pojos.Basket" %>    
+<%@ page import = "edu.ucam.pojos.Item" %> 
+
+<%@ page import = "edu.ucam.daos.CategoryDAO" %>
+<%@ page import = "edu.ucam.daos.VideogameDAO" %>
+
+	<% 
+	User thisUser = (User) session.getAttribute(User.ATR_USER_LOGGED);
+	Basket basket;
+	
+	if (session.getAttribute(Basket.ATR_BASKET) != null){
+		basket = (Basket) session.getAttribute(Basket.ATR_BASKET);
+	}
+	else{
+		basket = new Basket();
+		session.setAttribute(Basket.ATR_BASKET, basket);
+	}
+
+	
+	
+	
+	if(session.getAttribute(User.ATR_USER_LOGGED)==null) { %>
 	<jsp:include page="/mod/login.jsp" />
 	<% } %>
 	<header>
@@ -26,10 +51,10 @@
 		                <a class="nav-link" href = "<%= request.getContextPath()%>/index.jsp">Catálogo <span class="sr-only">()</span></a>
 		            </li>
 		            <li class="nav-item dropdown">
-		                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownSections" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 		            		Secciones
 		                </a>
-		                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+		                <div class="dropdown-menu" aria-labelledby="navbarDropdownSections">
 		                    <% 
 		                    ArrayList<Category> headerCategoryList = (new CategoryDAO()).list();
 		                    Category showHcl;
@@ -50,10 +75,52 @@
 		
 		        <ul class="navbar-nav my-2 my-lg-0">               
 		            
-		            <% User thisUser = (User) session.getAttribute(User.ATR_USER_LOGGED); %>
-					<% if(thisUser == null){ %>	
-		           
 		            
+		            <li class="nav-item dropdown">
+		            	<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBasket" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		            		Cesta
+		                </a>
+		                <div class="dropdown-menu" aria-labelledby="navbarDropdownBasket">
+		                    <% 
+		                    basket = (Basket) session.getAttribute(Basket.ATR_BASKET);		                 		                    
+		                    
+		    			  	for(int i = 0; i < basket.getProducts().size(); ++i) {	
+		    			  		Item item = basket.getProductByPosition(i);
+		    			  		Videogame videogame = (new VideogameDAO()).read(item.getVideogameId(), SearchBy.ID);
+		    			  		
+		    			  	%>
+		    			  	<div class="dropdown-item">
+		    			  	
+			    			  		<%=videogame.getName() %>
+			    			  	
+									<% if (item.getAmount() == -1) out.print("Alquiler"); else if(item.getAmount() > 0) out.print("x " + item.getAmount()); %>
+	
+									<form action= "<%= request.getContextPath() %>/Controller" method="post">
+				                    	<input type='hidden' name='<%= Controller.ATR_SELECT_ACTION %>' value='<%= EditProductFromBasket.ATR_ACTION %>'/>
+				                    	<input type='hidden' name='<%= Basket.ATR_BASKET_PRODUCTID %>' value='<%=videogame.getId() %>'/>
+				                    	<input <% if(item.getAmount() == -1) { %> type='hidden' value='0' <% } else { %> type='number' step='1' min='0' value='<%=item.getAmount() %>' <% } %>  name='<%=Basket.ATR_BASKET_AMOUNT %>'/>
+				                    	<input type = "submit" class = "btn-secondary" value = "<% if(item.getAmount() == -1) out.print("Eliminar"); else out.print("Editar"); %>" class="dropdown-item"/>
+			                    	</form>	
+		    			  	
+		    			  	</div>
+		    			  	
+		    		
+							<% } %>
+							<div class="dropdown-divider"></div>
+							<div>
+								<form action= "<%= request.getContextPath() %>/Controller" method="post">
+									<input type='hidden' name='<%= Controller.ATR_SELECT_ACTION %>' value='<%= CreateBill.ATR_ACTION %>'/>
+				                    <input type='submit' value='Generar Factura' class='dropdown-item'/>
+								</form>
+							</div>
+							
+		                </div>
+		            </li>     
+		            
+		            
+		            
+		            
+					<% if(thisUser == null){ %>	
 		                <li class="nav-item " data-toggle="modal" data-target="#modalLoginForm">
 		                	<a class="nav-link" href="#">
 								<svg class="bi bi-person-fill" width="1em" height="1em" viewBox="-2 -2 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -77,14 +144,14 @@
 		                    	<input type = "submit" value = "Logout" class="dropdown-item">
 		                    </form>		                    
 		                </div>
-		                
-		            </li>
-		            
+		            	</li>
+
 		        		<% if(thisUser.getIsAdmin()) { %>	
 		                	<li class="nav-item">
 		                		<a class="nav-link" href = "<%=request.getContextPath() %>/secured/admin_page.jsp">Administrar<span class="sr-only">(current)</span></a>
 		            		</li>
-		          	<% } }%>	     
+		          	<% } } %>	
+		          		          	
 		        </ul>
 		    </div>
 		</nav>

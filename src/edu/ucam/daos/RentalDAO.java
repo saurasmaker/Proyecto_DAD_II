@@ -1,8 +1,12 @@
 package edu.ucam.daos;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 import edu.ucam.database.DatabaseController;
@@ -139,8 +143,16 @@ public class RentalDAO implements IDao<Rental>{
 			preparedStatement = DatabaseController.DATABASE_CONNECTION.prepareStatement(query);
 			preparedStatement.setDate(1, rental.getStartDate());
 			preparedStatement.setTime(2, rental.getStartTime());
-			preparedStatement.setDate(3, rental.getEndDate());
-			preparedStatement.setTime(4, rental.getEndTime());
+			
+			if(rental.isReturned()) {
+				preparedStatement.setDate(3, rental.getEndDate());
+				preparedStatement.setTime(4, rental.getEndTime());
+			}
+			else {
+				preparedStatement.setDate(3, Date.valueOf(LocalDate.now()));
+				preparedStatement.setTime(4, Time.valueOf(LocalTime.now()));
+			}
+			
 			preparedStatement.setBoolean(5, rental.isReturned());
 			preparedStatement.setString(6, rental.getVideogameId());
 			preparedStatement.setString(7, rental.getBillId());

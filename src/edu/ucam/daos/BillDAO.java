@@ -110,6 +110,24 @@ public class BillDAO implements IDao<Bill>{
 		return billsList;
 	}
 	
+	public Bill createAndGet(Bill bill) {
+		this.create(bill);
+		ResultSet rs = null;
+		
+		String selectQuery = "SELECT * FROM bills"; 
+		try {
+			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(selectQuery);	
+			while(rs.next()) { //se valida si hay resultados
+				if(rs.isLast())
+					return setBillAttributes(rs);
+			}
+			rs.close();
+		} catch (SQLException e)  {
+			e.printStackTrace();
+		}	
+		
+		return null;
+	}
 	
 	private ErrorType executeQueryWithParameters(String query, Bill bill) {
 		PreparedStatement preparedStatement = null;
