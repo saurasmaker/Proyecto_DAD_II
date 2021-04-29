@@ -48,6 +48,10 @@ public class Controller extends HttpServlet {
 		 */
 		switch(selectedAction) {
 		
+		case SearchProduct.ATR_ACTION:
+			url += (new SearchProduct()).execute(request, response);
+			break;
+			
 		case Login.ATR_ACTION:
 			url += (new Login()).execute(request, response);
 			break;
@@ -86,10 +90,6 @@ public class Controller extends HttpServlet {
 				
 			case MakeAssessment.ATR_ACTION:
 				url += (new MakeAssessment()).execute(request, response);
-				break;
-				
-			case Rent.ATR_ACTION:
-				url += (new Rent()).execute(request, response);
 				break;
 				
 			case PayBill.ATR_ACTION:

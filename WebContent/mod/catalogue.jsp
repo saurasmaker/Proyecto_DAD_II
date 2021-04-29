@@ -22,14 +22,18 @@
 		Initializing videogame search variables.
 	*/	
 	String categoryId = null;
+	String nameContent = null;
 	try{
 		categoryId = request.getParameter("SEARCH_VIDEOGAME_BY_CATEGORY");
+		nameContent = request.getParameter("SEARCH_VIDEOGAME_BY_STRING");
 	}catch(Exception e){
 		categoryId = null;
 	}
 	
 	if(categoryId != null)
 		videogamesCatalogueList = (new VideogameDAO()).listByCategoryId(categoryId);
+	else if(nameContent != null)
+		videogamesCatalogueList = (new VideogameDAO()).listByNameContent(nameContent);
 	else 
 		videogamesCatalogueList = (new VideogameDAO()).list();
 	

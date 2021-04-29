@@ -108,6 +108,26 @@ public class VideogameDAO implements IDao<Videogame>{
 		
 	}
 	
+	public ArrayList<Videogame> listByNameContent(String content) {
+		
+		String updateQuery = "SELECT * FROM videogames WHERE LOWER(videogames.name) LIKE '%" + content + "%'"; 		
+		ResultSet rs = null;
+		ArrayList<Videogame> videogamesList = new ArrayList<Videogame>();
+		
+		try {
+			rs = DatabaseController.DATABASE_STATEMENT.executeQuery(updateQuery);					
+			while(rs.next()) {
+				Videogame videogame = setUserAttributes(rs);
+				videogamesList.add(videogame);
+			}	
+			rs.close();
+		} catch (Exception e)  {
+			e.printStackTrace();
+		}	
+		
+		return videogamesList;
+	}
+	
 	/*
 	 * Tool Methods
 	 */

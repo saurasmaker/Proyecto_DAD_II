@@ -9,6 +9,7 @@
 <%@ page import = "edu.ucam.servlets.Controller" %> 
 <%@ page import = 'edu.ucam.actions.user.Logout' %>  
 <%@ page import = 'edu.ucam.actions.user.CreateBill' %>  
+<%@ page import = 'edu.ucam.actions.user.SearchProduct' %> 
  
 <%@ page import = "edu.ucam.pojos.User" %>  
 <%@ page import = "edu.ucam.pojos.Videogame" %>   
@@ -37,6 +38,7 @@
 	if(session.getAttribute(User.ATR_USER_LOGGED)==null) { %>
 	<jsp:include page="/mod/login.jsp" />
 	<% } %>
+	
 	<header>
 		<nav class="container navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
 		    <a href = "index.jsp"> <img src = "img\INFO(2).png" height = "45px" style = "margin-right: 10px;" /></a>
@@ -67,9 +69,9 @@
 		            </li>
 		        </ul>
 		
-		        <form class="form-inline my-2 my-lg-0" style="margin-right: 10%;" action = "index.php" method = "get">
-		            <input type = "hidden" name = "ACTUAL_PAGE" value = "catalogue">
-		            <input class="form-control mr-sm-2" type="search" name = "SEARCH_PRODUCT" placeholder="Search" aria-label="Search" required>
+		        <form class="form-inline my-2 my-lg-0" style="margin-right: 10%;" action= "<%= request.getContextPath() %>/Controller" method="post">
+		           	<input type='hidden' name='<%= Controller.ATR_SELECT_ACTION %>' value='<%= SearchProduct.ATR_ACTION %>'/>
+		            <input class="form-control mr-sm-2" type="search" name = "SEARCH_VIDEOGAME_BY_STRING" placeholder="Search" aria-label="Search" required>
 		            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 		        </form>
 		

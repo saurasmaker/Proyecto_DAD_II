@@ -73,6 +73,8 @@ public class CreateBill implements IAction{
 				}
 			}
 			
+			request.getSession().setAttribute(Basket.ATR_BASKET, new Basket());
+			
 			return "/user/user_bills.jsp";
 		}catch(Exception e) {
 			e.printStackTrace();		
