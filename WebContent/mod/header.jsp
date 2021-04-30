@@ -9,15 +9,9 @@
 <%@ page import = "edu.ucam.enums.SearchBy" %>
 
 <%@ page import = "edu.ucam.servlets.Controller" %> 
-<%@ page import = 'edu.ucam.actions.user.Logout' %>  
-<%@ page import = 'edu.ucam.actions.user.CreateBill' %>  
-<%@ page import = 'edu.ucam.actions.user.SearchProduct' %> 
+<%@ page import = 'edu.ucam.actions.user.*' %> 
  
-<%@ page import = "edu.ucam.pojos.User" %>  
-<%@ page import = "edu.ucam.pojos.Videogame" %>   
-<%@ page import = "edu.ucam.pojos.Category" %>
-<%@ page import = "edu.ucam.pojos.Basket" %>    
-<%@ page import = "edu.ucam.pojos.Item" %> 
+<%@ page import = "edu.ucam.pojos.*" %>
 
 <%@ page import = "edu.ucam.daos.CategoryDAO" %>
 <%@ page import = "edu.ucam.daos.VideogameDAO" %>

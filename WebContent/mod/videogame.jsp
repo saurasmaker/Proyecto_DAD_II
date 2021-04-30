@@ -1,6 +1,8 @@
 <%@ page language='java' contentType='text/html; charset=ISO-8859-1'
     pageEncoding='ISO-8859-1'%>
 
+<%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c' %>
+
 <%@ page import = 'java.util.ArrayList' %> 
 <%@ page import = 'sun.misc.BASE64Encoder' %>
 
@@ -12,7 +14,36 @@
 <%@ page import = 'edu.ucam.actions.user.MakeAssessment' %>
 <%@ page import = 'edu.ucam.actions.user.AddProductToBasket' %>
 
+
+<% 
+	/*
+		Declaration of necessary variables.
+	*/
+	String videogameId = request.getParameter(Videogame.ATR_VIDEOGAME_ID);
+	BASE64Encoder b64e = new BASE64Encoder();
+
+	Videogame thisVideogame = null;
+	Assessment userAssessment = null;
+	
+	ArrayList<Assessment> assessmentsVideogameList = null;
+	ArrayList<VideogameImage> videogameImagesList = null;
+	ArrayList<VideogameCategory> videogameCategoriesList = null;
+
+	if(videogameId != null) {
+		thisVideogame = (new VideogameDAO()).read(videogameId, SearchBy.ID);
+		assessmentsVideogameList = (new AssessmentDAO()).listByVideogameId(videogameId);
+		videogameImagesList = (new VideogameImageDAO()).listByVideogameId(videogameId);
+		videogameCategoriesList = (new VideogameCategoryDAO()).listByVideogameId(videogameId);
+		
+		pageContext.setAttribute("thisVideogame", thisVideogame);
+		pageContext.setAttribute("assessmentsVideogameList", assessmentsVideogameList);
+		pageContext.setAttribute("videogameImagesList", videogameImagesList);
+		pageContext.setAttribute("videogameCategoriesList", videogameCategoriesList);
+	}
+%>
+
 <!DOCTYPE html>
+
 <html lang="es">
 
 	<head>
@@ -24,19 +55,8 @@
 		<div class = "general container">
 			<jsp:include page="../mod/header.jsp"></jsp:include>
 			
-			<% 
-			/*
-				declaration of necessary variables.
-			*/
-			String videogameId = request.getParameter(Videogame.ATR_VIDEOGAME_ID);
-			if(videogameId != null) {
-				User userLoged = (User) session.getAttribute(User.ATR_USER_LOGGED);
-				Videogame thisVideogame = (new VideogameDAO()).read(videogameId, SearchBy.ID);
-				ArrayList<Assessment> assessmentsVideogameList = (new AssessmentDAO()).listByVideogameId(videogameId);
-				ArrayList<VideogameImage> videogameImagesList = (new VideogameImageDAO()).listByVideogameId(videogameId);
-				ArrayList<VideogameCategory> videogameCategoriesList = (new VideogameCategoryDAO()).listByVideogameId(videogameId);
-			%>
 			
+			<c:if test='${not empty thisVideogame}'>
 			
 				<div class = 'row content show-videogame'>
 		
@@ -49,25 +69,39 @@
 					
 					<div id='carouselExampleIndicators' class='carousel slide col-lg-6 col-md-6 col-sm-12' data-interval='0' data-ride='carousel'>
 						<ol class='carousel-indicators'>
-						<%
 						
-						if(videogameImagesList != null && videogameImagesList.size() != 0) {
-							for(int j = 0; j < videogameImagesList.size(); ++j) {	%>
-						    		<li data-target='#carouselExampleIndicators' data-slide-to='<%=j %>' <% if(j == 0){ %> class='active' <% } %> ></li>
-						    
-						<% 	} } else { %>
-								<li data-target='#carouselExampleIndicators' data-slide-to='0' class='active'></li>
-						<% 	} %>
+							<c:if test='${not empty videogameImagesList}'>
+								
+								<c:forEach var='videogameImage' items='${videogameImagesList}' varStatus='videogameImagesLoop'>
+									
+									<c:choose>
+										<c:when test='${videogameImagesLoop.index == 0}'>
+											<li data-target='#carouselExampleIndicators' data-slide-to='${videogameImagesLoop.index}' class='active'/>
+										</c:when>
+										<c:otherwise>
+											<li data-target='#carouselExampleIndicators' data-slide-to='${videogameImagesLoop.index}'/>
+										</c:otherwise>
+									</c:choose>
+									
+								</c:forEach>
+							
+							</c:if>
+						
 						</ol>
 					  	
 					  	<div class='carousel-inner'>
 					  	
-					  		<%	if(videogameImagesList != null && videogameImagesList.size() != 0) {
-									for(int j = 0; j < videogameImagesList.size(); ++j) { 	BASE64Encoder b64e = new BASE64Encoder(); %>
-					    	<div class='carousel-item <% if(j == 0){ %> active <%}%>'>
-					    		<img class='d-block w-100' src='data:image/png;base64,<%= b64e.encode((videogameImagesList.get(j).getImage()))%>' alt='<%=videogameImagesList.get(j).getName() %>'>
-					    	</div>
-					    	<% 	}	} %>
+					  		<c:if test='${not empty videogameImagesList}'>
+					  		
+					  			<c:forEach var='videogameImage' items='${videogameImagesList}' varStatus='videogameImagesLoop'>
+					  				<c:set var='videogameImagesLoopIndex' value='${videogameImagesLoop.index}'/>
+					  				<c:set var='base64Image' value='<%= b64e.encode(((VideogameImage)pageContext.getAttribute("videogameImage")).getImage())%>'/>
+					  				<div class='carousel-item <%= ((int)pageContext.getAttribute("videogameImagesLoopIndex")) == 0 ? "active" : "" %>'>
+							    		<img class='d-block w-100' src='data:image/png;base64,${base64Image}' alt='${videogameImage.name}'>
+							    	</div>
+					  			</c:forEach>
+					  		
+					  		</c:if>
 	
 					  	</div>
 					  	
@@ -90,27 +124,28 @@
 		                    <li>Precio de Alquiler: <strong><%= thisVideogame.getRentalPrice() %> &euro;</strong></li>
 		                    
 		                    <li>Categor&iacute;as: 
-		                    <strong><% 
-		                    
-		                    if(videogameCategoriesList!=null)
-		                    for(int j = 0; j < videogameCategoriesList.size(); ++j) {	                
-		                    	VideogameCategory showVc = videogameCategoriesList.get(j);
-		                    	out.print((new CategoryDAO()).read(showVc.getCategoryId(), SearchBy.ID).getName() + " ");
-		                    }
-		                    %></strong>
+			                    <strong>
+			                    	<c:if test='${not empty videogameCategoriesList}'>
+			                    		<c:forEach var='videogameCategory' items='${videogameCategoriesList}' varStatus='videogameCategoriesLoop'>
+			                    			<c:set var='category' value='<%=(new CategoryDAO()).read(((VideogameCategory)pageContext.getAttribute("videogameCategory")).getCategoryId(), SearchBy.ID) %>'/>
+			                    			${category.name} 
+			                    		</c:forEach>
+			                    	</c:if>
+								</strong>
 		                    </li>
 		                    		                    
 						</ul>
 					
-						<br/><strong>Descripción: </strong> <p><%= thisVideogame.getDescription() %></p>
+						<br/><strong>Descripción: </strong> <p>${category.description}</p>
 					
-						<% if(thisVideogame.getStock() > 0) { %>
-		                   
-		                	<div class='row'>
+					
+						<c:if test='${thisVideogame.stock > 0}'>
+						
+							<div class='row'>
 			                   	<div class='col-3'>
 				                   	<form method = 'POST' action = '<%= request.getContextPath()%>/Controller'>
 				                   		<input type = 'hidden' name = <%=Controller.ATR_SELECT_ACTION %> value = '<%= AddProductToBasket.ATR_ACTION %>'/>
-				                       	<input type = 'hidden' name = '<%=Basket.ATR_BASKET_PRODUCTID %>' value = '<%=thisVideogame.getId() %>'/>
+				                       	<input type = 'hidden' name = '<%=Basket.ATR_BASKET_PRODUCTID %>' value = '${thisVideogame.id}'/>
 				                       	<input type = 'hidden' name = '<%=Basket.ATR_BASKET_AMOUNT %>' value = '1'/>
 				                       	<input type = 'submit' value = 'Comprar' class='btn btn-primary'/>
 				                   	</form>
@@ -119,18 +154,16 @@
 			                   	<div class = 'col-3'>
 				                   	<form method = 'POST' action = '<%= request.getContextPath()%>/Controller'>
 				                   		<input type = 'hidden' name = <%=Controller.ATR_SELECT_ACTION %> value = '<%= AddProductToBasket.ATR_ACTION %>'/>
-				                       	<input type = 'hidden' name = '<%=Basket.ATR_BASKET_PRODUCTID %>' value = '<%=thisVideogame.getId() %>'/>
+				                       	<input type = 'hidden' name = '<%=Basket.ATR_BASKET_PRODUCTID %>' value = '${thisVideogame.id}'/>
 				                       	<input type = 'hidden' name = '<%=Basket.ATR_BASKET_AMOUNT %>' value = '-1'/>
 				                       	<input type = 'submit' value = 'Alquilar' class='btn btn-primary'/>
 				                   	</form>
 			                   	</div>
 		                   	</div>
-		            	<% } %>	
+						
+						</c:if>
 		             
 					</div>
-
-
-
 
 
 
@@ -148,74 +181,86 @@
 					
 						<!-- MAKE ASSESSMENT -->
 						<div class ="col-6">
-							<%if(userLoged!=null) { 
-								Assessment thisAssessment = new AssessmentDAO().readByVideogameUserId(userLoged.getId(), videogameId);
-							
-							%>
-							<p><a class="btn btn-secondary" data-toggle="collapse" href="#collapse-vote" role="button" aria-expanded="false" aria-controls="collapseExample">
+						
+						
+							<c:if test='${not empty sessionScope.ATR_USER_LOGGED}'>
+								
+								<c:set var='userAssessment' value='<%= userAssessment = new AssessmentDAO().readByVideogameUserId(((User)session.getAttribute(User.ATR_USER_LOGGED)).getId(), videogameId) %>'/>
+								
+								<p><a class="btn btn-secondary" data-toggle="collapse" href="#collapse-vote" role="button" aria-expanded="false" aria-controls="collapseExample">
 			    					Votar
 			  					</a></p>
 			  					
-			  					<% if(thisAssessment != null) { %>
-			  				<div class="collapse" id="collapse-vote">
-			  					<form id = "create-assessment-form" class = "form-group" action = "<%= request.getContextPath() %>/Controller" method = "POST">
-				
-									<input type='hidden' name='<%= Controller.ATR_SELECT_ACTION %>' value='<%= MakeAssessment.ATR_ACTION %>'/>
-									<input id = "assessment-input-classname" type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Assessment.class.getName() %>" />	
-									<input id = "assessment-input-id" type = "hidden" name = "<%=Assessment.ATR_ASSESSMENT_ID %>" value = "<%=thisAssessment.getId() %>">	
-									<input id = "assessment-input-videogameid" type = "hidden" name = "<%=Assessment.ATR_ASSESSMENT_VIDEOGAMEID %>" value = "<%=thisAssessment.getVideogameId() %>">
-									<input id = "assessment-input-userid" type = "hidden" name = "<%=Assessment.ATR_ASSESSMENT_USERID %>" value = "<%=thisAssessment.getUserId() %>">
-									
-									<div>
-			  							<p>Estrellas:
-			  								<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_VALUE %>" value="1" required <% if(thisAssessment.getValue() == 1) out.print("checked"); %>/>1
-			            					<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_VALUE %>" value="2" <% if(thisAssessment.getValue() == 2) out.print("checked"); %>/>2
-			            					<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_VALUE %>" value="3" <% if(thisAssessment.getValue() == 3) out.print("checked"); %>/>3
-			            					<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_VALUE %>" value="4" <% if(thisAssessment.getValue() == 4) out.print("checked"); %>/>4
-			            					<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_VALUE %>" value="5" <% if(thisAssessment.getValue() == 5) out.print("checked"); %>/>5
-			            				</p>
-			  						</div>
+			  					<c:choose>
+			  					
+			  						<c:when test='${not empty userAssessment}'>
+			  						
+			  							<div class="collapse" id="collapse-vote">
+						  					<form id = "create-assessment-form" class = "form-group" action = "<%= request.getContextPath() %>/Controller" method = "POST">
+							
+												<input type='hidden' name='<%= Controller.ATR_SELECT_ACTION %>' value='<%= MakeAssessment.ATR_ACTION %>'/>
+												<input id = "assessment-input-classname" type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Assessment.class.getName() %>" />	
+												<input id = "assessment-input-id" type = "hidden" name = "<%=Assessment.ATR_ASSESSMENT_ID %>" value = "<%=userAssessment.getId() %>">	
+												<input id = "assessment-input-videogameid" type = "hidden" name = "<%=Assessment.ATR_ASSESSMENT_VIDEOGAMEID %>" value = "<%=userAssessment.getVideogameId() %>">
+												<input id = "assessment-input-userid" type = "hidden" name = "<%=Assessment.ATR_ASSESSMENT_USERID %>" value = "<%=userAssessment.getUserId() %>">
 												
-									<label for="assessment-input-subject">Asunto: </label>
-									<p><input id = "assessment-input-subject" type = "text" class="form-control" placeholder = "texto..." name = "<%=Assessment.ATR_ASSESSMENT_SUBJECT %>" value = '<%=thisAssessment.getSubject() %>' required></p>
+												<div>
+						  							<p>Estrellas:
+						  								<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_VALUE %>" value="1" required <% if(userAssessment.getValue() == 1) out.print("checked"); %>/>1
+						            					<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_VALUE %>" value="2" <% if(userAssessment.getValue() == 2) out.print("checked"); %>/>2
+						            					<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_VALUE %>" value="3" <% if(userAssessment.getValue() == 3) out.print("checked"); %>/>3
+						            					<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_VALUE %>" value="4" <% if(userAssessment.getValue() == 4) out.print("checked"); %>/>4
+						            					<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_VALUE %>" value="5" <% if(userAssessment.getValue() == 5) out.print("checked"); %>/>5
+						            				</p>
+						  						</div>
+															
+												<label for="assessment-input-subject">Asunto: </label>
+												<p><input id = "assessment-input-subject" type = "text" class="form-control" placeholder = "texto..." name = "<%=Assessment.ATR_ASSESSMENT_SUBJECT %>" value = '<%=userAssessment.getSubject() %>' required></p>
+															
+												<label for="assessment-input-comment">Comentario: </label>
+												<p><textarea id = "assessment-input-comment" class="form-control" placeholder = "texto..." name = "<%=Assessment.ATR_ASSESSMENT_COMMENT %>" required><% if(userAssessment != null) out.print(userAssessment.getComment()); %></textarea></p>
+															
+									            <p><input id = "input-send" type = "submit" class="btn btn-primary" value = "Editar"></p>
+									        </form>
+										</div>
+			  						
+			  						</c:when>
+			  						<c:otherwise>
+			  							
+			  							<div class="collapse" id="collapse-vote">
+						  					<form id = "create-assessment-form" class = "form-group" action = "<%= request.getContextPath() %>/Controller" method = "POST">
+							
+												<input type='hidden' name='<%= Controller.ATR_SELECT_ACTION %>' value='<%= MakeAssessment.ATR_ACTION %>'/>
+												<input id = "assessment-input-classname" type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Assessment.class.getName() %>" />		
+												<input id = "assessment-input-videogameid" type = "hidden" name = "<%=Assessment.ATR_ASSESSMENT_VIDEOGAMEID %>" value = "<%=videogameId %>">
+												<input id = "assessment-input-userid" type = "hidden" name = "<%=Assessment.ATR_ASSESSMENT_USERID %>" value = "${sessionScope.ATR_USER_LOGGED.id}">
 												
-									<label for="assessment-input-comment">Comentario: </label>
-									<p><textarea id = "assessment-input-comment" class="form-control" placeholder = "texto..." name = "<%=Assessment.ATR_ASSESSMENT_COMMENT %>" required><% if(thisAssessment != null) out.print(thisAssessment.getComment()); %></textarea></p>
-												
-						            <p><input id = "input-send" type = "submit" class="btn btn-primary" value = "Editar"></p>
-						        </form>
-							</div>
-			  				<% } else { %>
-			  				
-			  				<div class="collapse" id="collapse-vote">
-			  					<form id = "create-assessment-form" class = "form-group" action = "<%= request.getContextPath() %>/Controller" method = "POST">
-				
-									<input type='hidden' name='<%= Controller.ATR_SELECT_ACTION %>' value='<%= MakeAssessment.ATR_ACTION %>'/>
-									<input id = "assessment-input-classname" type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Assessment.class.getName() %>" />		
-									<input id = "assessment-input-videogameid" type = "hidden" name = "<%=Assessment.ATR_ASSESSMENT_VIDEOGAMEID %>" value = "<%=videogameId %>">
-									<input id = "assessment-input-userid" type = "hidden" name = "<%=Assessment.ATR_ASSESSMENT_USERID %>" value = "<%=userLoged.getId() %>">
-									
-									<div>
-			  							<p>Estrellas:
-			  								<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_VALUE %>" value="1" required/>1
-			            					<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_VALUE %>" value="2"/>2
-			            					<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_VALUE %>" value="3"/>3
-			            					<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_VALUE %>" value="4"/>4
-			            					<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_VALUE %>" value="5"/>5
-			            				</p>
-			  						</div>
-												
-									<label for="assessment-input-subject">Asunto: </label>
-									<p><input id = "assessment-input-subject" type = "text" class="form-control" placeholder = "texto..." name = "<%=Assessment.ATR_ASSESSMENT_SUBJECT %>" required></p>
-												
-									<label for="assessment-input-comment">Comentario: </label>
-									<p><textarea id = "assessment-input-comment" class="form-control" placeholder = "texto..." name = "<%=Assessment.ATR_ASSESSMENT_COMMENT %>" required></textarea></p>
-												
-						            <p><input id = "input-send" type = "submit" class="btn btn-primary" value = "Enviar"></p>
-						        </form>
-							</div>
-			  				
-			  				<% } } %>
+												<div>
+						  							<p>Estrellas:
+						  								<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_VALUE %>" value="1" required/>1
+						            					<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_VALUE %>" value="2"/>2
+						            					<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_VALUE %>" value="3"/>3
+						            					<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_VALUE %>" value="4"/>4
+						            					<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_VALUE %>" value="5"/>5
+						            				</p>
+						  						</div>
+															
+												<label for="assessment-input-subject">Asunto: </label>
+												<p><input id = "assessment-input-subject" type = "text" class="form-control" placeholder = "texto..." name = "<%=Assessment.ATR_ASSESSMENT_SUBJECT %>" required></p>
+															
+												<label for="assessment-input-comment">Comentario: </label>
+												<p><textarea id = "assessment-input-comment" class="form-control" placeholder = "texto..." name = "<%=Assessment.ATR_ASSESSMENT_COMMENT %>" required></textarea></p>
+															
+									            <p><input id = "input-send" type = "submit" class="btn btn-primary" value = "Enviar"></p>
+									        </form>
+										</div>
+			  						
+			  						</c:otherwise>
+			  					
+			  					</c:choose>			  										  				
+							
+							</c:if>
+
 						</div>
 
 
@@ -253,10 +298,11 @@
 					</div>
 
 				</div>
+			</c:if>
+			
 			<jsp:include page="../mod/footer.jsp"></jsp:include>
 		</div>
-		
-		<% } %>
+	
 	</body>
 
 </html>
