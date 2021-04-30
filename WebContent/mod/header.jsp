@@ -35,27 +35,12 @@
 	*/
 	ArrayList<Category> headerCategoriesList = headerCategoryDAO.list();
 	
-	
-	/*
-		VARIABLES
-	*/
 
-	
-	
 	/*
 		Objects
 	*/
 	User thisUser = (User) session.getAttribute(User.ATR_USER_LOGGED);
 	Basket basket;
-	
-	
-	
-	
-	
-	
-	/*
-		TOOLS
-	*/
 	
 	
 	/*
