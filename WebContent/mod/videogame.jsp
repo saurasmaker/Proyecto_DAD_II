@@ -3,6 +3,8 @@
 
 <%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c' %>
 
+<%@ taglib uri="infodeotags" prefix="infod" %>
+
 <%@ page import = 'java.util.ArrayList' %> 
 <%@ page import = 'sun.misc.BASE64Encoder' %>
 
@@ -123,9 +125,7 @@
 					<div class="col-lg-6 col-md-6 col-sm-12">
 						<strong>Características: </strong>
 						<ul>
-							<li>Stock: <strong><%= thisVideogame.getStock() %></strong></li>
-		                    <li>Precio de Compra: <strong><%= thisVideogame.getPurchasePrice() %> &euro;</strong></li>
-		                    <li>Precio de Alquiler: <strong><%= thisVideogame.getRentalPrice() %> &euro;</strong></li>
+							<infod:smallShowVideogameAttributes purchasePrice="${thisVideogame.purchasePrice}" rentalPrice="${thisVideogame.rentalPrice}" stock="${thisVideogame.stock}"/>
 		                    
 		                    <li>Categor&iacute;as: 
 			                    <strong>
