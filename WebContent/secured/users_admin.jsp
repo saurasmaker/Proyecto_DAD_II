@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 
+<%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c' %>
+
 <%@ page import = "java.util.ArrayList" %>
 
 <%@ page import = "edu.ucam.pojos.User" %>
@@ -9,6 +11,11 @@
 
 <%@ page import = "edu.ucam.servlets.Controller" %>
 <%@ page import = 'edu.ucam.actions.admin.*' %>
+
+
+<% 
+	pageContext.setAttribute("usersList", (new UserDAO()).list());
+%>
 
 	<div id = "users-title" class = "col-12">
         <h3 class = "display-3">Usuarios</h3>
@@ -110,32 +117,33 @@
                         <th scope="col">Eliminar</th>
                   	</tr>
                	</thead>
+               	
 			   	<tbody>
-                <% ArrayList<User> usersUserList = (new UserDAO()).list();
-			  	for(int i = 0; i < usersUserList.size(); ++i) {
-					User showUser = usersUserList.get(i); %>
-					<tr>
-                     	<td><%=showUser.getId() %></td>
-                     	<td><%=showUser.getUsername() %></td>
-                        <td><%=showUser.getEmail() %></td>
-                        <td><%=showUser.getPassword() %></td>
-                        <td><%=showUser.getSignUpDate() %></td>
-                        <td><%=showUser.getLastSignInDate() %></td>
-                        
-                        <td>
-                            <button type = "submit" class="btn btn-warning" onclick = "updateUser(<%=showUser.toJavaScriptFunction() %>)">Editar</button>
-                        </td>
-                        <td>
-							<form action = "<%= request.getContextPath() %>/Controller" method = "POST">
-								<input type='hidden' name='<%= Controller.ATR_SELECT_ACTION %>' value='<%= Delete.ATR_ACTION %>'/>
-                           		<input type = "hidden" name = "<%=User.ATR_USER_ID %>" value = "<%=showUser.getId() %>">
-                           		<input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=User.class.getName() %>">
-                           		<button type = "submit" class="btn btn-danger">Eliminar</button>
-                        	</form>
-                        </td>
-                	</tr>
-					  
-				<% } %>
+				   	<c:forEach var='user' items='${usersList}'>
+				   		
+				   		<% User u = (User) pageContext.getAttribute("user"); %>
+				   	
+				   		<tr>
+	                     	<td>${user.id}</td>
+	                     	<td>${user.username}</td>
+	                        <td>${user.email}</td>
+	                        <td>${user.password}</td>
+	                        <td>${user.signUpDate}</td>
+	                        <td>${user.lastSignInDate}</td>
+	                        
+	                        <td>
+	                            <button type = "submit" class="btn btn-warning" onclick = "updateUser(<%=u.toJavaScriptFunction() %>)">Editar</button>
+	                        </td>
+	                        <td>
+								<form action = "<%= request.getContextPath() %>/Controller" method = "POST">
+									<input type='hidden' name='<%= Controller.ATR_SELECT_ACTION %>' value='<%= Delete.ATR_ACTION %>'/>
+	                           		<input type = "hidden" name = "<%=User.ATR_USER_ID %>" value = '${user.id}'>
+	                           		<input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=User.class.getName() %>">
+	                           		<button type = "submit" class="btn btn-danger">Eliminar</button>
+	                        	</form>
+	                        </td>
+	                	</tr>
+				   	</c:forEach>
 				</tbody>
             </table>
         </div>

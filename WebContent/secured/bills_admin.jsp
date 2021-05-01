@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html>
+
+<%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c' %>
 
 <%@ page import = "java.util.ArrayList" %>
 
@@ -13,6 +14,11 @@
 <%@ page import = "edu.ucam.servlets.Controller" %>
 <%@ page import = 'edu.ucam.actions.admin.*' %>
 
+
+<%
+	pageContext.setAttribute("usersList", (new UserDAO()).list());
+	pageContext.setAttribute("billsList", (new BillDAO()).list());
+%>
 
 	<div id = "bills-title" class = "col-12">
         <h3 class = "display-3">Facturas</h3>
@@ -32,10 +38,9 @@
 			<label for="bill-input-userid">ID Usuario: </label>
 			<p><select id = "bill-input-userid" class="form-control" name = "<%=Bill.ATR_BILL_USERID %>">
 			  <option value="none" selected>Elige un Usuario...</option>
-			  <% ArrayList<User> usersBillList = (new UserDAO()).list();
-			  for(int i = 0; i < usersBillList.size(); ++i) { %>
-				  <option value="<%=usersBillList.get(i).getId() %>"><%=usersBillList.get(i).getUsername() %></option>
-			  <% } %>
+			  <c:forEach var='user' items='${usersList}' varStatus=''>
+			  	<option value='${user.id}'>${user.username}</option>
+			  </c:forEach>
 			</select></p>
 
 			<label style = "text-decoration: underline black;">Facturación: </label>
@@ -79,9 +84,9 @@
 			<label for="bill-input-update-userid">ID Usuario: </label>
 			<p><select id = "bill-input-update-userid" class="form-control" name = "<%=Bill.ATR_BILL_USERID %>">
 			  <option value="none" selected>Elige un Usuario...</option>
-			  <% for(int i = 0; i < usersBillList.size(); ++i) { %>
-				  <option value="<%=usersBillList.get(i).getId() %>"><%=usersBillList.get(i).getUsername() %></option>
-			  <% } %>
+			  <c:forEach var='user' items='${usersList}' varStatus=''>
+			  	<option value='${user.id}'>${user.username}</option>
+			  </c:forEach>
 			</select></p>
 
 		    <label style = "text-decoration: underline black;">Facturación: </label>
@@ -135,31 +140,34 @@
                   	</tr>
                	</thead>
 			   	<tbody>
-                <% ArrayList<Bill> billsList = (new BillDAO()).list();
-			  	for(int i = 0; i < billsList.size(); ++i) {
-					Bill showBill = billsList.get(i); %>
-					<tr>
-                     	<td><%=showBill.getId() %></td>
-                     	<td><%=showBill.getUserId() %></td>
-                        <td><%=showBill.getBillingDate() %></td>
-                        <td><%=showBill.getBillingTime() %></td>
-                        <td><%=showBill.isPaid() %></td>
-                        <td><%=showBill.getPaidDate() %></td>
-                        <td><%=showBill.getPaidTime() %></td>
-                        <td>
-                            <button type = "submit" class="btn btn-warning" onclick = "updateBill(<%=showBill.toJavaScriptFunction() %>)">Editar</button>
-                        </td>
-                        <td>
-							<form action = "<%= request.getContextPath() %>/Controller" method = "POST">
-							<input type='hidden' name='<%= Controller.ATR_SELECT_ACTION %>' value='<%= Delete.ATR_ACTION %>'/>
-                           		<input type = "hidden" name = "<%=Bill.ATR_BILL_ID %>" value = "<%=showBill.getId() %>">
-                           		<input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Bill.class.getName() %>">   
-                           		<button type = "submit" class="btn btn-danger">Eliminar</button>
-                        	</form>
-                        </td>
-                	</tr>
-					  
-				<% } %>
+			   	
+			   		<c:forEach var='bill' items='${billsList}' varStatus=''>
+			   			
+			   			<% Bill b = (Bill)pageContext.getAttribute("bill"); %>
+			   			
+			   			<tr>
+	                     	<td>${bill.id}</td>
+	                     	<td>${bill.userId}</td>
+	                        <td>${bill.billingDate}</td>
+	                        <td>${bill.billingTime} %></td>
+	                        <td>${bill.paid}</td>
+	                        <td>${bill.paidDate}</td>
+	                        <td>${bill.paidTime}</td>
+	                        <td>
+	                            <button type = "submit" class="btn btn-warning" onclick = "updateBill(<%=b.toJavaScriptFunction() %>)">Editar</button>
+	                        </td>
+	                        <td>
+								<form action = "<%= request.getContextPath() %>/Controller" method = "POST">
+								<input type='hidden' name='<%= Controller.ATR_SELECT_ACTION %>' value='<%= Delete.ATR_ACTION %>'/>
+	                           		<input type = "hidden" name = "<%=Bill.ATR_BILL_ID %>" value = "${bill.id}">
+	                           		<input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Bill.class.getName() %>">   
+	                           		<button type = "submit" class="btn btn-danger">Eliminar</button>
+	                        	</form>
+	                        </td>
+	                	</tr>
+			   		
+			   		</c:forEach>
+
 				</tbody>
             </table>
         </div>

@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 
+<%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c' %>
+
 <%@ page import = "java.util.ArrayList" %>
 
 <%@ page import = "edu.ucam.pojos.Category" %>
@@ -8,13 +10,19 @@
 <%@ page import = "edu.ucam.servlets.Controller" %>
 <%@ page import = 'edu.ucam.actions.admin.*' %>
 
-<div id = "categories-title" class = "col-12">
+
+<%
+	pageContext.setAttribute("categoriesList", (new CategoryDAO()).list());
+%>
+
+	<div id = "categories-title" class = "col-12">
         <h3 class = "display-3">Categorías</h3>
         <hr width = "25%" align = "left"/>
         <br/>
     </div>
 	  
 	<div class = "col-lg-4 col-md-6 col-sm-12">
+	
       	<form id = "create-category-form" class = "form-group" action = "<%= request.getContextPath() %>/Controller" method = "POST">
 			
 			<input type='hidden' name='<%= Controller.ATR_SELECT_ACTION %>' value='<%= Create.ATR_ACTION %>'/>
@@ -70,27 +78,30 @@
                   	</tr>
                	</thead>
 			   	<tbody>
-                <% ArrayList<Category> categoriesCategoryList = (new CategoryDAO()).list();
-			  	for(int i = 0; i < categoriesCategoryList.size(); ++i) {
-					Category showCategory = categoriesCategoryList.get(i); %>
-					<tr>
-                     	<td><%=showCategory.getId() %></td>
-                     	<td><%=showCategory.getName() %></td>
-                        <td><%=showCategory.getDescription() %></td>
-                        <td>
-                            <button type = "submit" class="btn btn-warning" onclick = "updateCategory(<%=showCategory.toJavaScriptFunction() %>)">Editar</button>
-                        </td>
-                        <td>
-							<form action = "<%= request.getContextPath() %>/Controller" method = "POST">
-								<input type='hidden' name='<%= Controller.ATR_SELECT_ACTION %>' value='<%= Delete.ATR_ACTION %>'/>
-                           		<input type = "hidden" name = "<%=Category.ATR_CATEGORY_ID %>" value = "<%=showCategory.getId() %>">
-                           		<input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Category.class.getName() %>">   
-                           		<button type = "submit" class="btn btn-danger">Eliminar</button>
-                        	</form>
-                        </td>
-                	</tr>
-					  
-				<% } %>
+			   	
+					<c:forEach var='category' items='${categoriesList}' varStatus=''>
+				   	
+				   		<% Category c = (Category) pageContext.getAttribute("category"); %>
+				   	
+				   		<tr>
+	                     	<td>${category.id}</td>
+	                     	<td>${category.name}</td>
+	                        <td>${category.description}</td>
+	                        <td>
+	                            <button type = "submit" class="btn btn-warning" onclick = "updateCategory(<%=c.toJavaScriptFunction() %>)">Editar</button>
+	                        </td>
+	                        <td>
+								<form action = '<%= request.getContextPath() %>/Controller' method = "POST">
+									<input type='hidden' name='<%= Controller.ATR_SELECT_ACTION %>' value='<%= Delete.ATR_ACTION %>'/>
+	                           		<input type = 'hidden' name = '<%=Category.ATR_CATEGORY_ID %>' value = '${category.id}'>
+	                           		<input type = 'hidden' name = '<%=Controller.ATR_OBJECT_CLASS %>' value = '<%=Category.class.getName() %>'>   
+	                           		<button type = 'submit' class='btn btn-danger'>Eliminar</button>
+	                        	</form>
+	                        </td>
+	                	</tr>
+				   	
+				   	</c:forEach>
+			   	
 				</tbody>
             </table>
         </div>

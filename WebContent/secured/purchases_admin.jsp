@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 
+<%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c' %>
 
 <%@ page import = "java.util.ArrayList" %>
 
@@ -15,7 +16,15 @@
 <%@ page import = "edu.ucam.servlets.Controller" %>
 <%@ page import = 'edu.ucam.actions.admin.*' %>
 
-<div id = "purchases-title" class = "col-12">
+	
+<%
+	pageContext.setAttribute("purchasesList", (new PurchaseDAO()).list());
+	pageContext.setAttribute("videogamesList", (new VideogameDAO()).list());
+	pageContext.setAttribute("billsList", (new BillDAO()).list());
+%>
+	
+	
+	<div id = "purchases-title" class = "col-12">
         <h3 class = "display-3">Compras</h3>
         <hr width = "25%" align = "left"/>
         <br/>
@@ -35,20 +44,18 @@
 		
 			<label for="purchase-input-videogameid">ID Videojuego: </label>
 			<p><select id = "purchase-input-videogameid" class="form-control" name = "<%=Purchase.ATR_PURCHASE_VIDEOGAMEID %>">
-			  <option value="none" selected>Select a User...</option>
-			  <% ArrayList<Videogame> videogamesPurchaseList = (new VideogameDAO()).list();
-			  for(int i = 0; i < videogamesPurchaseList.size(); ++i) { %>
-				  <option value="<%=videogamesPurchaseList.get(i).getId() %>"><%=videogamesPurchaseList.get(i).getName() %></option>
-			  <% } %>
+			  <option value="none" selected>Elige un Videojuego...</option>
+			  <c:forEach var='videogame' items='${videogamesList}'>
+			  	<option value='${videogame.id}'>${videogame.name}</option>  
+			  </c:forEach>
 			</select></p>
 			
 			<label for="purchase-input-billid">ID Factura: </label>
 			<p><select id = "purchase-input-billid" class="form-control" name = "<%=Purchase.ATR_PURCHASE_BILLID %>">
-			  <option value="none" selected>Select a User...</option>
-			  <% ArrayList<Bill> billsPurchaseList = (new BillDAO()).list();
-			  for(int i = 0; i < billsPurchaseList.size(); ++i) { %>
-				  <option value="<%=billsPurchaseList.get(i).getId() %>"><%=billsPurchaseList.get(i).getId() %></option>
-			  <% } %>
+			  <option value="none" selected>Elige una Factura...</option>
+			  <c:forEach var='bill' items='${billsList}'>
+			  	<option value='${bill.id}'>${bill.id}</option>  
+			  </c:forEach>
 			</select></p>
 						
             <p><input id = "input-send" type = "submit" class="btn btn-primary" value = "Crear"></p>
@@ -69,18 +76,18 @@
 		
 			<label for="purchase-input-update-videogameid">ID Videojuego: </label>
 			<p><select id = "purchase-input-update-videogameid" class="form-control" name = "<%=Purchase.ATR_PURCHASE_VIDEOGAMEID %>">
-			  <option value="none" selected>Select a User...</option>
-			  <% for(int i = 0; i < videogamesPurchaseList.size(); ++i) { %>
-				  <option value="<%=videogamesPurchaseList.get(i).getId() %>"><%=videogamesPurchaseList.get(i).getName() %></option>
-			  <% } %>
+			  <option value="none" selected>Elige un Videojuego...</option>
+			  <c:forEach var='videogame' items='${videogamesList}'>
+			  	<option value='${videogame.id}'>${videogame.name}</option>  
+			  </c:forEach>
 			</select></p>
 			
 			<label for="purchase-input-update-billid">ID Factura: </label>
 			<p><select id = "purchase-input-update-billid" class="form-control" name = "<%=Purchase.ATR_PURCHASE_BILLID %>">
-			  <option value="none" selected>Select a User...</option>
-			  <% for(int i = 0; i < billsPurchaseList.size(); ++i) { %>
-				  <option value="<%=billsPurchaseList.get(i).getId() %>"><%=billsPurchaseList.get(i).getId() %></option>
-			  <% } %>
+			  <option value="none" selected>Elige una Factura...</option>
+			  <c:forEach var='bill' items='${billsList}'>
+			  	<option value='${bill.id}'>${bill.id}</option>  
+			  </c:forEach>
 			</select></p>
 			
             <p>
@@ -106,29 +113,32 @@
                   	</tr>
                	</thead>
 			   	<tbody>
-                <% ArrayList<Purchase> purchasesPurchaseList = (new PurchaseDAO()).list(); 
-			  	for(int i = 0; i < purchasesPurchaseList.size(); ++i) {
-			  		Purchase showPurchase = purchasesPurchaseList.get(i); %>
-					<tr>
-                     	<td><%=showPurchase.getId() %></td>
-                     	<td><%=showPurchase.getAmount() %></td>
-                     	<td><%=showPurchase.getVideogameId() %></td>
-                     	<td><%=showPurchase.getBillId() %></td>
-                     	
-                        <td>
-                            <button type = "submit" class="btn btn-warning" onclick = "updatePurchase(<%= showPurchase.toJavaScriptFunction()%>)">Editar</button>
-                        </td>
-                        <td>
-							<form action = "<%= request.getContextPath() %>/Controller" method = "POST">
-								<input type='hidden' name='<%= Controller.ATR_SELECT_ACTION %>' value='<%= Delete.ATR_ACTION %>'/>
-                           		<input type = "hidden" name = "<%=Purchase.ATR_PURCHASE_ID %>" value = "<%=showPurchase.getId() %>">
-                           		<input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Purchase.class.getName() %>">   
-                           		<button type = "submit" class="btn btn-danger">Eliminar</button>
-                        	</form>
-                        </td>
-                	</tr>
-					  
-				<% } %>
+			   	
+			   		<c:forEach var='purchase' items='${purchasesList}' varStatus=''>
+			   		
+			   			<% Purchase p = (Purchase) pageContext.getAttribute("purchase"); %>
+			   		
+			   			<tr>
+	                     	<td>${purchase.id}</td>
+	                     	<td>${purchase.amount}</td>
+	                     	<td>${purchase.videogameId}</td>
+	                     	<td>${purchase.billId}</td>
+	                     	
+	                        <td>
+	                            <button type = "submit" class="btn btn-warning" onclick = "updatePurchase(<%= p.toJavaScriptFunction()%>)">Editar</button>
+	                        </td>
+	                        <td>
+								<form action = "<%= request.getContextPath() %>/Controller" method = "POST">
+									<input type='hidden' name='<%= Controller.ATR_SELECT_ACTION %>' value='<%=Delete.ATR_ACTION %>'/>
+	                           		<input type = "hidden" name = "<%=Purchase.ATR_PURCHASE_ID %>" value = "${purchase.id}">
+	                           		<input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Purchase.class.getName() %>">   
+	                           		<button type = "submit" class="btn btn-danger">Eliminar</button>
+	                        	</form>
+	                        </td>
+	                	</tr>
+			   		
+			   		</c:forEach>
+			   	
 				</tbody>
             </table>
         </div>

@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 
+<%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c' %>
+
 <%@ page import = "java.util.ArrayList" %>
 
 <%@ page import = "edu.ucam.pojos.Assessment" %>
@@ -14,7 +16,11 @@
 <%@ page import = "edu.ucam.servlets.Controller" %>
 <%@ page import = "edu.ucam.actions.admin.*" %>
 
-
+<%
+	pageContext.setAttribute("usersList", (new UserDAO()).list());
+	pageContext.setAttribute("videogamesList", (new VideogameDAO()).list());
+	pageContext.setAttribute("assessmentsList", (new AssessmentDAO()).list());
+%>
 
 	<div id = "assessments-title" class = "col-12">
         <h3 class = "display-3">Reseñas</h3>
@@ -38,7 +44,7 @@
 			<p><input id = "assessment-input-subject" type = "text" class="form-control" placeholder = "Tu asunto..." name = "<%=Assessment.ATR_ASSESSMENT_SUBJECT %>" required></p>
 						
 			<label for="assessment-input-comment">Comentario: </label>
-			<p><textarea id = "assessment-input-comment" type = "text" class="form-control" placeholder = "Tu comentario..." name = "<%=Assessment.ATR_ASSESSMENT_COMMENT %>" required></textarea></p>
+			<p><textarea id = "assessment-input-comment" class="form-control" placeholder = "Tu comentario..." name = "<%=Assessment.ATR_ASSESSMENT_COMMENT %>" required></textarea></p>
 				
 			<label style = "text-decoration: underline black;">Publicación: </label>
 			<div class = "row col-12">
@@ -71,20 +77,21 @@
 			<label for="assessment-input-videogameid">ID Videojuego: </label>
 			<p><select id = "assessment-input-videogameid" class="form-control" name = "<%=Assessment.ATR_ASSESSMENT_VIDEOGAMEID %>">
 			  <option value="none" selected>Videojuego...</option>
-			  <% 
-			  ArrayList<Videogame> videogamesAssessmentList = (new VideogameDAO()).list();
-			  for(int i = 0; i < videogamesAssessmentList.size(); ++i) { %>
-				  <option value="<%=videogamesAssessmentList.get(i).getId() %>"><%=videogamesAssessmentList.get(i).getName() %></option>
-			  <% } %>
+			  
+			  <c:forEach var='videogameAssessment' items='${videogamesList}' varStatus='videogamesAssessmentsListLoop'>
+			  	<option value='${videogameAssessment.id}'>${videogameAssessment.name}</option>
+			  </c:forEach>
+
 			</select></p>
 			
 			<label for="assessment-input-userid">ID Usuario: </label>
 			<p><select id = "assessment-input-userid" class="form-control" name = "<%=Assessment.ATR_ASSESSMENT_USERID %>">
 			  <option value="none" selected>Usuario...</option>
-			  <% ArrayList<User> usersAssessmentList = (new UserDAO()).list();
-			  for(int i = 0; i < usersAssessmentList.size(); ++i) { %>
-				  <option value="<%=usersAssessmentList.get(i).getId() %>"><%=usersAssessmentList.get(i).getUsername() %></option>
-			  <% } %>
+			  
+			  <c:forEach var='userAssessment' items='${usersList}' varStatus='usersAssessmentsListLoop'>
+			  	<option value='${userAssessment.id}'>${userAssessment.username}</option>
+			  </c:forEach>
+			  
 			</select></p>
 						
             <p><input id = "input-send" type = "submit" class="btn btn-primary" value = "Crear"></p>
@@ -139,17 +146,20 @@
 			<label for="assessment-input-update-videogameid">ID Videojuego: </label>
 			<p><select id = "assessment-input-update-videogameid" class="form-control" name = "<%=Assessment.ATR_ASSESSMENT_VIDEOGAMEID %>">
 			  <option value="none" selected>Elige un Videojuego...</option>
-			  <% for(int i = 0; i < videogamesAssessmentList.size(); ++i) { %>
-				  <option value="<%=videogamesAssessmentList.get(i).getId() %>"><%=videogamesAssessmentList.get(i).getName() %></option>
-			  <% } %>
+			  <c:forEach var='videogameAssessment' items='${videogamesList}' varStatus='videogamesAssessmentsListLoop'>
+			  	<option value='${videogameAssessment.id}'>${videogameAssessment.name}</option>
+			  </c:forEach>
+
 			</select></p>
 			
 			<label for="assessment-input-update-userid">ID Usuario: </label>
 			<p><select id = "assessment-input-update-userid" class="form-control" name = "<%=Assessment.ATR_ASSESSMENT_USERID %>">
 			  <option value="none" selected>Elige un Usuario...</option>
-			  <% for(int i = 0; i < usersAssessmentList.size(); ++i) { %>
-				  <option value="<%=usersAssessmentList.get(i).getId() %>"><%=usersAssessmentList.get(i).getUsername() %></option>
-			  <% } %>
+			  
+			  <c:forEach var='userAssessment' items='${usersList}' varStatus='usersAssessmentsListLoop'>
+			  	<option value='${userAssessment.id}'>${userAssessment.username}</option>
+			  </c:forEach>
+			  
 			</select></p>		
             <p>
                 <input id = "input-edit-send" type = "submit" class="btn btn-primary" value = "Editar">
@@ -176,32 +186,35 @@
                   	</tr>
                	</thead>
 			   	<tbody>
-                <% ArrayList<Assessment> assessmentsList = (new AssessmentDAO()).list();
-			  	for(int i = 0; i < assessmentsList.size(); ++i) {
-					Assessment showAssessment = assessmentsList.get(i); %>
-					<tr>
-                     	<td><%=showAssessment.getId() %></td>
-                     	<td><%=showAssessment.getValue() %></td>
-                        <td><%=showAssessment.getSubject() %></td>
-                        <td><%=showAssessment.getComment() %></td>
-                        <td><%=showAssessment.getPublicationDate() %></td>
-                        <td><%=showAssessment.getEditDate() %></td>
-                        <td><%=showAssessment.getVideogameId() %></td>
-                        <td><%=showAssessment.getUserId() %></td>
-                        <td>
-                        	<button type = "submit" class="btn btn-warning" onclick = "updateAssessment(<%=showAssessment.toJavaScriptFunction() %>)">Editar</button>           
-                        </td>
-                        <td>
-							<form action = "<%= request.getContextPath() %>/Controller" method = "POST">
-								<input type='hidden' name='<%= Controller.ATR_SELECT_ACTION %>' value='<%= Delete.ATR_ACTION %>'/>
-                           		<input type = "hidden" name = "<%=Assessment.ATR_ASSESSMENT_ID %>" value = "<%=showAssessment.getId() %>">
-                           		<input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Assessment.class.getName() %>">   
-                           		<button type = "submit" class="btn btn-danger">Eliminar</button>
-                        	</form>
-                        </td>
-                	</tr>
-					  
-				<% } %>
+			   	
+				   	<c:forEach var='assessment' items='${assessmentsList}' varStatus=''>
+						
+						<% Assessment a = (Assessment) pageContext.getAttribute("assessment"); %>
+						
+				   		<tr>
+	                     	<td>${assessment.id}</td>
+	                     	<td>${assessment.value}</td>
+	                        <td>${assessment.subject}</td>
+	                        <td>${assessment.comment}</td>
+	                        <td>${assessment.publicationDate}</td>
+	                        <td>${assessment.editDate}</td>
+	                        <td>${assessment.videogameId}</td>
+	                        <td>${assessment.userId}</td>
+	                        <td>
+	                        	<button type = "submit" class="btn btn-warning" onclick = "updateAssessment(<%=a.toJavaScriptFunction() %>)">Editar</button>           
+	                        </td>
+	                        <td>
+								<form action = "<%= request.getContextPath() %>/Controller" method = "POST">
+									<input type='hidden' name='<%= Controller.ATR_SELECT_ACTION %>' value='<%= Delete.ATR_ACTION %>'/>
+	                           		<input type = "hidden" name = "<%=Assessment.ATR_ASSESSMENT_ID %>" value = "${assessment.id}">
+	                           		<input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Assessment.class.getName() %>">   
+	                           		<button type = "submit" class="btn btn-danger">Eliminar</button>
+	                        	</form>
+	                        </td>
+	                	</tr>
+	                	
+				   	</c:forEach>
+                
 				</tbody>
             </table>
         </div>

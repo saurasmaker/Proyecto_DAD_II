@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 
+<%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c' %>
+
 <%@ page import = "java.util.ArrayList" %>
 
 <%@ page import = "edu.ucam.pojos.Rental" %>
@@ -10,13 +12,20 @@
 
 <%@ page import = "edu.ucam.daos.RentalDAO" %>
 <%@ page import = "edu.ucam.daos.VideogameDAO" %>
-<%@ page import = "edu.ucam.daos.UserDAO" %>
 <%@ page import = "edu.ucam.daos.BillDAO" %>
 
 <%@ page import = "edu.ucam.servlets.Controller" %>
 <%@ page import = 'edu.ucam.actions.admin.*' %>
 
-<div id = "rentals-title" class = "col-12">
+
+<%
+	pageContext.setAttribute("rentalsList", new RentalDAO().list());
+	pageContext.setAttribute("videogamesList", new VideogameDAO().list());
+	pageContext.setAttribute("billsList", new BillDAO().list());
+%>
+
+
+	<div id = "rentals-title" class = "col-12">
         <h3 class = "display-3">Alquileres</h3>
         <hr width = "25%" align = "left"/>
         <br/>
@@ -49,19 +58,17 @@
 			<label for="rental-input-videogameid">ID Videojuego: </label>
 			<p><select id = "rental-input-videogameid" class="form-control" name = "<%=Rental.ATR_RENTAL_VIDEOGAMEID %>">
 			  <option value="none" selected>Elige un Videojuego...</option>
-			  <% ArrayList<Videogame> videogamesRentalList = (new VideogameDAO()).list();
-			  for(int i = 0; i < videogamesRentalList.size(); ++i) { %>
-				  <option value="<%=videogamesRentalList.get(i).getId() %>"><%=videogamesRentalList.get(i).getName() %></option>
-			  <% } %>
+			  <c:forEach var='videogame' items='${videogamesList}' varStatus=''>
+			  	<option value="${videogame.id}">${videogame.name}</option>
+			  </c:forEach>
 			</select></p>
 						
 			<label for="rental-input-billid">ID Factura: </label>
 			<p><select id = "rental-input-billid" class="form-control" name = "<%=Rental.ATR_RENTAL_BILLID %>">
 			  <option value="none" selected>Elige una Factura...</option>
-			  <% ArrayList<Bill> billsRentalList = (new BillDAO()).list();
-			  for(int i = 0; i < billsRentalList.size(); ++i) { %>
-				  <option value="<%=billsRentalList.get(i).getId() %>"><%=billsRentalList.get(i).getId() %></option>
-			  <% } %>
+			  <c:forEach var='bill' items='${billsList}' varStatus=''>
+			  	<option value="${bill.id}">${bill.id}</option>
+			  </c:forEach>
 			</select></p>
 			
             <p><input id = "input-send" type = "submit" class="btn btn-primary" value = "Crear"></p>
@@ -95,17 +102,17 @@
 			<label for="rental-input-update-videogameid">ID Videojuego: </label>
 			<p><select id = "rental-input-update-videogameid" class="form-control" name = "<%=Rental.ATR_RENTAL_VIDEOGAMEID %>">
 			  <option value="none" selected>Elige un Videojuego...</option>
-			  <% for(int i = 0; i < videogamesRentalList.size(); ++i) { %>
-				  <option value="<%=videogamesRentalList.get(i).getId() %>"><%=videogamesRentalList.get(i).getName() %></option>
-			  <% } %>
+			  <c:forEach var='videogame' items='${videogamesList}' varStatus=''>
+			  	<option value="${videogame.id}">${videogame.name}</option>
+			  </c:forEach>
 			</select></p>
 						
 			<label for="rental-input-update-billid">ID Factura: </label>
 			<p><select id = "rental-input-update-billid" class="form-control" name = "<%=Rental.ATR_RENTAL_BILLID %>">
 			  <option value="none" selected>Elige una Factura...</option>
-			  <% for(int i = 0; i < billsRentalList.size(); ++i) { %>
-				  <option value="<%=billsRentalList.get(i).getId() %>"><%=billsRentalList.get(i).getId() %></option>
-			  <% } %>
+			  <c:forEach var='bill' items='${billsList}' varStatus=''>
+			  	<option value="${bill.id}">${bill.id}</option>
+			  </c:forEach>
 			</select></p>
 			
             <p>
@@ -132,32 +139,36 @@
                   	</tr>
                	</thead>
 			   	<tbody>
-                <% ArrayList<Rental> rentalsRentalList = (new RentalDAO()).list(); 
-			  	for(int i = 0; i < rentalsRentalList.size(); ++i) {
-			  		Rental showRental = rentalsRentalList.get(i); %>
-					<tr>
-                     	<td><%=showRental.getId() %></td>
-                     	<td><%=showRental.getBillId() %></td>
-                     	<td><%=showRental.getVideogameId() %></td>
-                     	<td><%=showRental.getStartDate() %></td>
-                     	<td><%=showRental.getEndDate() %></td>
-                     	
-                        <td>
-                            <button type = "submit" class="btn btn-warning" onclick = "updateRental(<%=showRental.toJavaScriptFunction() %>)">Editar</button>
-                        </td>
-                        <td>
-							<form action = "<%= request.getContextPath() %>/Controller" method = "POST">
-								<input type='hidden' name='<%= Controller.ATR_SELECT_ACTION %>' value='<%= Delete.ATR_ACTION %>'/>
-                           		<input type = "hidden" name = "<%=Rental.ATR_RENTAL_ID %>" value = "<%=showRental.getId() %>">
-                           		<input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Rental.class.getName() %>">                
-                           		<button type = "submit" class="btn btn-danger">Eliminar</button>
-                        	</form>
-                        </td>
-                	</tr>
-					  
-				<% } %>
+			   	
+			   		<c:forEach var='rental' items='${rentalsList}' varStatus=''>
+			   		
+			   			<% Rental r = (Rental) pageContext.getAttribute("rental"); %>
+			   		
+			   			<tr>
+	                     	<td>${rental.id}</td>
+	                     	<td>${rental.billId}</td>
+	                     	<td>${rental.videogameId}</td>
+	                     	<td>${rental.startDate}</td>
+	                     	<td>${rental.endDate}</td>
+	                     	
+	                        <td>
+	                            <button type = "submit" class="btn btn-warning" onclick = "updateRental(<%=r.toJavaScriptFunction() %>)">Editar</button>
+	                        </td>
+	                        <td>
+								<form action = "<%= request.getContextPath() %>/Controller" method = "POST">
+									<input type='hidden' name='<%= Controller.ATR_SELECT_ACTION %>' value='<%= Delete.ATR_ACTION %>'/>
+	                           		<input type = "hidden" name = "<%=Rental.ATR_RENTAL_ID %>" value = '${rental.id}'>
+	                           		<input type = "hidden" name = "<%=Controller.ATR_OBJECT_CLASS %>" value = "<%=Rental.class.getName() %>">                
+	                           		<button type = "submit" class="btn btn-danger">Eliminar</button>
+	                        	</form>
+	                        </td>
+	                	</tr>
+			   			
+			   		</c:forEach>
+
 				</tbody>
             </table>
+            
         </div>
     </div>
 	
