@@ -19,6 +19,10 @@
 	/*
 		Declaration of necessary variables.
 	*/
+	CategoryDAO categoryDao = new CategoryDAO();
+	AssessmentDAO assessmentDao = new AssessmentDAO();	
+	UserDAO userDao = new UserDAO();
+	
 	String videogameId = request.getParameter(Videogame.ATR_VIDEOGAME_ID);
 	BASE64Encoder b64e = new BASE64Encoder();
 
@@ -31,7 +35,7 @@
 
 	if(videogameId != null) {
 		thisVideogame = (new VideogameDAO()).read(videogameId, SearchBy.ID);
-		assessmentsVideogameList = (new AssessmentDAO()).listByVideogameId(videogameId);
+		assessmentsVideogameList = assessmentDao.listByVideogameId(videogameId);
 		videogameImagesList = (new VideogameImageDAO()).listByVideogameId(videogameId);
 		videogameCategoriesList = (new VideogameCategoryDAO()).listByVideogameId(videogameId);
 		
@@ -127,7 +131,7 @@
 			                    <strong>
 			                    	<c:if test='${not empty videogameCategoriesList}'>
 			                    		<c:forEach var='videogameCategory' items='${videogameCategoriesList}' varStatus='videogameCategoriesLoop'>
-			                    			<c:set var='category' value='<%=(new CategoryDAO()).read(((VideogameCategory)pageContext.getAttribute("videogameCategory")).getCategoryId(), SearchBy.ID) %>'/>
+			                    			<c:set var='category' value='<%=categoryDao.read(((VideogameCategory)pageContext.getAttribute("videogameCategory")).getCategoryId(), SearchBy.ID) %>'/>
 			                    			${category.name} 
 			                    		</c:forEach>
 			                    	</c:if>
@@ -185,7 +189,7 @@
 						
 							<c:if test='${not empty sessionScope.ATR_USER_LOGGED}'>
 								
-								<c:set var='userAssessment' value='<%= userAssessment = new AssessmentDAO().readByVideogameUserId(((User)session.getAttribute(User.ATR_USER_LOGGED)).getId(), videogameId) %>'/>
+								<c:set var='userAssessment' value='<%= userAssessment = assessmentDao.readByVideogameUserId(((User)session.getAttribute(User.ATR_USER_LOGGED)).getId(), videogameId) %>'/>
 								
 								<p><a class="btn btn-secondary" data-toggle="collapse" href="#collapse-vote" role="button" aria-expanded="false" aria-controls="collapseExample">
 			    					Votar
@@ -206,11 +210,11 @@
 												
 												<div>
 						  							<p>Estrellas:
-						  								<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_VALUE %>" value="1" required <% if(userAssessment.getValue() == 1) out.print("checked"); %>/>1
-						            					<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_VALUE %>" value="2" <% if(userAssessment.getValue() == 2) out.print("checked"); %>/>2
-						            					<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_VALUE %>" value="3" <% if(userAssessment.getValue() == 3) out.print("checked"); %>/>3
-						            					<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_VALUE %>" value="4" <% if(userAssessment.getValue() == 4) out.print("checked"); %>/>4
-						            					<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_VALUE %>" value="5" <% if(userAssessment.getValue() == 5) out.print("checked"); %>/>5
+						  								<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_VALUE %>" value="1" required <%= userAssessment.getValue() == 1 ? "checked" : "" %>/>1
+						            					<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_VALUE %>" value="2" <%= userAssessment.getValue() == 2 ? "checked" : "" %>/>2
+						            					<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_VALUE %>" value="3" <%= userAssessment.getValue() == 3 ? "checked" : "" %>/>3
+						            					<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_VALUE %>" value="4" <%= userAssessment.getValue() == 4 ? "checked" : "" %>/>4
+						            					<input type="radio" name="<%=Assessment.ATR_ASSESSMENT_VALUE %>" value="5" <%= userAssessment.getValue() == 5 ? "checked" : "" %>/>5
 						            				</p>
 						  						</div>
 															
@@ -271,25 +275,35 @@
 			  				</a></p>
 		 					<div class="collapse" id="collapse-assessments">
 			  					<div class="card card-body">
-			  						<%for(Assessment a: assessmentsVideogameList){			  							
-			  	  						User userOfVote = (new UserDAO()).read(a.getUserId(), SearchBy.ID);	
-			  	  					%>
-				  	  					<p><strong><%if(userOfVote!=null)out.println(userOfVote.getUsername());else out.println("NULL");%>: </strong><%= a.getValue() %> Estrellas. </p>
+			  					
+			  						<c:forEach var='videogameAssessment' items='${assessmentsVideogameList}' varStatus='videogameAssessmentsLoop'>
+			  							
+			  							<c:set var='userOfVote' value='<%=userDao.read(((Assessment)pageContext.getAttribute("videogameAssessment")).getUserId(), SearchBy.ID) %>'/>		  			
+			  							
+			  							<c:if test='${not empty userOfVote}'>
+			  								<p><strong>${userOfVote.username}: </strong>${videogameAssessment.value} Estrellas. </p>
+			  							</c:if>
+			  							
 				
-					  					<label for="comment-content"><strong><%=a.getSubject() %></strong></label>
-										<p><textarea style = "resize:none;" id = "comment-content" class="form-control" readonly><% if(a.getComment()!=null) out.print(a.getComment()); %></textarea></p>
+					  					<label for="comment-content"><strong>${videogameAssessment.subject}</strong></label>
+					  					<p><textarea style = "resize:none;" id = "comment-content" class="form-control" readonly>${videogameAssessment.comment}</textarea></p>
+										
 				  	  					
 				  	  					<p>
-				  	  					<% if(a.getPublicationDate()!=null) 
-				  	  						out.print("<strong>Publicado: </strong>" + a.getPublicationDate().toString() + " " + a.getPublicationTime().toString()); %> 
+				  	  						<c:if test='${not empty videogameAssessment}'>
+				  	  							<strong>Publicado: ${videogameAssessment.publicationDate} ${videogameAssessment.publicationTime}</strong>
+				  	  						</c:if>
 				  	  					</p>
 				  	  					<p>
-				  	  					<% if( a.getPublicationDate()!= a.getEditDate() || a.getPublicationTime() != a.getEditTime()) { 
-				  	  						out.print("<strong>Editado: </strong>" + a.getEditDate().toString() + " " + a.getEditTime().toString()); } %>
+				  	  						<c:if test='${videogameAssessment.publicationDate != videogameAssessment.editDate || videogameAssessment.publicationTime!=videogameAssessment.editTime}'>
+				  	  							<strong>Editado: </strong> ${videogameAssessment.editDate} ${videogameAssessment.editTime}
+				  	  						</c:if>
 				  	  					</p>
+				  	  					
 				  	  					<hr/>
-			  	  					<% } %>
-			    					
+			  						
+			  						</c:forEach>
+
 			  					</div>
 			  				</div>
 						</div>
