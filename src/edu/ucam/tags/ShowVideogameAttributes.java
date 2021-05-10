@@ -4,7 +4,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
 
-public class ShowVideogamesByCategory extends TagSupport{
+public class ShowVideogameAttributes extends TagSupport{
 	
 	private static final long serialVersionUID = 1L;
 
@@ -15,7 +15,7 @@ public class ShowVideogamesByCategory extends TagSupport{
     	//ArrayList<VideogameImage> videogamesImagesList;
     	
     	
-        return ShowVideogamesByCategory.EVAL_BODY_INCLUDE;
+        return ShowVideogameAttributes.EVAL_BODY_INCLUDE;
     }
 	
     
