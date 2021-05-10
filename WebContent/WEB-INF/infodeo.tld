@@ -1,57 +1,22 @@
 <taglib>
-    <tlib-version>1.1</tlib-version>
+    <tlib-version>1.0</tlib-version>
     <jsp-version>1.2</jsp-version>
     <short-name>hola</short-name>
     <uri>infodeotags</uri>
-    <description>Infodeo Tags</description>
-	
-	<tag>
-	    <name>ShowVideogameAttributes</name>
-        <tag-class>edu.ucam.tags.ShowVideogameAttributes</tag-class>
-        <body-content>empty</body-content>
-        <info>Saludo</info>
-
-        <attribute>
-             <name>stock</name>
-             <required>false</required>
-             <rtexprvalue>true</rtexprvalue>
-             
-             <name>purchasePrice</name>
-             <required>false</required>
-             <rtexprvalue>true</rtexprvalue>
-             
-             <name>rentalPrice</name>
-             <required>false</required>
-             <rtexprvalue>true</rtexprvalue>
-        </attribute>
-    </tag>
+    <description>Tis tag will show the videogames by category</description>
 	
     <tag>
-	    <name>smallShowVideogameAttributes</name>
-        <tag-class>edu.ucam.tags.SmallShowVideogameAttributes</tag-class>
+	    <name>showvideogamesbycategory</name>
+        <tag-class>edu.ucam.tags.ShowVideogamesByCategory</tag-class>
         <body-content>empty</body-content>
-        <info>Show three attributes of a video game in a 'ul' tag in HTML file</info>
-
+        <info>Saludo</info>
         <attribute>
-             <name>stock</name>
-             <required>true</required>
-             <rtexprvalue>true</rtexprvalue>
-        </attribute> 
-        
-        <attribute>    
-             <name>purchasePrice</name>
-             <required>true</required>
-             <rtexprvalue>true</rtexprvalue>
+             <name>nombre</name>
+             <required>false</required>
         </attribute>
-        
-        <attribute>     
-             <name>rentalPrice</name>
-             <required>true</required>
-             <rtexprvalue>true</rtexprvalue>
+        <attribute>
+             <name>category</name>
+             <required>false</required>
         </attribute>
     </tag>
-    
-    
-    
-    
 </taglib>
