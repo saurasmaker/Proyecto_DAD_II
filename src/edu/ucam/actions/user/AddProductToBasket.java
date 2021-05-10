@@ -17,13 +17,18 @@ public class AddProductToBasket implements IAction{
 	
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		
 		
 		try {
+			/*
+			 * Initialize Basket
+			 */
 			HttpSession session = request.getSession();
 			Basket basket = (Basket) session.getAttribute(Basket.ATR_BASKET);
+			if(basket == null) basket = new Basket();		
 			
+			/*
+			 * Doing the purchase
+			 */
 			String strAmount = request.getParameter(Basket.ATR_BASKET_AMOUNT);
 			int intAmount = 0;
 			if(strAmount != null) intAmount = Integer.parseInt(strAmount);

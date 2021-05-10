@@ -3,19 +3,11 @@
 
 <%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c' %>
 
-<%@ page import = "java.util.ArrayList" %>
-
 <%@ page import = "edu.ucam.pojos.User" %>
-
-<%@ page import = "edu.ucam.daos.UserDAO" %>
 
 <%@ page import = "edu.ucam.servlets.Controller" %>
 <%@ page import = 'edu.ucam.actions.admin.*' %>
 
-
-<% 
-	pageContext.setAttribute("usersList", (new UserDAO()).list());
-%>
 
 	<div id = "users-title" class = "col-12">
         <h3 class = "display-3">Usuarios</h3>

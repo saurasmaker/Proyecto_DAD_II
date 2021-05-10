@@ -3,7 +3,6 @@
 
 <%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c' %>
 
-<%@ page import = "java.util.ArrayList" %>
 <%@ page import = "sun.misc.BASE64Encoder" %>
 
 <%@ page import = "edu.ucam.enums.*" %>
@@ -13,7 +12,6 @@
 <%@ page import = "edu.ucam.pojos.VideogameImage" %>
 <%@ page import = "edu.ucam.pojos.VideogameCategory" %>
 
-<%@ page import = "edu.ucam.daos.VideogameDAO" %>
 <%@ page import = "edu.ucam.daos.CategoryDAO" %>
 <%@ page import = "edu.ucam.daos.VideogameImageDAO" %>
 <%@ page import = "edu.ucam.daos.VideogameCategoryDAO" %>
@@ -23,9 +21,6 @@
 
 <%
 	BASE64Encoder b64e = new BASE64Encoder();
-
-	pageContext.setAttribute("videogamesList", new VideogameDAO().list());
-	pageContext.setAttribute("categoriesList", new CategoryDAO().list());
 %>
 
 	<div id = "videogames-title" class = "col-12">

@@ -30,7 +30,7 @@
 	
 	
 	/*
-		Objects
+		POJOS
 	*/
 	Category categoryOfVideogame = null;
 	

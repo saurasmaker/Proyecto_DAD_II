@@ -3,26 +3,13 @@
 
 <%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c' %>
 
-<%@ page import = "java.util.ArrayList" %>
-
 <%@ page import = "edu.ucam.pojos.Purchase" %>
 <%@ page import = "edu.ucam.pojos.Videogame" %>
 <%@ page import = "edu.ucam.pojos.Bill" %>
 
-<%@ page import = "edu.ucam.daos.PurchaseDAO" %>
-<%@ page import = "edu.ucam.daos.VideogameDAO" %>
-<%@ page import = "edu.ucam.daos.BillDAO" %>
-
 <%@ page import = "edu.ucam.servlets.Controller" %>
 <%@ page import = 'edu.ucam.actions.admin.*' %>
 
-	
-<%
-	pageContext.setAttribute("purchasesList", (new PurchaseDAO()).list());
-	pageContext.setAttribute("videogamesList", (new VideogameDAO()).list());
-	pageContext.setAttribute("billsList", (new BillDAO()).list());
-%>
-	
 	
 	<div id = "purchases-title" class = "col-12">
         <h3 class = "display-3">Compras</h3>

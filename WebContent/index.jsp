@@ -6,11 +6,6 @@
 <!DOCTYPE html>
 <html lang = "es">
 
-
-	<%
-		session.setAttribute("BROWSERNAME", request.getHeader("User-Agent"));
-	%>
-
 	<head>
 		<jsp:include page="mod/head.jsp" />
 		<title>Infodeo 2</title>

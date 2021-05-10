@@ -5,16 +5,6 @@
 <%@ page import = "edu.ucam.daos.*" %>
     
     
-<%
-	pageContext.setAttribute("usersList", (new UserDAO()).list());
-	pageContext.setAttribute("videogamesList", (new VideogameDAO()).list());
-	pageContext.setAttribute("categoriesList", (new CategoryDAO()).list());
-	pageContext.setAttribute("assessmentsList", (new AssessmentDAO()).list());
-	pageContext.setAttribute("billsList", (new BillDAO()).list());
-	pageContext.setAttribute("purchasesList", (new PurchaseDAO()).list());
-	pageContext.setAttribute("rentalsList", (new RentalDAO()).list());
-%>
-    
 <!DOCTYPE html>
 <html>
 	<head>

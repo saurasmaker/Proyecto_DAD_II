@@ -1,4 +1,3 @@
-<%@page import="edu.ucam.actions.user.EditProductFromBasket"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     
@@ -13,47 +12,10 @@
  
 <%@ page import = "edu.ucam.pojos.*" %>
 
-<%@ page import = "edu.ucam.daos.CategoryDAO" %>
 <%@ page import = "edu.ucam.daos.VideogameDAO" %>
 
 <% 
-	/*
-		DAO	
-	*/
-	CategoryDAO headerCategoryDAO = new CategoryDAO();
 	VideogameDAO headerVideogameDAO = new VideogameDAO();
-	
-	
-	/*
-		LISTS
-	*/
-	ArrayList<Category> headerCategoriesList = headerCategoryDAO.list();
-	
-
-	/*
-		Objects
-	*/
-	User thisUser = (User) session.getAttribute(User.ATR_USER_LOGGED);
-	Basket basket;
-	
-	
-	/*
-		Initializing BASKET.
-	*/	
-	if (session.getAttribute(Basket.ATR_BASKET) != null){
-		basket = (Basket) session.getAttribute(Basket.ATR_BASKET);
-	}
-	else{
-		basket = new Basket();
-		session.setAttribute(Basket.ATR_BASKET, basket);
-	}
-	
-	
-	/*
-		SETTING CONTEXT ATTRIBUTES
-	*/
-	pageContext.setAttribute("headerCategoriesList", headerCategoriesList);
-	pageContext.setAttribute("basketProducts", basket.getProducts());
 %>
 
 
@@ -80,7 +42,7 @@
 		                </a>
 		                <div class="dropdown-menu" aria-labelledby="navbarDropdownSections">
 		                    
-		                    <c:forEach var='headerCategory' items='${headerCategoriesList}' varStatus='headerCategoriesLoop'>
+		                    <c:forEach var='headerCategory' items='${categoriesList}' varStatus='headerCategoriesLoop'>
 		                    	<a class="dropdown-item" href="<%=request.getContextPath() %>/index.jsp?SEARCH_VIDEOGAME_BY_CATEGORY=${headerCategory.id}">${headerCategory.name}</a>
 		                    </c:forEach>
 
@@ -103,7 +65,7 @@
 		                </a>
 		                <div class="dropdown-menu" aria-labelledby="navbarDropdownBasket">
 		                    
-		                    <c:forEach var='basketItem' items='${basketProducts}' varStatus='basketProductsLoop'>
+		                    <c:forEach var='basketItem' items='${ATR_BASKET.products}' varStatus='basketProductsLoop'>
 		                    			                    	
 		                    	<c:set var='videogameInBasket' value='<%=headerVideogameDAO.read(((Item)pageContext.getAttribute("basketItem")).getVideogameId(), SearchBy.ID) %>'/>
 		                    	<div class="dropdown-item">
@@ -164,7 +126,7 @@
 						<c:otherwise>
 							<li class="nav-item dropdown">
 				                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				            		<%= thisUser.getUsername() %>
+				            		${ATR_USER_LOGGED.username}
 				                </a>
 				                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 				                    <a class="dropdown-item" href="<%=request.getContextPath() %>/user/user_profile.jsp">Perfil</a>

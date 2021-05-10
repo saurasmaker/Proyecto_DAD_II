@@ -3,17 +3,11 @@
 
 <%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c' %>
 
-<%@ page import = "java.util.ArrayList" %>
-
 <%@ page import = "edu.ucam.pojos.Category" %>
-<%@ page import = "edu.ucam.daos.CategoryDAO" %>
+
 <%@ page import = "edu.ucam.servlets.Controller" %>
 <%@ page import = 'edu.ucam.actions.admin.*' %>
 
-
-<%
-	pageContext.setAttribute("categoriesList", (new CategoryDAO()).list());
-%>
 
 	<div id = "categories-title" class = "col-12">
         <h3 class = "display-3">Categorías</h3>
