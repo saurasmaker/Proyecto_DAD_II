@@ -2,6 +2,8 @@ package edu.ucam.pojos;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -42,10 +44,19 @@ public class User implements IMyPojo{
 		this.username = request.getParameter(ATR_USER_USERNAME);
 		this.email = request.getParameter(ATR_USER_EMAIL);
 		this.password = request.getParameter(ATR_USER_PASSWORD);
-		this.signUpDate = Date.valueOf(request.getParameter(ATR_USER_SIGNUPDATE));
-		this.signUpTime = Time.valueOf(request.getParameter(ATR_USER_SIGNUPTIME));
-		this.lastSignInDate = Date.valueOf(request.getParameter(ATR_USER_LASTSIGNINDATE));
-		this.lastSignInTime = Time.valueOf(request.getParameter(ATR_USER_LASTSIGNINTIME));
+		
+		try{this.signUpDate = Date.valueOf(request.getParameter(ATR_USER_SIGNUPDATE));}
+		catch(Exception t) {this.signUpDate = Date.valueOf(LocalDate.now());}
+		
+		try{this.signUpTime = Time.valueOf(request.getParameter(ATR_USER_SIGNUPTIME));}
+		catch(Exception t) {this.signUpTime = Time.valueOf(LocalTime.now());}
+		
+		try{this.lastSignInDate = Date.valueOf(request.getParameter(ATR_USER_LASTSIGNINDATE));}
+		catch(Exception t) {this.lastSignInDate = Date.valueOf(LocalDate.now());}
+		
+		try{this.lastSignInTime = Time.valueOf(request.getParameter(ATR_USER_LASTSIGNINTIME));}
+		catch(Exception t) {this.lastSignInTime = Time.valueOf(LocalTime.now());}
+
 		this.isAdmin = request.getParameter(ATR_USER_ISADMIN)!=null ? true : false;
 	}
 	
