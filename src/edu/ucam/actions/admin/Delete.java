@@ -76,7 +76,7 @@ public class Delete implements IAction{
 		}
 		
 		if(et != ErrorType.NO_ERROR)
-			return request.getContextPath() + "/mod/error.jsp?ERROR_TYPE=" + et;
+			return "/mod/error.jsp?ERROR_TYPE=" + et;
 		else
 			return url;
 		
@@ -101,8 +101,13 @@ public class Delete implements IAction{
 	
 	private ErrorType deleteCategory(String idCategory) {
 		
-		if(idCategory != null) 
+		if(idCategory != null) {
+			
+			if((new VideogameCategoryDAO()).listByVideogameId(idCategory).size() > 0)
+				return ErrorType.CATEGORY_STILL_HAS_ASSOCIATED_VIDEOGAMES;
+			
 			return (new CategoryDAO()).delete(idCategory, SearchBy.ID);
+		}
 		
 		return ErrorType.PARAMETER_NULL;
 	}
@@ -133,8 +138,13 @@ public class Delete implements IAction{
 	
 	private ErrorType deleteVideogame(String idVideogame) {
 		
-		if(idVideogame != null) 
+		if(idVideogame != null) {
+			
+			if((new VideogameCategoryDAO()).listByVideogameId(idVideogame).size() > 0)
+				return ErrorType.VIDEOGAME_STILL_HAS_ASSOCIATED_CATEGORIES;
+			
 			return (new VideogameDAO()).delete(idVideogame, SearchBy.ID);
+		}
 		
 		return ErrorType.PARAMETER_NULL;
 	}
